@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syllogistic Inference</title>
+    <style>
+        //https://stackoverflow.com/questions/5805059/how-do-i-make-a-placeholder-for-a-select-box
+        select:required:invalid {
+            color: gray;
+        }
+        option[value=""][disabled] {
+            display: none;
+        }
+        option {
+            color: black;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <header>
+            <form action="#" onsubmit="return false;" id="first_figure">
+                <fieldset>
+                    <legend>Proposition I:</legend>
+                    If
+                    <select id="prop_one_quantity" required>
+                        <option value="" disabled selected>all/some</option>
+                        <option value="all">all</option>
+                        <option value="some">some</option>
+                    </select>
+                    "M"
+                    <select id="prop_one_quality" required>
+                        <option value="" disabled selected>are/are NOT</option>
+                        <option value="are">are</option>
+                        <option value="arenot">are NOT</option>
+                    </select>
+                    "A".
+                </fieldset>
+                <fieldset>
+                    <legend>Proposition II:</legend>
+                    And, If
+                    <select id="prop_two_quantity" required>
+                        <option value="" disabled selected>all/some</option>
+                        <option value="all">all</option>
+                        <option value="some">some</option>
+                    </select>
+                    "B"
+                    <select id="prop_two_quality" required>
+                        <option value="" disabled selected>are/are NOT</option>
+                        <option value="are">are</option>
+                        <option value="arenot">are NOT</option>
+                    </select>
+                    "M".
+                </fieldset>
+                <input type="submit" value="Conclusion">
+            </form>
+            <output id="conclusion" for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
+        </header>
+    </section>
+    <script>
+        var validMoodsFirstFigure = {
+            "AA": "A",
+            "EA": "E",
+            "AI": "I",
+            "EI": "O"
+        };
+        var formOfPropositions = {
+            "allare": "A",
+            "allarenot": "E",
+            "someare": "I",
+            "somearenot": "O"
+        };
+        var validConclusions = {
+            "A": "All 'B' are 'A'",
+            "E": "All 'B' are NOT 'A'",
+            "I": "Some 'B' are 'A'",
+            "O": "Some 'B' are NOT 'A'"
+        };
+        var getFormOfPropositions = (prop1quantity, prop1quality, prop2Quantity, prop2Quality) => {
+            var prop1Form = formOfPropositions[prop1quantity + prop1quality];
+            var prop2Form = formOfPropositions[prop2Quantity + prop2Quality];
+            return prop1Form + prop2Form;
+        };
+        var getConclusion = (formOfBothPropositions) => {
+            var conclusion = validMoodsFirstFigure[formOfBothPropositions];
+            if(typeof conclusion !== "undefined" && typeof validConclusions[conclusion] !== "undefined") {
+                return validConclusions[conclusion];
+            }
+            return "We cannot draw a valid conclusion";
+        };
+        var conclusion = window.document.getElementById('conclusion');
+        window.document.addEventListener('submit', e => {
+            var prop1Quantity = window.document.getElementById('prop_one_quantity').value;
+            var prop1Quality = window.document.getElementById('prop_one_quality').value;
+            var prop2Quantity = window.document.getElementById('prop_two_quantity').value;
+            var prop2Quality = window.document.getElementById('prop_two_quality').value;
+            var formsOfPropositions = getFormOfPropositions(prop1Quantity, prop1Quality, prop2Quantity, prop2Quality);
+            e.preventDefault();
+            console.log('form submitted...', formsOfPropositions);
+            conclusion.innerHTML = getConclusion(formsOfPropositions);
+        });
+    </script>
+</body>
+</html>
