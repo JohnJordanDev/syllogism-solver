@@ -1,5 +1,4 @@
 var app = (function(){
-    
     var validMoodsFirstFigure = {
         "AA": "A",
         "EA": "E",
@@ -14,7 +13,7 @@ var app = (function(){
     };
     var validConclusions = {
         "A": "All 'B' are 'A'",
-        "E": "All 'B' are NOT 'A'",
+        "E": "No 'B' are 'A'",
         "I": "Some 'B' are 'A'",
         "O": "Some 'B' are NOT 'A'"
     };
@@ -30,7 +29,6 @@ var app = (function(){
         }
         return "We cannot draw a valid conclusion";
     };
-    var conclusion = window.document.getElementById('conclusion');
 
     var hideAreNotOptionOfPropQuality = propQualityId => {
         var propQualityElem = window.document.getElementById(propQualityId);
@@ -39,8 +37,9 @@ var app = (function(){
         propQualityElem.querySelectorAll('option').forEach(optionElem => {
             if(optionElem.value === 'arenot'){
                 optionElem.setAttribute('disabled', 'disabled');
-                optionElem.setAttribute('selected', 'false');
-            } else if(optionElem.value === 'are') {
+                optionElem.removeAttribute('selected');
+            } 
+            if(optionElem.value === 'are') {
                 optionElem.setAttribute('selected', 'true');
             }
         });
@@ -92,11 +91,12 @@ var app = (function(){
 })();
 
 window.document.addEventListener('submit', e => {
-    var prop1Quantity = window.document.getElementById('prop_one_quantity').value;
-    var prop1Quality = window.document.getElementById('prop_one_quality').value;
-    var prop2Quantity = window.document.getElementById('prop_two_quantity').value;
-    var prop2Quality = window.document.getElementById('prop_two_quality').value;
-    var formsOfPropositions = app.getFormOfPropositions(prop1Quantity, prop1Quality, prop2Quantity, prop2Quality);
+    var formsOfPropositions = window.app.getFormOfPropositions(
+        window.document.getElementById('prop_one_quantity').value, 
+        window.document.getElementById('prop_one_quality').value, 
+        window.document.getElementById('prop_two_quantity').value,
+        window.document.getElementById('prop_two_quality').value
+    );
     e.preventDefault();
-    conclusion.innerHTML = app.getConclusion(formsOfPropositions);
+    window.document.getElementById('conclusion').innerHTML = window.app.getConclusion(formsOfPropositions);
 });
