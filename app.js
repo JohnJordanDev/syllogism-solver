@@ -12,10 +12,10 @@ var app = (function(){
         "somearenot": "O"
     };
     var validConclusions = {
-        "A": "All 'B' are 'A'",
-        "E": "No 'B' are 'A'",
-        "I": "Some 'B' are 'A'",
-        "O": "Some 'B' are NOT 'A'"
+        "A": "all 'B' are 'A'",
+        "E": "no 'B' are 'A'",
+        "I": "some 'B' are 'A'",
+        "O": "some 'B' are NOT 'A'"
     };
     var getFormOfPropositions = (prop1Quantity, prop1Quality, prop2Quantity, prop2Quality) => {
         var prop1Form = formOfPropositions[prop1Quantity + prop1Quality];
@@ -73,14 +73,6 @@ var app = (function(){
                 showAreNotOptionOfPropQuality(elemId.replace('quantity', 'quality'));
             }
         }
-        if(elemId === 'prop_one_quality' || elemId === 'prop_two_quality') {
-            if(elem.value === 'arenot'){
-                selectSomeOptionOfPropQuantity(elemId.replace('quality', 'quantity'));    
-            } else {
-                //
-            }
-        }
-        // need to add listen handler to reset value of prop quantity, if quality is set to 'are not', to disable 'no' option of quantity
     });
 
     return {
@@ -98,5 +90,5 @@ window.document.addEventListener('submit', e => {
         window.document.getElementById('prop_two_quality').value
     );
     e.preventDefault();
-    window.document.getElementById('conclusion').innerHTML = window.app.getConclusion(formsOfPropositions);
+    window.document.getElementById('conclusion').innerHTML = 'Then, ' + window.app.getConclusion(formsOfPropositions);
 });

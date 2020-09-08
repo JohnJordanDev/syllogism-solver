@@ -16,12 +16,18 @@
             color: black;
             text-transform: uppercase;
         }
+
+        .data-input, .conclusion {
+            display: block;
+            max-width: 400px;
+            margin: 0 auto 1.5rem;
+        }
     </style>
 </head>
 <body>
     <section>
         <header>
-            <form action="#" onsubmit="return false;" id="first_figure">
+            <form action="#" onsubmit="return false;" id="first_figure" class="data-input">
                 <fieldset>
                     <legend>Proposition I:</legend>
                     If
@@ -41,7 +47,7 @@
                 </fieldset>
                 <fieldset>
                     <legend>Proposition II:</legend>
-                    And, If
+                    And,
                     <select id="prop_two_quantity" required>
                         <option value="" disabled selected>all/some/no</option>
                         <option value="all">all</option>
@@ -58,7 +64,7 @@
                 </fieldset>
                 <input type="submit" value="Conclusion">
             </form>
-            <output id="conclusion" for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
+            <output id="conclusion" class="conclusion" for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
         </header>
     </section>
     <script src="app.js"></script>  
