@@ -82,13 +82,19 @@ var app = (function(){
     
 })();
 
-window.document.addEventListener('submit', e => {
-    var formsOfPropositions = window.app.getFormOfPropositions(
-        window.document.getElementById('prop_one_quantity').value, 
-        window.document.getElementById('prop_one_quality').value, 
-        window.document.getElementById('prop_two_quantity').value,
-        window.document.getElementById('prop_two_quality').value
-    );
-    e.preventDefault();
-    window.document.getElementById('conclusion').innerHTML = 'Then, ' + window.app.getConclusion(formsOfPropositions);
+window.document.addEventListener('change', e => {
+    var prop1Quantity = window.document.getElementById('prop_one_quantity').value;
+    var prop1Quality = window.document.getElementById('prop_one_quality').value;
+    var prop2Quantity = window.document.getElementById('prop_two_quantity').value;
+    var prop2Quality = window.document.getElementById('prop_two_quality').value;  
+    
+    if(prop1Quantity && prop1Quality && prop2Quantity && prop2Quality) {
+        var formsOfPropositions = window.app.getFormOfPropositions(
+            prop1Quantity, prop1Quality, prop2Quantity, prop2Quality
+        );
+        window.document.getElementById('conclusion').innerHTML = 'Then, ' + window.app.getConclusion(formsOfPropositions);
+    }
+
 });
+
+window.document.getElementById('first_figure').reset();
