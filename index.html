@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Syllogistic Inference</title>
     <style>
+        fieldset {
+            padding: 1rem 0.66rem;
+        }
         /*https://stackoverflow.com/questions/5805059/how-do-i-make-a-placeholder-for-a-select-box */
         select:required:invalid {
             color: gray;
@@ -17,19 +20,38 @@
             text-transform: uppercase;
         }
 
-        .data-input, .conclusion {
+        .hidden {
+            display: none !important;
+        }
+
+        .header {
             display: block;
-            max-width: 400px;
+            max-width: 500px;
             margin: 0 auto 1.5rem;
         }
+
+        .overhead-input-label_wrapper {
+            position: relative;
+            border: solid 1px #000;
+            padding: 5px;
+        }
+        .overhead-input-label_label {
+            position: absolute;
+            top: -15px;
+            left: 10px;
+            background: #FFF;
+        }
         .conclusion {
+            display: block;
+            padding: 0.75rem;
+            background: #DDD;
             padding-left: 0.75rem;
         }
     </style>
 </head>
 <body>
     <section>
-        <header>
+        <header class="header">
             <form action="#" onsubmit="return false;" id="first_figure" class="data-input">
                 <fieldset>
                     <legend>Proposition I:</legend>
@@ -40,7 +62,10 @@
                         <option value="some">some</option>
                         <option value="no">no</option>
                     </select>
-                    "M"
+                    <span class="overhead-input-label_wrapper">
+                        <label class="overhead-input-label_label" for="middle_term_first">Middle Term</label>
+                        <input type="text" id="middle_term_first" placeholder='e.g. "mammals"' required>
+                    </span>
                     <select id="prop_one_quality" required>
                         <option value="" disabled selected>are/are NOT</option>
                         <option value="are">are</option>
@@ -63,11 +88,18 @@
                         <option value="are">are</option>
                         <option value="arenot">are NOT</option>
                     </select>
-                    "M".
+                    <span class="overhead-input-label_wrapper">
+                        <label class="overhead-input-label_label" for="middle_term_second">Middle Term</label>
+                        <input type="text" id="middle_term_second" readonly>
+                    </span>
                 </fieldset>
-                <!-- <input type="submit" value="Conclusion"> -->
+                <hr/>    
+                <input type="submit" id="first_figure_submit" class="hidden">
+                <fieldset>
+                    <legend>Conclusion: </legend>
+                    <output id="conclusion" class="conclusion" for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
+                </fieldset>
             </form>
-            <output id="conclusion" class="conclusion" for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
         </header>
     </section>
     <script src="app.js"></script>  
