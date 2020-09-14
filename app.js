@@ -72,6 +72,10 @@ var app = (function(){
             } else {
                 showAreNotOptionOfPropQuality(elemId.replace('quantity', 'quality'));
             }
+        } else if(elemId === 'prop_one_quality' || elemId === 'prop_two_quality') {
+            if(elem.value === 'arenot'){
+                selectSomeOptionOfPropQuantity(elemId.replace('quality', 'quantity'));     
+            } 
         }
     });
 
@@ -82,26 +86,3 @@ var app = (function(){
     
 })();
 
-const firstFigure = window.document.getElementById('first_figure');
-const firstFigureSubmit = window.document.getElementById('first_figure_submit');
-const conclusion = window.document.getElementById('conclusion');
-
-window.document.addEventListener('change', e => {
-    var prop1Quantity = window.document.getElementById('prop_one_quantity').value;
-    var prop1Quality = window.document.getElementById('prop_one_quality').value;
-    var prop2Quantity = window.document.getElementById('prop_two_quantity').value;
-    var prop2Quality = window.document.getElementById('prop_two_quality').value; 
-
-    if(firstFigure.checkValidity()) {
-        var formsOfPropositions = window.app.getFormOfPropositions(
-            prop1Quantity, prop1Quality, prop2Quantity, prop2Quality
-        );
-        conclusion.innerHTML = 'Then, ' + window.app.getConclusion(formsOfPropositions);
-    } else {
-        firstFigureSubmit.click(); 
-        conclusion.innerHTML = '&hellip'   
-    }
-
-});
-
-window.document.getElementById('first_figure').reset();
