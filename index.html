@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Syllogistic Inference</title>
     <style>
+        
+        main {
+            display: block;
+            max-width: 500px;
+            margin: 0 auto 1.5rem;
+        } 
+        section {
+            margin-bottom: 1.5rem;
+        }
+
         fieldset {
             padding: 1rem 0.66rem;
         }
@@ -20,14 +30,15 @@
             text-transform: uppercase;
         }
 
-        .hidden {
-            display: none !important;
+        canvas {
+            display: block;
+            margin: 0 auto 1.5rem;
+            max-width: 500px;
+            border: solid 1px #ddd;
         }
 
-        .header {
-            display: block;
-            max-width: 500px;
-            margin: 0 auto 1.5rem;
+        .hidden {
+            display: none !important;
         }
 
         .overhead-input-label_wrapper {
@@ -50,8 +61,11 @@
     </style>
 </head>
 <body>
-    <section>
-        <header class="header">
+    <main>
+        <section>
+            <header class="header">
+    
+            </header>
             <form action="#" onsubmit="return false;" id="first_figure" class="data-input">
                 <fieldset>
                     <legend>Proposition I:</legend>
@@ -62,10 +76,12 @@
                         <option value="some">some</option>
                         <option value="no">no</option>
                     </select>
-                    <span class="overhead-input-label_wrapper">
+                    <!-- Commented this out, to avoid having to enter when testing -->
+                    <!-- <span class="overhead-input-label_wrapper">
                         <label class="overhead-input-label_label" for="middle_term_first">Middle Term</label>
                         <input type="text" id="middle_term_first" placeholder='e.g. "mammals"' required>
-                    </span>
+                    </span> -->
+                    "Middle Term"
                     <select id="prop_one_quality" required>
                         <option value="" disabled selected>are/are NOT</option>
                         <option value="are">are</option>
@@ -100,8 +116,16 @@
                     <output id="conclusion" class="conclusion" for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
                 </fieldset>
             </form>
-        </header>
-    </section>
+        </section>
+        <section>
+            <canvas id="canvas_prop_one">Modified Euler diagram for proposition one</canvas>
+            <canvas id="canvas_prop_two">Modified Euler diagram for proposition two</canvas>
+            <canvas id="canvas_conclusion">Modified Euler diagram for the conclusion.</canvas>
+        </section>
+    </main>
+    
     <script src="app.js"></script>  
+    <script src="canvas-module.js"></script> 
+    <script src="user-interface.js"></script>  
 </body>
 </html>
