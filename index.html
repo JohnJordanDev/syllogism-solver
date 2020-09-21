@@ -88,6 +88,7 @@
                         <option value="arenot">are NOT</option>
                     </select>
                     "A".
+                    <canvas id="canvas_prop_one">Modified Euler diagram for proposition one</canvas>
                 </fieldset>
                 <fieldset>
                     <legend>Proposition II:</legend>
@@ -108,19 +109,18 @@
                         <label class="overhead-input-label_label" for="middle_term_second">Middle Term</label>
                         <input type="text" id="middle_term_second" readonly>
                     </span>
+                    <canvas id="canvas_prop_two">Modified Euler diagram for proposition two</canvas>
                 </fieldset>
                 <hr/>    
                 <input type="submit" id="first_figure_submit" class="hidden">
                 <fieldset>
                     <legend>Conclusion: </legend>
                     <output id="conclusion" class="conclusion" for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
+                    <canvas id="canvas_conclusion">Modified Euler diagram for the conclusion.</canvas>
                 </fieldset>
             </form>
         </section>
         <section>
-            <canvas id="canvas_prop_one">Modified Euler diagram for proposition one</canvas>
-            <canvas id="canvas_prop_two">Modified Euler diagram for proposition two</canvas>
-            <canvas id="canvas_conclusion">Modified Euler diagram for the conclusion.</canvas>
         </section>
     </main>
     
