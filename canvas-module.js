@@ -13,14 +13,18 @@ var canvasModule = (function(){
         });
     };
 
-    var allAisB = () => {
-        canvasPropOneCtx.beginPath();
-        canvasPropOneCtx.arc(180, 75, 25, 0, pi * 2, true); // subject
-        canvasPropOneCtx.stroke();
+    var drawMajorTerm = () => {
         canvasPropOneCtx.moveTo(250, 75);
         canvasPropOneCtx.beginPath();
         canvasPropOneCtx.arc(200, 75, 50, 0, pi * 2, true); // predicate
         canvasPropOneCtx.stroke(); 
+    };
+
+    var allAisB = () => {
+        canvasPropOneCtx.beginPath();
+        canvasPropOneCtx.arc(180, 75, 25, 0, pi * 2, true); // subject
+        canvasPropOneCtx.stroke();
+        drawMajorTerm();
     };
 
     var noAisB = () => {
@@ -28,10 +32,7 @@ var canvasModule = (function(){
         canvasPropOneCtx.arc(75, 75, 25, 0, pi * 2, true); // subject
         canvasPropOneCtx.stroke();
 
-        canvasPropOneCtx.moveTo(250, 75);
-        canvasPropOneCtx.beginPath();
-        canvasPropOneCtx.arc(200, 75, 50, 0, pi * 2, true); // predicate
-        canvasPropOneCtx.stroke();
+        drawMajorTerm();
     };
 
     var someAareB = () => {
@@ -39,10 +40,7 @@ var canvasModule = (function(){
         canvasPropOneCtx.arc(157.25, 75, 25, pi/2, -pi/2, true); // subject
         canvasPropOneCtx.stroke();
 
-        canvasPropOneCtx.moveTo(250, 75);
-        canvasPropOneCtx.beginPath();
-        canvasPropOneCtx.arc(200, 75, 50, 0, pi * 2, true); // predicate
-        canvasPropOneCtx.stroke();
+        drawMajorTerm();
     };
 
     var someAareNotB = () => {
@@ -50,10 +48,7 @@ var canvasModule = (function(){
         canvasPropOneCtx.arc(150, 75, 25, (pi/180)*75, -(pi/180)*75, false); // subject
         canvasPropOneCtx.stroke();
 
-        canvasPropOneCtx.moveTo(250, 75);
-        canvasPropOneCtx.beginPath();
-        canvasPropOneCtx.arc(200, 75, 50, 0, pi * 2, true); // predicate
-        canvasPropOneCtx.stroke();
+        drawMajorTerm();
     };
 
     var drawPropOne = propForm => {
