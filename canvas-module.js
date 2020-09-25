@@ -1,74 +1,81 @@
 var canvasModule = (function(){
-    var canvasPropOne = window.document.getElementById('canvas_prop_one');
-    var canvasPropOneCtx = canvasPropOne.getContext('2d');
-
-    var allCanvasses = [canvasPropOne];
+    
+    var allCanvasses = [...window.document.getElementsByTagName('canvas')];
 
     var pi = window.Math.PI;
 
     var clearAllCanvasses = () => {
-        console.log('clearing canvasses...')
         allCanvasses.forEach(canvas => {
             canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
         });
     };
 
-    var drawMajorTerm = () => {
-        canvasPropOneCtx.moveTo(250, 75);
-        canvasPropOneCtx.beginPath();
-        canvasPropOneCtx.arc(200, 75, 50, 0, pi * 2, true); // predicate
-        canvasPropOneCtx.stroke(); 
+    var drawPredicate = (premiseType, canvasElemCtx) => {
+        if (premiseType === 'major') {
+            canvasElemCtx.moveTo(250, 75);
+            canvasElemCtx.beginPath();
+            canvasElemCtx.arc(200, 75, 50, 0, pi * 2, true);
+            canvasElemCtx.stroke(); 
+        } else {
+            canvasElemCtx.moveTo(200, 75);
+            canvasElemCtx.beginPath();
+            canvasElemCtx.arc(150, 75, 40, 0, pi * 2, true); 
+            canvasElemCtx.stroke(); 
+        }
     };
 
-    var allAisB = () => {
-        canvasPropOneCtx.beginPath();
-        canvasPropOneCtx.arc(180, 75, 25, 0, pi * 2, true); // subject
-        canvasPropOneCtx.stroke();
-        drawMajorTerm();
+    var allAisB = (premiseType, canvasElemCtx) => {
+        canvasElemCtx.beginPath();
+        canvasElemCtx.arc(180, 75, 25, 0, pi * 2, true); // subject
+        canvasElemCtx.stroke();
+        drawPredicate(premiseType, canvasElemCtx);
     };
 
-    var noAisB = () => {
-        canvasPropOneCtx.beginPath();
-        canvasPropOneCtx.arc(75, 75, 25, 0, pi * 2, true); // subject
-        canvasPropOneCtx.stroke();
-
-        drawMajorTerm();
+    var noAisB = (premiseType, canvasElemCtx) => {
+        canvasElemCtx.beginPath();
+        canvasElemCtx.arc(75, 75, 25, 0, pi * 2, true); // subject
+        canvasElemCtx.stroke();
+        drawPredicate(premiseType, canvasElemCtx);
     };
 
-    var someAareB = () => {
-        canvasPropOneCtx.beginPath();
-        canvasPropOneCtx.arc(157.25, 75, 25, pi/2, -pi/2, true); // subject
-        canvasPropOneCtx.stroke();
-
-        drawMajorTerm();
+    var someAareB = (premiseType, canvasElemCtx) => {
+        canvasElemCtx.beginPath();
+        canvasElemCtx.arc(157.25, 75, 25, pi/2, -pi/2, true); // subject
+        canvasElemCtx.stroke();
+        drawPredicate(premiseType, canvasElemCtx);
     };
 
-    var someAareNotB = () => {
-        canvasPropOneCtx.beginPath();
-        canvasPropOneCtx.arc(150, 75, 25, (pi/180)*75, -(pi/180)*75, false); // subject
-        canvasPropOneCtx.stroke();
-
-        drawMajorTerm();
+    var someAareNotB = (premiseType, canvasElemCtx) => {
+        if (premiseType === 'major') {
+            canvasElemCtx.beginPath();
+            canvasElemCtx.arc(150, 75, 25, (pi/180)*75, -(pi/180)*75, false); // subject
+            canvasElemCtx.stroke();
+        } else {
+            // TODO: reduced size, geometrically
+            canvasElemCtx.beginPath();
+            canvasElemCtx.arc(150, 75, 25, (pi/180)*75, -(pi/180)*75, false); // subject
+            canvasElemCtx.stroke();
+        }
+        drawPredicate(premiseType, canvasElemCtx);
     };
 
-    var drawPropOne = propForm => {
-        clearAllCanvasses();
+    var drawProposition = (premiseType, propForm, canvasElemCtx) => {
         console.log({propForm});
         if(propForm === 'A') {
-            allAisB();
+            allAisB(premiseType, canvasElemCtx);
         } else if(propForm === 'E') {
-            noAisB();
+            noAisB(premiseType, canvasElemCtx);
         } else if(propForm === 'I') {
-            someAareB();
+            someAareB(premiseType, canvasElemCtx);
         } else if(propForm === 'O') {
-            someAareNotB();
+            someAareNotB(premiseType, canvasElemCtx);
         } else {
             // error code
         }
     };
 
     return {
-        drawPropOne: drawPropOne,
+        drawProposition: drawProposition,
         clearAllCanvasses: clearAllCanvasses
     };
 })();
