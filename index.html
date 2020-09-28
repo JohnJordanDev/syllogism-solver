@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Syllogistic Inference</title>
     <style>
+
+        html {
+            box-sizing: content-box;
+        }
         
         main {
             display: block;
@@ -32,8 +36,9 @@
 
         canvas {
             display: block;
-            margin: 0 auto 1.5rem;
+            margin: 0 auto 0.5rem;
             max-width: 500px;
+            max-height: 100px;
             border: solid 1px #ddd;
         }
 
@@ -52,11 +57,22 @@
             left: 10px;
             background: #FFF;
         }
+        .premise-input {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
         .conclusion {
             display: block;
             padding: 0.75rem;
             background: #DDD;
             padding-left: 0.75rem;
+            text-align: center;
+        }
+
+        @media screen and (min-width: 767px) {
+            canvas {
+               max-height: none;
+            }
         }
     </style>
 </head>
@@ -69,47 +85,51 @@
             <form action="#" onsubmit="return false;" id="first_figure" class="data-input">
                 <fieldset>
                     <legend>Proposition I:</legend>
-                    If
-                    <select id="prop_one_quantity" required>
-                        <option value="" disabled selected>all/some/no</option>
-                        <option value="all">all</option>
-                        <option value="some">some</option>
-                        <option value="no">no</option>
-                    </select>
-                    <!-- Commented this out, to avoid having to enter when testing -->
-                    <!-- <span class="overhead-input-label_wrapper">
-                        <label class="overhead-input-label_label" for="middle_term_first">Middle Term</label>
-                        <input type="text" id="middle_term_first" placeholder='e.g. "mammals"' required>
-                    </span> -->
-                    "Middle Term"
-                    <select id="prop_one_quality" required>
-                        <option value="" disabled selected>are/are NOT</option>
-                        <option value="are">are</option>
-                        <option value="arenot">are NOT</option>
-                    </select>
-                    "A".
+                    <section class="premise-input">
+                        If
+                        <select id="prop_one_quantity" required>
+                            <option value="" disabled selected>all/some/no</option>
+                            <option value="all">all</option>
+                            <option value="some">some</option>
+                            <option value="no">no</option>
+                        </select>
+                        <!-- Commented this out, to avoid having to enter when testing -->
+                        <!-- <span class="overhead-input-label_wrapper">
+                            <label class="overhead-input-label_label" for="middle_term_first">Middle Term</label>
+                            <input type="text" id="middle_term_first" placeholder='e.g. "mammals"' required>
+                        </span> -->
+                        "Middle Term"
+                        <select id="prop_one_quality" required>
+                            <option value="" disabled selected>are/are NOT</option>
+                            <option value="are">are</option>
+                            <option value="arenot">are NOT</option>
+                        </select>
+                        "A".
+                    </section>
                     <canvas id="canvas_prop_one">Modified Euler diagram for proposition one</canvas>
                 </fieldset>
                 <fieldset>
                     <legend>Proposition II:</legend>
-                    And,
-                    <select id="prop_two_quantity" required>
-                        <option value="" disabled selected>all/some/no</option>
-                        <option value="all">all</option>
-                        <option value="some">some</option>
-                        <option value="no">no</option>
-                    </select>
-                    "B"
-                    <select id="prop_two_quality" required>
-                        <option value="" disabled selected>are/are NOT</option>
-                        <option value="are">are</option>
-                        <option value="arenot">are NOT</option>
-                    </select>
-                    <!-- <span class="overhead-input-label_wrapper">
-                        <label class="overhead-input-label_label" for="middle_term_second">Middle Term</label>
-                        <input type="text" id="middle_term_second" readonly>
-                    </span> -->
-                    "Middle Term"
+                    <section class="premise-input">
+                        And,
+                        <select id="prop_two_quantity" required>
+                            <option value="" disabled selected>all/some/no</option>
+                            <option value="all">all</option>
+                            <option value="some">some</option>
+                            <option value="no">no</option>
+                        </select>
+                        "B"
+                        <select id="prop_two_quality" required>
+                            <option value="" disabled selected>are/are NOT</option>
+                            <option value="are">are</option>
+                            <option value="arenot">are NOT</option>
+                        </select>
+                        <!-- <span class="overhead-input-label_wrapper">
+                            <label class="overhead-input-label_label" for="middle_term_second">Middle Term</label>
+                            <input type="text" id="middle_term_second" readonly>
+                        </span> -->
+                        "Middle Term"
+                    </section>
                     <canvas id="canvas_prop_two">Modified Euler diagram for proposition two</canvas>
                 </fieldset>
                 <hr/>    

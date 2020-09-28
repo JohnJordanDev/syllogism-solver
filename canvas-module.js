@@ -10,17 +10,43 @@ var canvasModule = (function(){
         });
     };
 
+    const drawToCanvas = function(canvasElemCtx, settings) {
+        canvasElemCtx.moveTo(settings.startPositionX, settings.startPositionY);
+        canvasElemCtx.beginPath();
+        canvasElemCtx.arc(settings.circleXPos, 
+            settings.cirleYPos, 
+            settings.circleRadius, 
+            settings.startAngleRad, 
+            settings.endAngleRad, 
+            settings.counterClockwise
+        );
+        canvasElemCtx.stroke(); 
+    };
+
+    const drawCircle = function(canvasElemCtx, options = {}) {
+        let defaults = {
+            startPositionX: 250,
+            startPositionY: 75,
+            circleXPos: 200,
+            cirleYPos: 75,
+            circleRadius: 50,
+            startAngleRad: 0,
+            endAngleRad: pi*2,
+            counterClockwise: true
+        };
+        let settings = Object.assign({}, defaults, options);
+        drawToCanvas(canvasElemCtx, settings);
+    };
+
     var drawPredicate = (premiseType, canvasElemCtx) => {
         if (premiseType === 'major') {
-            canvasElemCtx.moveTo(250, 75);
-            canvasElemCtx.beginPath();
-            canvasElemCtx.arc(200, 75, 50, 0, pi * 2, true);
-            canvasElemCtx.stroke(); 
-        } else {
-            canvasElemCtx.moveTo(200, 75);
-            canvasElemCtx.beginPath();
-            canvasElemCtx.arc(150, 75, 40, 0, pi * 2, true); 
-            canvasElemCtx.stroke(); 
+            drawCircle(canvasElemCtx);
+        } else { 
+            drawCircle(canvasElemCtx, {
+                startPositionX: 200,        
+                circleXPos: 150,
+                circleRadius: 40
+            });
         }
     };
 
