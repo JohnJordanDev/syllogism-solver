@@ -4,6 +4,11 @@ var canvasModule = (function(){
 
     var pi = window.Math.PI;
 
+    const majorPredicateCircleRadious = 70;
+    const majorSubjectCircleRadius = 50;
+    const minorSubjectCircleRadius = majorSubjectCircleRadius;
+    const minorPredicateCircleRadius = 30;
+
     var clearAllCanvasses = () => {
         allCanvasses.forEach(canvas => {
             canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
@@ -12,6 +17,7 @@ var canvasModule = (function(){
 
     const drawToCanvas = function(canvasElemCtx, settings) {
         canvasElemCtx.moveTo(settings.startPositionX, settings.startPositionY);
+        canvasElemCtx.setLineDash(settings.setLineDash);
         canvasElemCtx.beginPath();
         canvasElemCtx.arc(settings.circleXPos, 
             settings.cirleYPos, 
@@ -29,10 +35,11 @@ var canvasModule = (function(){
             startPositionY: 75,
             circleXPos: 200,
             cirleYPos: 75,
-            circleRadius: 50,
+            circleRadius: majorPredicateCircleRadious,
             startAngleRad: 0,
             endAngleRad: pi*2,
-            counterClockwise: true
+            counterClockwise: true,
+            setLineDash: []
         };
         let settings = Object.assign({}, defaults, options);
         drawToCanvas(canvasElemCtx, settings);
@@ -41,19 +48,32 @@ var canvasModule = (function(){
     var drawPredicate = (premiseType, canvasElemCtx) => {
         if (premiseType === 'major') {
             drawCircle(canvasElemCtx);
-        } else { 
+        } else if (premiseType === 'minor') { 
             drawCircle(canvasElemCtx, {
                 startPositionX: 200,        
                 circleXPos: 150,
-                circleRadius: 40
+                circleRadius: minorSubjectCircleRadius,
+                setLineDash: [5,3]
             });
         }
     };
 
-    var allAisB = (premiseType, canvasElemCtx) => {
-        canvasElemCtx.beginPath();
-        canvasElemCtx.arc(180, 75, 25, 0, pi * 2, true); // subject
-        canvasElemCtx.stroke();
+    var drawSubjectAllAisB = (premiseType, canvasElemCtx) => {
+        
+        if(premiseType === 'major') {
+            drawCircle(canvasElemCtx, { 
+                circleXPos: 180,
+                cirleYPos: 75,
+                circleRadius: majorSubjectCircleRadius,
+                setLineDash: [5,3]
+            });
+        } else if(premiseType === 'minor') {
+            drawCircle(canvasElemCtx, { 
+                circleXPos: 130,
+                cirleYPos: 75,
+                circleRadius: minorPredicateCircleRadius
+            });
+        }
         drawPredicate(premiseType, canvasElemCtx);
     };
 
@@ -88,7 +108,7 @@ var canvasModule = (function(){
     var drawProposition = (premiseType, propForm, canvasElemCtx) => {
         console.log({propForm});
         if(propForm === 'A') {
-            allAisB(premiseType, canvasElemCtx);
+            drawSubjectAllAisB(premiseType, canvasElemCtx);
         } else if(propForm === 'E') {
             noAisB(premiseType, canvasElemCtx);
         } else if(propForm === 'I') {
