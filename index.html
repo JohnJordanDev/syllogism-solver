@@ -42,6 +42,10 @@
             border: solid 1px #ddd;
         }
 
+        .data-input {
+            max-width: 400px;
+        }
+
         .hidden {
             display: none !important;
         }
@@ -84,7 +88,7 @@
             </header>
             <form action="#" onsubmit="return false;" id="first_figure" class="data-input">
                 <fieldset>
-                    <legend>Proposition I:</legend>
+                    <legend>Major Premise</legend>
                     <section class="premise-input">
                         If
                         <select id="prop_one_quantity" required>
@@ -109,7 +113,7 @@
                     <canvas id="canvas_prop_one">Modified Euler diagram for proposition one</canvas>
                 </fieldset>
                 <fieldset>
-                    <legend>Proposition II:</legend>
+                    <legend>Minor Premise</legend>
                     <section class="premise-input">
                         And,
                         <select id="prop_two_quantity" required>

@@ -24,8 +24,8 @@ window.document.addEventListener('change', e => {
         console.log();
         conclusion.innerHTML = 'Then, ' + window.app.getConclusion(formsOfPropositions);
         app.canvas.clearAllCanvasses();
-        app.canvas.drawProposition('major', formsOfPropositions[0], canvasPropOneCtx);
-        app.canvas.drawProposition('minor', formsOfPropositions[1], canvasPropTwoCtx);
+        app.canvas.drawPremise('major', formsOfPropositions[0], canvasPropOneCtx);
+        app.canvas.drawPremise('minor', formsOfPropositions[1], canvasPropTwoCtx);
     } else {
         firstFigureSubmit.click(); 
         conclusion.innerHTML = '...';  
@@ -39,7 +39,8 @@ window.document.getElementById('first_figure').reset();
 // For testing purposes
 prop1Quantity.selectedIndex = 2;
 prop1Quality.selectedIndex = 2;
-prop2Quantity.selectedIndex = 1;
+prop2Quantity.selectedIndex = 2;
+prop2Quality.selectedIndex = 2;
 
 var changeEvent = new Event('change', {bubbles: true});
 
