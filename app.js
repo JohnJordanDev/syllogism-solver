@@ -1,4 +1,4 @@
-const app = (function(){
+window.app = (function(){
     var validMoodsFirstFigure = {
         "AA": "A",
         "EA": "E",
