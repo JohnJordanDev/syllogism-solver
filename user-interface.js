@@ -1,3 +1,4 @@
+// ToDo: Place all this on an object
 var prop1Quantity = window.document.getElementById('prop_one_quantity');
 var prop1Quality = window.document.getElementById('prop_one_quality');
 var prop2Quantity = window.document.getElementById('prop_two_quantity');
@@ -14,24 +15,27 @@ const firstFigure = window.document.getElementById('first_figure');
 const firstFigureSubmit = window.document.getElementById('first_figure_submit');
 const conclusion = window.document.getElementById('conclusion');
 
-window.document.addEventListener('change', e => {
-    var formsOfPropositions;
-    
-    if(firstFigure.checkValidity()) {
-        formsOfPropositions = window.app.getFormOfPropositions(
-            prop1Quantity.value, prop1Quality.value, prop2Quantity.value, prop2Quality.value
-        );
-        console.log();
-        conclusion.innerHTML = 'Then, ' + window.app.getConclusion(formsOfPropositions);
-        app.canvas.clearAllCanvasses();
-        app.canvas.drawPremise('major', formsOfPropositions[0], canvasPropOneCtx);
-        app.canvas.drawPremise('minor', formsOfPropositions[1], canvasPropTwoCtx);
-    } else {
-        firstFigureSubmit.click(); 
-        conclusion.innerHTML = '...';  
-        app.canvas.clearAllCanvasses();
-    }
+const drawPremisesAndConclusion = () => {
+    let formsOfPropositions = window.app.getFormOfPropositions(
+        prop1Quantity.value, prop1Quality.value, prop2Quantity.value, prop2Quality.value
+    );
+    conclusion.innerHTML = 'Then, ' + window.app.getConclusion(formsOfPropositions);
+    app.canvas.drawPremise('major', formsOfPropositions[0], canvasPropOneCtx);
+    app.canvas.drawPremise('minor', formsOfPropositions[1], canvasPropTwoCtx);   
+};
 
+const triggerFormUiFeedback = () => {
+    firstFigureSubmit.click();
+};
+
+window.document.addEventListener('change', e => {    
+    app.canvas.clearAllCanvasses();
+    if(firstFigure.checkValidity()) {
+        drawPremisesAndConclusion();
+    } else {
+        triggerFormUiFeedback(); 
+        conclusion.innerHTML = '...';  
+    }
 });
 
 window.document.getElementById('first_figure').reset();

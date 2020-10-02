@@ -45,6 +45,10 @@ const canvasModule = (function(){
         drawToCanvas(canvasElemCtx, settings);
     };
 
+    // ToDO
+    // need a function that takes an input that draws circle depending on whether
+    // the middle term is subject or predicate of premise
+
     const drawPredicate = (premiseType, canvasElemCtx) => {
         if (premiseType === 'major') {
             drawCircle(canvasElemCtx);
