@@ -62,27 +62,17 @@ window.app = (function(){
         });
     };
 
-    window.document.addEventListener('change', e => {
-        var elem = e.target;
-        var elemId = elem.getAttribute('id');
-        console.log('elemID', elemId, elem.value);
-        if(elemId === 'prop_one_quantity' || elemId === 'prop_two_quantity') {
-            if(elem.value === 'no' || elem.value === 'all'){
-                hideAreNotOptionOfPropQuality(elemId.replace('quantity', 'quality'));     
-            } else {
-                showAreNotOptionOfPropQuality(elemId.replace('quantity', 'quality'));
-            }
-        } else if(elemId === 'prop_one_quality' || elemId === 'prop_two_quality') {
-            if(elem.value === 'arenot'){
-                selectSomeOptionOfPropQuantity(elemId.replace('quality', 'quantity'));     
-            } 
-        }
-    });
-
+    
     return {
         getFormOfPropositions: getFormOfPropositions,
-        getConclusion: getConclusion
+        getConclusion: getConclusion,
+        hideAreNotOptionOfPropQuality: hideAreNotOptionOfPropQuality,
+        showAreNotOptionOfPropQuality: showAreNotOptionOfPropQuality,
+        selectSomeOptionOfPropQuantity: selectSomeOptionOfPropQuantity
     };
     
 })();
+
+
+
 

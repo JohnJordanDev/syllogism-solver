@@ -19,16 +19,16 @@ const drawPremisesAndConclusion = () => {
     let formsOfPropositions = window.app.getFormOfPropositions(
         prop1Quantity.value, prop1Quality.value, prop2Quantity.value, prop2Quality.value
     );
-    conclusion.innerHTML = 'Then, ' + window.app.getConclusion(formsOfPropositions);
     app.canvas.drawPremise('major', formsOfPropositions[0], canvasPropOneCtx);
-    app.canvas.drawPremise('minor', formsOfPropositions[1], canvasPropTwoCtx);   
+    app.canvas.drawPremise('minor', formsOfPropositions[1], canvasPropTwoCtx);
+    conclusion.innerHTML = 'Then, ' + window.app.getConclusion(formsOfPropositions);
 };
 
 const triggerFormUiFeedback = () => {
     firstFigureSubmit.click();
 };
 
-window.document.addEventListener('change', e => {    
+const updateFormOutputs = () => {
     app.canvas.clearAllCanvasses();
     if(firstFigure.checkValidity()) {
         drawPremisesAndConclusion();
@@ -36,7 +36,30 @@ window.document.addEventListener('change', e => {
         triggerFormUiFeedback(); 
         conclusion.innerHTML = '...';  
     }
-});
+};
+
+const setValidUserChoicesBasedOnInput = event => {
+    var elem = event.target;
+    var elemId = elem.getAttribute('id');
+    if(elemId === 'prop_one_quantity' || elemId === 'prop_two_quantity') {
+        if(elem.value === 'no' || elem.value === 'all'){
+            window.app.hideAreNotOptionOfPropQuality(elemId.replace('quantity', 'quality'));     
+        } else {
+            window.app.showAreNotOptionOfPropQuality(elemId.replace('quantity', 'quality'));
+        }
+    } else if(elemId === 'prop_one_quality' || elemId === 'prop_two_quality') {
+        if(elem.value === 'arenot'){
+            window.app.selectSomeOptionOfPropQuantity(elemId.replace('quality', 'quantity'));     
+        } 
+    }
+}
+
+const changeHandler = event => {
+    setValidUserChoicesBasedOnInput(event);
+    updateFormOutputs();
+};
+
+window.document.addEventListener('change', changeHandler);
 
 window.document.getElementById('first_figure').reset();
 
