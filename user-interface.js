@@ -10,18 +10,27 @@ var canvasPropOneCtx = canvasPropOne.getContext('2d');
 var canvasPropTwo = window.document.getElementById('canvas_prop_two');
 var canvasPropTwoCtx = canvasPropTwo.getContext('2d');
 
+var canvasConclusion = window.document.getElementById('canvas_conclusion');
+var canvasConclusionCtx = canvasConclusion.getContext('2d');
 
 const firstFigure = window.document.getElementById('first_figure');
 const firstFigureSubmit = window.document.getElementById('first_figure_submit');
-const conclusion = window.document.getElementById('conclusion');
+const conclusionOutputElem = window.document.getElementById('conclusion');
 
 const drawPremisesAndConclusion = () => {
     let formsOfPropositions = window.app.getFormOfPropositions(
         prop1Quantity.value, prop1Quality.value, prop2Quantity.value, prop2Quality.value
     );
+    let conclusionContent =  window.app.getConclusion(formsOfPropositions); 
     app.canvas.drawPremise('major', formsOfPropositions[0], canvasPropOneCtx);
     app.canvas.drawPremise('minor', formsOfPropositions[1], canvasPropTwoCtx);
-    conclusion.innerHTML = 'Then, ' + window.app.getConclusion(formsOfPropositions);
+    if(conclusionContent) {
+        debugger;
+        app.canvas.drawConclusion(formsOfPropositions, canvasConclusionCtx);
+        conclusionOutputElem.innerHTML = 'Then, ' + conclusionContent;
+    } else {
+        conclusionOutputElem.innerHTML = 'Then, we cannot draw a valid conclusion';
+    }
 };
 
 const triggerFormUiFeedback = () => {
@@ -52,7 +61,7 @@ const setValidUserChoicesBasedOnInput = event => {
             window.app.selectSomeOptionOfPropQuantity(elemId.replace('quality', 'quantity'));     
         } 
     }
-}
+};
 
 const changeHandler = event => {
     setValidUserChoicesBasedOnInput(event);
@@ -64,10 +73,10 @@ window.document.addEventListener('change', changeHandler);
 window.document.getElementById('first_figure').reset();
 
 // For testing purposes
-prop1Quantity.selectedIndex = 2;
-prop1Quality.selectedIndex = 2;
-prop2Quantity.selectedIndex = 2;
-prop2Quality.selectedIndex = 2;
+prop1Quantity.selectedIndex = 1;
+prop1Quality.selectedIndex = 1;
+prop2Quantity.selectedIndex = 1;
+prop2Quality.selectedIndex = 1;
 
 var changeEvent = new Event('change', {bubbles: true});
 

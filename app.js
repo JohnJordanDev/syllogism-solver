@@ -27,7 +27,7 @@ window.app = (function(){
         if(typeof conclusion !== "undefined" && typeof validConclusions[conclusion] !== "undefined") {
             return validConclusions[conclusion];
         }
-        return "we cannot draw a valid conclusion";
+        return null;
     };
 
     var hideAreNotOptionOfPropQuality = propQualityId => {

@@ -9,6 +9,9 @@ const canvasModule = (function(){
     const minorPredicateCircleRadius = majorSubjectCircleRadius;
     const minorSubjectCircleRadius = 20;
 
+    // TODO: Need to add values for position of circle, such that convenient to change all at once,
+    // i.e. make all x and y-positions relative to these central defined values, faciliating easy changes
+
     const clearAllCanvasses = () => {
         allCanvasses.forEach(canvas => {
             canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
@@ -157,8 +160,22 @@ const canvasModule = (function(){
         }
     };
 
+    const drawConclusion = (formOfPremises, canvasElemCtx) => {
+        console.log('forms are ', formOfPremises, ' for drawing to conclusion');
+        console.log(canvasElemCtx);
+        if(formOfPremises === 'AA') {
+            drawCircle(canvasElemCtx);
+            drawCircle(canvasElemCtx, { 
+                circleXPos: 140,
+                cirleYPos: 75,
+                circleRadius: minorSubjectCircleRadius
+            });
+        }
+    };
+
     return {
         drawPremise: drawPremise,
+        drawConclusion: drawConclusion,
         clearAllCanvasses: clearAllCanvasses
     };
 })();
