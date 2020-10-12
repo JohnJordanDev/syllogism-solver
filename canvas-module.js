@@ -4,10 +4,17 @@ const canvasModule = (function(){
 
     const pi = window.Math.PI;
 
+    const allCanvassesWidth = 300;
+
     const majorPredicateCircleRadious = 60;
     const majorSubjectCircleRadius = 40;
     const minorPredicateCircleRadius = majorSubjectCircleRadius;
     const minorSubjectCircleRadius = 20;
+
+    const premiseStartPosX = allCanvassesWidth/2;
+    const premiseCircleStartXPos = premiseStartPosX;
+    const premiseStartPosY = 75;
+    const premiseCircleStartYPos = premiseStartPosY;
 
     // TODO: Need to add values for position of circle, such that convenient to change all at once,
     // i.e. make all x and y-positions relative to these central defined values, faciliating easy changes
@@ -34,10 +41,10 @@ const canvasModule = (function(){
 
     const drawCircle = function(canvasElemCtx, options = {}) {
         let defaults = {
-            startPositionX: 250,
-            startPositionY: 75,
-            circleXPos: 180,
-            cirleYPos: 75,
+            startPositionX: premiseStartPosX,
+            startPositionY: premiseStartPosY,
+            circleXPos: premiseCircleStartXPos,
+            cirleYPos: premiseCircleStartYPos,
             circleRadius: majorPredicateCircleRadious,
             startAngleRad: 0,
             endAngleRad: pi*2,
@@ -57,7 +64,6 @@ const canvasModule = (function(){
             drawCircle(canvasElemCtx);
         } else if (premiseType === 'minor') { 
             drawCircle(canvasElemCtx, {        
-                circleXPos: 150,
                 circleRadius: minorPredicateCircleRadius,
                 setLineDash: [5,3]
             });
@@ -67,15 +73,12 @@ const canvasModule = (function(){
     const drawPremAllAisB = (premiseType, canvasElemCtx) => {
         if(premiseType === 'major') {
             drawCircle(canvasElemCtx, { 
-                circleXPos: 160,
-                cirleYPos: 75,
                 circleRadius: majorSubjectCircleRadius,
                 setLineDash: [5,3]
             });
         } else if(premiseType === 'minor') {
             drawCircle(canvasElemCtx, { 
                 circleXPos: 130,
-                cirleYPos: 75,
                 circleRadius: minorSubjectCircleRadius
             });
         }
@@ -86,14 +89,13 @@ const canvasModule = (function(){
         if(premiseType === 'major') {
             drawCircle(canvasElemCtx, { 
                 circleXPos: 60,
-                cirleYPos: 75,
                 circleRadius: majorSubjectCircleRadius,
                 setLineDash: [5,3]
             });
         } else if(premiseType === 'minor') {
             drawCircle(canvasElemCtx, { 
                 circleXPos: 60,
-                cirleYPos: 75,
+
                 circleRadius: minorSubjectCircleRadius
             });
         }
@@ -104,7 +106,6 @@ const canvasModule = (function(){
         if(premiseType === 'major') {
             drawCircle(canvasElemCtx, { 
                 circleXPos: 137.5,
-                cirleYPos: 75,
                 circleRadius: majorSubjectCircleRadius,
                 startAngleRad: pi/2,
                 endAngleRad: -pi/2,
@@ -113,7 +114,6 @@ const canvasModule = (function(){
         } else if(premiseType === 'minor') {
             drawCircle(canvasElemCtx, { 
                 circleXPos: 115,
-                cirleYPos: 75,
                 circleRadius: minorSubjectCircleRadius,
                 startAngleRad: pi/2,
                 endAngleRad: -pi/2,
@@ -126,7 +126,6 @@ const canvasModule = (function(){
         if(premiseType === 'major') {
             drawCircle(canvasElemCtx, { 
                 circleXPos: 125,
-                cirleYPos: 75,
                 circleRadius: majorSubjectCircleRadius,
                 startAngleRad: (pi/180)*75,
                 endAngleRad: -(pi/180)*75,
@@ -136,7 +135,6 @@ const canvasModule = (function(){
         } else if(premiseType === 'minor') {
             drawCircle(canvasElemCtx, { 
                 circleXPos: 110,
-                cirleYPos: 75,
                 circleRadius: minorSubjectCircleRadius,
                 startAngleRad: (pi/180)*75,
                 endAngleRad: -(pi/180)*75,
@@ -167,7 +165,6 @@ const canvasModule = (function(){
             drawCircle(canvasElemCtx);
             drawCircle(canvasElemCtx, { 
                 circleXPos: 140,
-                cirleYPos: 75,
                 circleRadius: minorSubjectCircleRadius
             });
         }
