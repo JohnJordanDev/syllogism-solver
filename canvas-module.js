@@ -5,15 +5,21 @@ const canvasModule = (function(){
     const pi = window.Math.PI;
 
     const allCanvassesWidth = 300;
+    const allCanvassesHeight = 150;
 
     const majorPredicateCircleRadious = 60;
     const majorSubjectCircleRadius = 40;
     const minorPredicateCircleRadius = majorSubjectCircleRadius;
     const minorSubjectCircleRadius = 20;
+    const subjectCircleStartPosXAll = allCanvassesWidth/2;
+
+    const subjectCircleStartPosXSomeAre = (allCanvassesWidth/2);
+
+    const offsetForSomeCircles = allCanvassesWidth/30;
 
     const premiseStartPosX = allCanvassesWidth/2;
     const premiseCircleStartXPos = premiseStartPosX;
-    const premiseStartPosY = 75;
+    const premiseStartPosY = allCanvassesHeight/2;
     const premiseCircleStartYPos = premiseStartPosY;
 
     // TODO: Need to add values for position of circle, such that convenient to change all at once,
@@ -78,7 +84,7 @@ const canvasModule = (function(){
             });
         } else if(premiseType === 'minor') {
             drawCircle(canvasElemCtx, { 
-                circleXPos: 130,
+                circleXPos: subjectCircleStartPosXAll,
                 circleRadius: minorSubjectCircleRadius
             });
         }
@@ -105,7 +111,7 @@ const canvasModule = (function(){
     const drawPremSomeAareB = (premiseType, canvasElemCtx) => {
         if(premiseType === 'major') {
             drawCircle(canvasElemCtx, { 
-                circleXPos: 137.5,
+                circleXPos: subjectCircleStartPosXSomeAre - majorSubjectCircleRadius,
                 circleRadius: majorSubjectCircleRadius,
                 startAngleRad: pi/2,
                 endAngleRad: -pi/2,
@@ -113,7 +119,7 @@ const canvasModule = (function(){
             });
         } else if(premiseType === 'minor') {
             drawCircle(canvasElemCtx, { 
-                circleXPos: 115,
+                circleXPos: subjectCircleStartPosXSomeAre - majorSubjectCircleRadius + offsetForSomeCircles,
                 circleRadius: minorSubjectCircleRadius,
                 startAngleRad: pi/2,
                 endAngleRad: -pi/2,
@@ -164,8 +170,16 @@ const canvasModule = (function(){
         if(formOfPremises === 'AA') {
             drawCircle(canvasElemCtx);
             drawCircle(canvasElemCtx, { 
-                circleXPos: 140,
+                circleXPos: subjectCircleStartPosXAll,
                 circleRadius: minorSubjectCircleRadius
+            });
+        } else if(formOfPremises === 'AI'){
+            drawCircle(canvasElemCtx);
+            drawCircle(canvasElemCtx, { 
+                circleXPos: subjectCircleStartPosXSomeAre - majorSubjectCircleRadius - 1.5*offsetForSomeCircles,
+                circleRadius: minorSubjectCircleRadius,
+                startAngleRad: pi/2,
+                endAngleRad: -pi/2,
             });
         }
     };
