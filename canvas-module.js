@@ -7,11 +7,16 @@ const canvasModule = (function(){
     const allCanvassesWidth = 300;
     const allCanvassesHeight = 150;
 
+    
+    // TODO: Need to add values for position of circle, such that convenient to change all at once,
+    // i.e. make all x and y-positions relative to these central defined values, faciliating easy changes
+
     const majorPredicateCircleRadious = 60;
     const majorSubjectCircleRadius = 40;
     const minorPredicateCircleRadius = majorSubjectCircleRadius;
     const minorSubjectCircleRadius = 20;
     const subjectCircleStartPosXAll = allCanvassesWidth/2;
+    const subjectCircleStartPosXNone = 0;
 
     const subjectCircleStartPosXSomeAre = (allCanvassesWidth/2);
 
@@ -22,8 +27,6 @@ const canvasModule = (function(){
     const premiseStartPosY = allCanvassesHeight/2;
     const premiseCircleStartYPos = premiseStartPosY;
 
-    // TODO: Need to add values for position of circle, such that convenient to change all at once,
-    // i.e. make all x and y-positions relative to these central defined values, faciliating easy changes
 
     const clearAllCanvasses = () => {
         allCanvasses.forEach(canvas => {
@@ -76,6 +79,9 @@ const canvasModule = (function(){
         }
     };
 
+    //TODO: For setLineDash, need to create a function to get the form of the syllogism from a (global) reference,
+    // and set the line dash on the appropriate circle
+
     const drawPremAllAisB = (premiseType, canvasElemCtx) => {
         if(premiseType === 'major') {
             drawCircle(canvasElemCtx, { 
@@ -94,14 +100,13 @@ const canvasModule = (function(){
     const drawPremNoAisB = (premiseType, canvasElemCtx) => {
         if(premiseType === 'major') {
             drawCircle(canvasElemCtx, { 
-                circleXPos: 60,
+                circleXPos: subjectCircleStartPosXNone + majorSubjectCircleRadius + offsetForSomeCircles*0.5,
                 circleRadius: majorSubjectCircleRadius,
                 setLineDash: [5,3]
             });
         } else if(premiseType === 'minor') {
             drawCircle(canvasElemCtx, { 
-                circleXPos: 60,
-
+                circleXPos: subjectCircleStartPosXNone + majorSubjectCircleRadius,
                 circleRadius: minorSubjectCircleRadius
             });
         }
@@ -165,8 +170,6 @@ const canvasModule = (function(){
     };
 
     const drawConclusion = (formOfPremises, canvasElemCtx) => {
-        console.log('forms are ', formOfPremises, ' for drawing to conclusion');
-        console.log(canvasElemCtx);
         if(formOfPremises === 'AA') {
             drawCircle(canvasElemCtx);
             drawCircle(canvasElemCtx, { 
@@ -183,6 +186,8 @@ const canvasModule = (function(){
             });
         }
     };
+
+    // TODO: To refactor these functions, or all BUT these functions, into a separate module under canvas
 
     return {
         drawPremise: drawPremise,
