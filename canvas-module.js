@@ -18,15 +18,19 @@ const canvasModule = (function(){
     const subjectCircleStartPosXAll = allCanvassesWidth/2;
     const subjectCircleStartPosXNone = 0;
 
-    const subjectCircleStartPosXSomeAre = (allCanvassesWidth/2);
-
     const offsetForSomeCircles = allCanvassesWidth/30;
+
+
+    const subjectCircleStartPosXSomeAre = (allCanvassesWidth/2);
+    const subjectCircleStartPosXSomeAreNot = subjectCircleStartPosXSomeAre - majorSubjectCircleRadius;
+
 
     const premiseStartPosX = allCanvassesWidth/2;
     const premiseCircleStartXPos = premiseStartPosX;
     const premiseStartPosY = allCanvassesHeight/2;
     const premiseCircleStartYPos = premiseStartPosY;
 
+    // Clear the next three functions into a util sub-module
 
     const clearAllCanvasses = () => {
         allCanvasses.forEach(canvas => {
@@ -136,7 +140,7 @@ const canvasModule = (function(){
     const drawPremSomeAareNotB = (premiseType, canvasElemCtx) => {
         if(premiseType === 'major') {
             drawCircle(canvasElemCtx, { 
-                circleXPos: 125,
+                circleXPos: subjectCircleStartPosXSomeAre - majorSubjectCircleRadius - 2*offsetForSomeCircles,
                 circleRadius: majorSubjectCircleRadius,
                 startAngleRad: (pi/180)*75,
                 endAngleRad: -(pi/180)*75,
@@ -145,7 +149,7 @@ const canvasModule = (function(){
             });
         } else if(premiseType === 'minor') {
             drawCircle(canvasElemCtx, { 
-                circleXPos: 110,
+                circleXPos: subjectCircleStartPosXSomeAre - majorSubjectCircleRadius,
                 circleRadius: minorSubjectCircleRadius,
                 startAngleRad: (pi/180)*75,
                 endAngleRad: -(pi/180)*75,
