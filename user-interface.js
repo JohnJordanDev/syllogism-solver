@@ -73,10 +73,10 @@ window.document.addEventListener('change', changeHandler);
 window.document.getElementById('first_figure').reset();
 
 // For testing purposes
-prop1Quantity.selectedIndex = 2;
-prop1Quality.selectedIndex = 2;
-prop2Quantity.selectedIndex = 2;
-prop2Quality.selectedIndex = 2;
+prop1Quantity.selectedIndex = 3;
+prop1Quality.selectedIndex = 1;
+prop2Quantity.selectedIndex = 1;
+prop2Quality.selectedIndex = 1;
 
 var changeEvent = new Event('change', {bubbles: true});
 
