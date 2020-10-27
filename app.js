@@ -1,4 +1,6 @@
 window.app = (function(){
+    let middleTermIsPredicateOfMajor = false;
+    let middleTermIsSubjectOfMinor = false;
     var validMoodsFirstFigure = {
         "AA": "A",
         "EA": "E",
@@ -17,6 +19,22 @@ window.app = (function(){
         "I": "some 'B' are 'A'",
         "O": "some 'B' are NOT 'A'"
     };
+    const isMiddleTermPredicateOfMajor = () => {
+        return middleTermIsPredicateOfMajor;
+    };
+
+    const isMiddleTermSubjectOfMinor = () => {
+        return middleTermIsSubjectOfMinor;
+    };
+
+    const setValueOfIsMiddleTermPredicateOfMajor = value => {
+        middleTermIsPredicateOfMajor = Boolean(value);
+    };
+
+    const setValueOfIsMiddleTermSubjectOfMinor = value => {
+        middleTermIsSubjectOfMinor = Boolean(value);
+    };
+
     var getFormOfPropositions = (prop1Quantity, prop1Quality, prop2Quantity, prop2Quality) => {
         var prop1Form = formOfPropositions[prop1Quantity + prop1Quality];
         var prop2Form = formOfPropositions[prop2Quantity + prop2Quality];
@@ -68,7 +86,11 @@ window.app = (function(){
         getConclusion: getConclusion,
         hideAreNotOptionOfPropQuality: hideAreNotOptionOfPropQuality,
         showAreNotOptionOfPropQuality: showAreNotOptionOfPropQuality,
-        selectSomeOptionOfPropQuantity: selectSomeOptionOfPropQuantity
+        selectSomeOptionOfPropQuantity: selectSomeOptionOfPropQuantity,
+        isMiddleTermPredicateOfMajor: isMiddleTermPredicateOfMajor,
+        isMiddleTermSubjectOfMinor: isMiddleTermSubjectOfMinor,
+        setValueOfIsMiddleTermPredicateOfMajor: setValueOfIsMiddleTermPredicateOfMajor,
+        setValueOfIsMiddleTermSubjectOfMinor, setValueOfIsMiddleTermSubjectOfMinor
     };
     
 })();
