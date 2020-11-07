@@ -128,10 +128,10 @@ const canvasModule = (function(){
             });
         } else if(premiseType === 'minor') {
             drawCircle(canvasElemCtx, { 
-                circleXPos: subjectCircleStartPosXSomeAre - majorSubjectCircleRadius + offsetForSomeCircles,
+                circleXPos: subjectCircleStartPosXSomeAre + majorSubjectCircleRadius - offsetForSomeCircles,
                 circleRadius: minorSubjectCircleRadius,
-                startAngleRad: pi/2,
-                endAngleRad: -pi/2,
+                startAngleRad: -pi/2,
+                endAngleRad: pi/2,
             });
         }
         drawPredicate(premiseType, canvasElemCtx);
@@ -189,10 +189,10 @@ const canvasModule = (function(){
         } else if(formOfPremises === 'AI'){
             drawCircle(canvasElemCtx);
             drawCircle(canvasElemCtx, { 
-                circleXPos: subjectCircleStartPosXSomeAre - majorSubjectCircleRadius - 1.5*offsetForSomeCircles,
+                circleXPos: subjectCircleStartPosXSomeAre + majorSubjectCircleRadius + 1.5*offsetForSomeCircles,
                 circleRadius: minorSubjectCircleRadius,
-                startAngleRad: pi/2,
-                endAngleRad: -pi/2,
+                startAngleRad: -pi/2,
+                endAngleRad: pi/2,
             });
         } else if (formOfPremises === 'EI') {
             drawCircle(canvasElemCtx);
