@@ -194,6 +194,14 @@ const canvasModule = (function(){
                 startAngleRad: pi/2,
                 endAngleRad: -pi/2,
             });
+        } else if (formOfPremises === 'EI') {
+            drawCircle(canvasElemCtx);
+            drawCircle(canvasElemCtx, { 
+                circleXPos: subjectCircleStartPosXSomeAre - majorSubjectCircleRadius - 1.5*offsetForSomeCircles,
+                circleRadius: minorSubjectCircleRadius,
+                startAngleRad: -pi/2,
+                endAngleRad: pi/2,
+            });
         }
     };
 

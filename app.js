@@ -51,7 +51,6 @@ window.app = (function(){
     var hideAreNotOptionOfPropQuality = propQualityId => {
         var propQualityElem = window.document.getElementById(propQualityId);
         propQualityElem.value = 'are';
-        console.log('calling hiding', propQualityElem);
         propQualityElem.querySelectorAll('option').forEach(optionElem => {
             if(optionElem.value === 'arenot'){
                 optionElem.setAttribute('disabled', 'disabled');
