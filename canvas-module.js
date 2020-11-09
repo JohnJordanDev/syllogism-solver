@@ -214,4 +214,4 @@ const canvasModule = (function(){
     };
 })();
 
-app.canvas = canvasModule;
+window.app.canvas = canvasModule;
