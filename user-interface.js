@@ -25,11 +25,11 @@ const drawPremisesAndConclusion = () => {
     prop2Quality.value
   );
   const conclusionContent = window.app.getConclusion(formsOfPropositions);
-  app.canvas.drawPremise("major", formsOfPropositions[0], canvasPropOneCtx);
-  app.canvas.drawPremise("minor", formsOfPropositions[1], canvasPropTwoCtx);
+  window.app.canvas.drawPremise("major", formsOfPropositions[0], canvasPropOneCtx);
+  window.app.canvas.drawPremise("minor", formsOfPropositions[1], canvasPropTwoCtx);
   if (conclusionContent) {
     debugger;
-    app.canvas.drawConclusion(formsOfPropositions, canvasConclusionCtx);
+    window.app.canvas.drawConclusion(formsOfPropositions, canvasConclusionCtx);
     conclusionOutputElem.innerHTML = `Then, ${conclusionContent}`;
   } else {
     conclusionOutputElem.innerHTML = "Then, we cannot draw a valid conclusion";
@@ -41,12 +41,12 @@ const triggerFormUiFeedback = () => {
 };
 
 const updateFormOutputs = () => {
-  app.canvas.clearAllCanvasses();
+  window.app.canvas.clearAllCanvasses();
   if (firstFigure.checkValidity()) {
     drawPremisesAndConclusion();
   } else {
     triggerFormUiFeedback();
-    conclusion.innerHTML = "...";
+    conclusionOutputElem.innerHTML = "...";
   }
 };
 
