@@ -74,45 +74,9 @@ window.app = (function appInit() {
     return null;
   };
 
-  // ====== utils - UI ======
-
-  const hideAreNotOptionOfPropQuality = (propQualityId) => {
-    const propQualityElem = window.document.getElementById(propQualityId);
-    propQualityElem.value = "are";
-    propQualityElem.querySelectorAll("option").forEach((optionElem) => {
-      if (optionElem.value === "arenot") {
-        optionElem.setAttribute("disabled", "disabled");
-        optionElem.removeAttribute("selected");
-      }
-      if (optionElem.value === "are") {
-        optionElem.setAttribute("selected", "true");
-      }
-    });
-  };
-
-  // Only valid quantity given quality of 'are NOT', is 'some'
-  const selectSomeOptionOfPropQuantity = (propQuantityId) => {
-    const propQuantityElem = window.document.getElementById(propQuantityId);
-    propQuantityElem.value = "some";
-  };
-
-  // showAreNotOptionOfPropQuality(), to undo effect of hideAreNotOptionOfPropQuality
-  const showAreNotOptionOfPropQuality = (propQualityId) => {
-    const propQualityElem = window.document.getElementById(propQualityId);
-    propQualityElem.querySelectorAll("option").forEach((optionElem) => {
-      // Want to maintain disabled status of 'placeholder' element
-      if (optionElem.value === "arenot") {
-        optionElem.removeAttribute("disabled");
-      }
-    });
-  };
-
   return {
     getFormOfPropositions,
     getConclusion,
-    hideAreNotOptionOfPropQuality,
-    showAreNotOptionOfPropQuality,
-    selectSomeOptionOfPropQuantity,
     isMiddleTermPredicateOfMajor,
     isMiddleTermSubjectOfMinor,
     setValueOfIsMiddleTermPredicateOfMajor,

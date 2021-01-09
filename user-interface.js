@@ -17,6 +17,39 @@ const firstFigure = window.document.getElementById("first_figure");
 const firstFigureSubmit = window.document.getElementById("first_figure_submit");
 const conclusionOutputElem = window.document.getElementById("conclusion");
 
+// ====== utils - UI ======
+
+const hideAreNotOptionOfPropQuality = (propQualityId) => {
+  const propQualityElem = window.document.getElementById(propQualityId);
+  propQualityElem.value = "are";
+  propQualityElem.querySelectorAll("option").forEach((optionElem) => {
+    if (optionElem.value === "arenot") {
+      optionElem.setAttribute("disabled", "disabled");
+      optionElem.removeAttribute("selected");
+    }
+    if (optionElem.value === "are") {
+      optionElem.setAttribute("selected", "true");
+    }
+  });
+};
+
+// Only valid quantity given quality of 'are NOT', is 'some'
+const selectSomeOptionOfPropQuantity = (propQuantityId) => {
+  const propQuantityElem = window.document.getElementById(propQuantityId);
+  propQuantityElem.value = "some";
+};
+
+// showAreNotOptionOfPropQuality(), to undo effect of hideAreNotOptionOfPropQuality
+const showAreNotOptionOfPropQuality = (propQualityId) => {
+  const propQualityElem = window.document.getElementById(propQualityId);
+  propQualityElem.querySelectorAll("option").forEach((optionElem) => {
+    // Want to maintain disabled status of 'placeholder' element
+    if (optionElem.value === "arenot") {
+      optionElem.removeAttribute("disabled");
+    }
+  });
+};
+
 const drawPremisesAndConclusion = () => {
   const formsOfPropositions = window.app.getFormOfPropositions(
     prop1Quantity.value,
@@ -55,17 +88,17 @@ const setValidUserChoicesBasedOnInput = (event) => {
   const elemId = elem.getAttribute("id");
   if (elemId === "prop_one_quantity" || elemId === "prop_two_quantity") {
     if (elem.value === "no" || elem.value === "all") {
-      window.app.hideAreNotOptionOfPropQuality(
+      hideAreNotOptionOfPropQuality(
         elemId.replace("quantity", "quality")
       );
     } else {
-      window.app.showAreNotOptionOfPropQuality(
+      showAreNotOptionOfPropQuality(
         elemId.replace("quantity", "quality")
       );
     }
   } else if (elemId === "prop_one_quality" || elemId === "prop_two_quality") {
     if (elem.value === "arenot") {
-      window.app.selectSomeOptionOfPropQuantity(
+      selectSomeOptionOfPropQuantity(
         elemId.replace("quality", "quantity")
       );
     }
