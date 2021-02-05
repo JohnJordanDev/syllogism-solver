@@ -61,7 +61,6 @@ const drawPremisesAndConclusion = () => {
   window.app.canvas.drawPremise("major", formsOfPropositions[0], canvasPropOneCtx);
   window.app.canvas.drawPremise("minor", formsOfPropositions[1], canvasPropTwoCtx);
   if (conclusionContent) {
-    debugger;
     window.app.canvas.drawConclusion(formsOfPropositions, canvasConclusionCtx);
     conclusionOutputElem.innerHTML = `Then, ${conclusionContent}`;
   } else {
@@ -87,6 +86,7 @@ const setValidUserChoicesBasedOnInput = (event) => {
   const elem = event.target;
   const elemId = elem.getAttribute("id");
   if (elemId === "prop_one_quantity" || elemId === "prop_two_quantity") {
+    //TODO Refactor into new function
     if (elem.value === "no" || elem.value === "all") {
       hideAreNotOptionOfPropQuality(
         elemId.replace("quantity", "quality")
@@ -97,6 +97,7 @@ const setValidUserChoicesBasedOnInput = (event) => {
       );
     }
   } else if (elemId === "prop_one_quality" || elemId === "prop_two_quality") {
+    //TODO Refactor into new function
     if (elem.value === "arenot") {
       selectSomeOptionOfPropQuantity(
         elemId.replace("quality", "quantity")
