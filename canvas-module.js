@@ -66,116 +66,7 @@ const canvasModule = (function () {
     drawToCanvas(canvasElemCtx, settings);
   };
 
-  // ToDO
-  // need a function that takes an input that draws circle depending on whether
-  // the middle term is subject or predicate of premise
 
-  const drawPredicate = (premiseType, canvasElemCtx) => {
-    if (premiseType === "major") {
-      drawCircle(canvasElemCtx);
-    } else if (premiseType === "minor") {
-      drawCircle(canvasElemCtx, {
-        circleRadius: minorPredicateCircleRadius,
-        setLineDash: [5, 3]
-      });
-    }
-  };
-
-  //TODO: For setLineDash, need to create a function to get the form of the syllogism from a (global) reference,
-  // and set the line dash on the appropriate circle
-
-  const drawPremAllAisB = (premiseType, canvasElemCtx) => {
-    if (premiseType === "major") {
-      drawCircle(canvasElemCtx, {
-        circleRadius: majorSubjectCircleRadius,
-        setLineDash: [5, 3]
-      });
-    } else if (premiseType === "minor") {
-      drawCircle(canvasElemCtx, {
-        circleXPos: subjectCircleStartPosXAll,
-        circleRadius: minorSubjectCircleRadius
-      });
-    }
-    drawPredicate(premiseType, canvasElemCtx);
-  };
-
-  const drawPremNoAisB = (premiseType, canvasElemCtx) => {
-    if (premiseType === "major") {
-      drawCircle(canvasElemCtx, {
-        circleXPos:
-          subjectCircleStartPosXNone +
-          majorSubjectCircleRadius +
-          offsetForSomeCircles * 0.5,
-        circleRadius: majorSubjectCircleRadius,
-        setLineDash: [5, 3]
-      });
-    } else if (premiseType === "minor") {
-      drawCircle(canvasElemCtx, {
-        circleXPos: subjectCircleStartPosXNone + majorSubjectCircleRadius,
-        circleRadius: minorSubjectCircleRadius
-      });
-    }
-    drawPredicate(premiseType, canvasElemCtx);
-  };
-
-  const drawPremSomeAareB = (premiseType, canvasElemCtx) => {
-    if (premiseType === "major") {
-      drawCircle(canvasElemCtx, {
-        circleXPos: subjectCircleStartPosXSomeAre - majorSubjectCircleRadius,
-        circleRadius: majorSubjectCircleRadius,
-        startAngleRad: pi / 2,
-        endAngleRad: -pi / 2,
-        setLineDash: [5, 3]
-      });
-    } else if (premiseType === "minor") {
-      drawCircle(canvasElemCtx, {
-        circleXPos:
-          subjectCircleStartPosXSomeAre +
-          majorSubjectCircleRadius -
-          offsetForSomeCircles,
-        circleRadius: minorSubjectCircleRadius,
-        startAngleRad: -pi / 2,
-        endAngleRad: pi / 2
-      });
-    }
-    drawPredicate(premiseType, canvasElemCtx);
-  };
-
-  const drawPremSomeAareNotB = (premiseType, canvasElemCtx) => {
-    if (premiseType === "major") {
-      drawCircle(canvasElemCtx, {
-        circleXPos: subjectCircleStartPosXSomeAreNot - 2 * offsetForSomeCircles,
-        circleRadius: majorSubjectCircleRadius,
-        startAngleRad: (pi / 180) * 75,
-        endAngleRad: -(pi / 180) * 75,
-        counterClockwise: false,
-        setLineDash: [5, 3]
-      });
-    } else if (premiseType === "minor") {
-      drawCircle(canvasElemCtx, {
-        circleXPos: subjectCircleStartPosXSomeAreNot,
-        circleRadius: minorSubjectCircleRadius,
-        startAngleRad: (pi / 180) * 75,
-        endAngleRad: -(pi / 180) * 75,
-        counterClockwise: false
-      });
-    }
-    drawPredicate(premiseType, canvasElemCtx);
-  };
-
-  const drawPremise = (premiseType, propForm, canvasElemCtx) => {
-    if (propForm === "A") {
-      drawPremAllAisB(premiseType, canvasElemCtx);
-    } else if (propForm === "E") {
-      drawPremNoAisB(premiseType, canvasElemCtx);
-    } else if (propForm === "I") {
-      drawPremSomeAareB(premiseType, canvasElemCtx);
-    } else if (propForm === "O") {
-      drawPremSomeAareNotB(premiseType, canvasElemCtx);
-    } else {
-      // error code
-    }
-  };
   //TODO
   //Replace ALL the various 'draw' functions with the following
   //, which will reference a global store of shapes/positions
@@ -338,7 +229,6 @@ const canvasModule = (function () {
 
   return {
     drawPartToBoard: drawPartToBoard,
-    drawPremise: drawPremise,
     drawConclusion: drawConclusion,
     clearAllCanvasses: clearAllCanvasses
   };
