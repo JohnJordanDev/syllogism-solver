@@ -180,7 +180,7 @@ const canvasModule = (function () {
   //Replace ALL the various 'draw' functions with the following
   //, which will reference a global store of shapes/positions
   //for the canvasses
-  // predicate
+  // predicate of major premise is default shape, and is predicate of conclusion
   const storeOfCircleShapes = {
     majorPremise: {
       subject: {
@@ -212,6 +212,17 @@ const canvasModule = (function () {
           counterClockwise: false,
           setLineDash: [5, 3]
         }
+      },
+      predicate: {
+        startPositionX: premiseStartPosX,
+        startPositionY: premiseStartPosY,
+        circleXPos: premiseCircleStartXPos,
+        cirleYPos: premiseCircleStartYPos,
+        circleRadius: majorPredicateCircleRadious,
+        startAngleRad: 0,
+        endAngleRad: pi * 2,
+        counterClockwise: true,
+        setLineDash: []
       }
     },
     minorPremise: {
@@ -248,32 +259,37 @@ const canvasModule = (function () {
     }
   };
 
-  const getCircleShape = (part, partForm, circleOfTerm) => {
-    const defaults = {
-      startPositionX: premiseStartPosX,
-      startPositionY: premiseStartPosY,
-      circleXPos: premiseCircleStartXPos,
-      cirleYPos: premiseCircleStartYPos,
-      circleRadius: majorPredicateCircleRadious,
-      startAngleRad: 0,
-      endAngleRad: pi * 2,
-      counterClockwise: true,
-      setLineDash: []
-    };
-
-    // Conclusion re-uses subject from minorPremise, and predicate from majorPremise
+  const getCircleShape = (part, whichTerm, partForm) => {
+    const partShapesAllStore = storeOfCircleShapes[part];
+    const defaultShape = storeOfCircleShapes.majorPremise.predicate;
+    let individualTermCircleShape;
+    if (whichTerm === "subject") {
+      individualTermCircleShape = Object.assign(
+        {},
+        defaultShape,
+        partShapesAllStore.subject[partForm]
+      );
+    } else if (whichTerm === "predicate") {
+      if (part === "majorPremise" || part === "conclusion") {
+        return defaultShape;
+      }
+      individualTermCircleShape = Object.assign(
+        {},
+        defaultShape,
+        partShapesAllStore.predicate
+      );
+    } else {
+      throw new Error("called getCircleShape with invalid arguments");
+    }
+    return individualTermCircleShape;
   };
 
   const drawPartToBoard = (part, partForm, canvasElemCtx) => {
-    const subjectShape = getCircleShape(part, partForm, "subject");
-    const predicateShape = getCircleShape(part, partForm, "predicate");
+    console.log("calling drawPartToBoard with: ");
+    const subjectShape = getCircleShape(part, "subject", partForm);
+    const predicateShape = getCircleShape(part, "predicate", partForm);
     drawCircle(canvasElemCtx, subjectShape);
     drawCircle(canvasElemCtx, predicateShape);
-
-    //get the 'shape' of subject, which changes on form of the part
-    //get the 'shape' of the predicate, which changes on form of the part
-    //draw the subject
-    //draw the predicate
   };
   // END TODO
 

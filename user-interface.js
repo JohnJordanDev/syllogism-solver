@@ -58,8 +58,8 @@ const drawPremisesAndConclusion = () => {
     prop2Quality.value
   );
   const conclusionContent = window.app.getConclusion(formsOfPropositions);
-  window.app.canvas.drawPremise("major", formsOfPropositions[0], canvasPropOneCtx);
-  window.app.canvas.drawPremise("minor", formsOfPropositions[1], canvasPropTwoCtx);
+  window.app.canvas.drawPartToBoard("majorPremise", formsOfPropositions[0], canvasPropOneCtx);
+  window.app.canvas.drawPartToBoard("minorPremise", formsOfPropositions[1], canvasPropTwoCtx);
   if (conclusionContent) {
     window.app.canvas.drawConclusion(formsOfPropositions, canvasConclusionCtx);
     conclusionOutputElem.innerHTML = `Then, ${conclusionContent}`;
