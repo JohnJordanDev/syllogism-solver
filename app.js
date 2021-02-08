@@ -21,7 +21,7 @@ window.app = (function appInit() {
     AA: "A",
     EA: "E",
     AI: "I",
-    EI: "O",
+    EI: "O"
   };
   // possible conclusions to draw, given invalid moods
   const invalidMoodsFirstFigure = {
@@ -36,19 +36,19 @@ window.app = (function appInit() {
     OA: [],
     OE: [],
     OI: [],
-    OO: [],
+    OO: []
   };
   const formOfPropositions = {
     allare: "A",
     noare: "E",
     someare: "I",
-    somearenot: "O",
+    somearenot: "O"
   };
   const validConclusions = {
     A: "all 'B' are 'A'",
     E: "no 'B' are 'A'",
     I: "some 'B' are 'A'",
-    O: "some 'B' are NOT 'A'",
+    O: "some 'B' are NOT 'A'"
   };
 
   // ====== utils - app logic ======
@@ -63,6 +63,12 @@ window.app = (function appInit() {
     const prop2Form = formOfPropositions[prop2Quantity + prop2Quality];
     return prop1Form + prop2Form;
   };
+  const getConclusionForm = (formsOfBothPropositions) => {
+    if (validMoodsFirstFigure[formsOfBothPropositions]) {
+      return validMoodsFirstFigure[formsOfBothPropositions];
+    }
+    return null;
+  };
   const getConclusion = (formOfBothPropositions) => {
     const conclusion = validMoodsFirstFigure[formOfBothPropositions];
     if (
@@ -76,10 +82,11 @@ window.app = (function appInit() {
 
   return {
     getFormOfPropositions,
+    getConclusionForm,
     getConclusion,
     isMiddleTermPredicateOfMajor,
     isMiddleTermSubjectOfMinor,
     setValueOfIsMiddleTermPredicateOfMajor,
-    setValueOfIsMiddleTermSubjectOfMinor,
+    setValueOfIsMiddleTermSubjectOfMinor
   };
 })();

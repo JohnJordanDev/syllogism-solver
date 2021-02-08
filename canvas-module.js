@@ -51,7 +51,7 @@ const canvasModule = (function () {
   };
 
   const drawCircle = function (canvasElemCtx, options = {}) {
-    let defaults = {
+    const defaults = {
       startPositionX: premiseStartPosX,
       startPositionY: premiseStartPosY,
       circleXPos: premiseCircleStartXPos,
@@ -62,7 +62,7 @@ const canvasModule = (function () {
       counterClockwise: true,
       setLineDash: []
     };
-    const settings = Object.assign({}, defaults, options);
+    const settings = { ...defaults, ...options };
     drawToCanvas(canvasElemCtx, settings);
   };
 
@@ -146,6 +146,39 @@ const canvasModule = (function () {
         circleRadius: minorPredicateCircleRadius,
         setLineDash: [5, 3]
       }
+    },
+    conclusion: {
+      subject: {
+        A: {
+          circleXPos: subjectCircleStartPosXAll,
+          circleRadius: minorSubjectCircleRadius
+        },
+        E: {
+          circleXPos:
+            subjectCircleStartPosXNone
+            + majorSubjectCircleRadius
+            + offsetForSomeCircles * 0.5,
+          circleRadius: minorSubjectCircleRadius
+        },
+        I: {
+          circleXPos:
+            subjectCircleStartPosXSomeAre
+            + majorSubjectCircleRadius
+            + 1.5 * offsetForSomeCircles,
+          circleRadius: minorSubjectCircleRadius,
+          startAngleRad: -pi / 2,
+          endAngleRad: pi / 2
+        },
+        O: {
+          circleXPos:
+            subjectCircleStartPosXSomeAre
+            - majorSubjectCircleRadius
+            - 1.5 * offsetForSomeCircles,
+          circleRadius: minorSubjectCircleRadius,
+          startAngleRad: -pi / 2,
+          endAngleRad: pi / 2
+        }
+      }
     }
   };
 
@@ -154,12 +187,18 @@ const canvasModule = (function () {
     const defaultShape = storeOfCircleShapes.majorPremise.predicate;
     let individualTermCircleShape;
     if (whichTerm === "subject") {
-      individualTermCircleShape = { ...defaultShape, ...partShapesAllStore.subject[partForm] };
+      individualTermCircleShape = {
+        ...defaultShape,
+        ...partShapesAllStore.subject[partForm]
+      };
     } else if (whichTerm === "predicate") {
       if (part === "majorPremise" || part === "conclusion") {
         return defaultShape;
       }
-      individualTermCircleShape = { ...defaultShape, ...partShapesAllStore.predicate };
+      individualTermCircleShape = {
+        ...defaultShape,
+        ...partShapesAllStore.predicate
+      };
     } else {
       throw new Error("called getCircleShape with invalid arguments");
     }
@@ -172,55 +211,9 @@ const canvasModule = (function () {
     drawCircle(canvasElemCtx, subjectShape);
     drawCircle(canvasElemCtx, predicateShape);
   };
-  // END TODO
-
-  const drawConclusion = (formOfPremises, canvasElemCtx) => {
-    if (formOfPremises === "AA") {
-      drawCircle(canvasElemCtx);
-      drawCircle(canvasElemCtx, {
-        circleXPos: subjectCircleStartPosXAll,
-        circleRadius: minorSubjectCircleRadius
-      });
-    } else if (formOfPremises === "EA") {
-      drawCircle(canvasElemCtx);
-      drawCircle(canvasElemCtx, {
-        circleXPos:
-          subjectCircleStartPosXNone
-          + majorSubjectCircleRadius
-          + offsetForSomeCircles * 0.5,
-        circleRadius: minorSubjectCircleRadius
-      });
-    } else if (formOfPremises === "AI") {
-      drawCircle(canvasElemCtx);
-      drawCircle(canvasElemCtx, {
-        circleXPos:
-          subjectCircleStartPosXSomeAre
-          + majorSubjectCircleRadius
-          + 1.5 * offsetForSomeCircles,
-        circleRadius: minorSubjectCircleRadius,
-        startAngleRad: -pi / 2,
-        endAngleRad: pi / 2
-      });
-    } else if (formOfPremises === "EI") {
-      drawCircle(canvasElemCtx);
-      drawCircle(canvasElemCtx, {
-        circleXPos:
-          subjectCircleStartPosXSomeAre
-          - majorSubjectCircleRadius
-          - 1.5 * offsetForSomeCircles,
-        circleRadius: minorSubjectCircleRadius,
-        startAngleRad: -pi / 2,
-        endAngleRad: pi / 2
-      });
-    }
-  };
-
-  // TODO: To refactor these functions, or all BUT these functions,
-  // into a separate module under canvas
 
   return {
     drawPartToBoard,
-    drawConclusion,
     clearAllCanvasses
   };
 })();

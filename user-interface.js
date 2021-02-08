@@ -58,10 +58,23 @@ const drawPremisesAndConclusion = () => {
     prop2Quality.value
   );
   const conclusionContent = window.app.getConclusion(formsOfPropositions);
-  window.app.canvas.drawPartToBoard("majorPremise", formsOfPropositions[0], canvasPropOneCtx);
-  window.app.canvas.drawPartToBoard("minorPremise", formsOfPropositions[1], canvasPropTwoCtx);
+  window.app.canvas.drawPartToBoard(
+    "majorPremise",
+    formsOfPropositions[0],
+    canvasPropOneCtx
+  );
+  window.app.canvas.drawPartToBoard(
+    "minorPremise",
+    formsOfPropositions[1],
+    canvasPropTwoCtx
+  );
+
   if (conclusionContent) {
-    window.app.canvas.drawConclusion(formsOfPropositions, canvasConclusionCtx);
+    window.app.canvas.drawPartToBoard(
+      "conclusion",
+      window.app.getConclusionForm(formsOfPropositions),
+      canvasConclusionCtx
+    );
     conclusionOutputElem.innerHTML = `Then, ${conclusionContent}`;
   } else {
     conclusionOutputElem.innerHTML = "Then, we cannot draw a valid conclusion";
@@ -86,22 +99,16 @@ const setValidUserChoicesBasedOnInput = (event) => {
   const elem = event.target;
   const elemId = elem.getAttribute("id");
   if (elemId === "prop_one_quantity" || elemId === "prop_two_quantity") {
-    //TODO Refactor into new function
+    // TODO Refactor into new function
     if (elem.value === "no" || elem.value === "all") {
-      hideAreNotOptionOfPropQuality(
-        elemId.replace("quantity", "quality")
-      );
+      hideAreNotOptionOfPropQuality(elemId.replace("quantity", "quality"));
     } else {
-      showAreNotOptionOfPropQuality(
-        elemId.replace("quantity", "quality")
-      );
+      showAreNotOptionOfPropQuality(elemId.replace("quantity", "quality"));
     }
   } else if (elemId === "prop_one_quality" || elemId === "prop_two_quality") {
-    //TODO Refactor into new function
+    // TODO Refactor into new function
     if (elem.value === "arenot") {
-      selectSomeOptionOfPropQuantity(
-        elemId.replace("quality", "quantity")
-      );
+      selectSomeOptionOfPropQuantity(elemId.replace("quality", "quantity"));
     }
   }
 };
