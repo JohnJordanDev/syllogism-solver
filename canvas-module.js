@@ -26,57 +26,13 @@ const canvasModule = (function () {
   const premiseCircleStartXPos = premiseStartPosX;
   const premiseStartPosY = allCanvassesHeight / 2;
   const premiseCircleStartYPos = premiseStartPosY;
-
-  // Clear the next three functions into a util sub-module
-
-  const clearAllCanvasses = () => {
-    allCanvasses.forEach((canvas) => {
-      canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-    });
-  };
-
-  const drawToCanvas = function (canvasElemCtx, settings) {
-    canvasElemCtx.moveTo(settings.startPositionX, settings.startPositionY);
-    canvasElemCtx.setLineDash(settings.setLineDash);
-    canvasElemCtx.beginPath();
-    canvasElemCtx.arc(
-      settings.circleXPos,
-      settings.cirleYPos,
-      settings.circleRadius,
-      settings.startAngleRad,
-      settings.endAngleRad,
-      settings.counterClockwise
-    );
-    canvasElemCtx.stroke();
-  };
-
-  const drawCircle = function (canvasElemCtx, options = {}) {
-    const defaults = {
-      startPositionX: premiseStartPosX,
-      startPositionY: premiseStartPosY,
-      circleXPos: premiseCircleStartXPos,
-      cirleYPos: premiseCircleStartYPos,
-      circleRadius: majorPredicateCircleRadious,
-      startAngleRad: 0,
-      endAngleRad: pi * 2,
-      counterClockwise: true,
-      setLineDash: []
-    };
-    const settings = { ...defaults, ...options };
-    drawToCanvas(canvasElemCtx, settings);
-  };
-
-  // TODO
-  // Replace ALL the various 'draw' functions with the following
-  // , which will reference a global store of shapes/positions
-  // for the canvasses
-  // predicate of major premise is default shape, and is predicate of conclusion
+  const lineDashSettings = [5, 3];
   const storeOfCircleShapes = {
     majorPremise: {
       subject: {
         A: {
           circleRadius: majorSubjectCircleRadius,
-          setLineDash: [5, 3]
+          setLineDash: lineDashSettings
         },
         E: {
           circleXPos:
@@ -84,14 +40,14 @@ const canvasModule = (function () {
             + majorSubjectCircleRadius
             + offsetForSomeCircles * 0.5,
           circleRadius: majorSubjectCircleRadius,
-          setLineDash: [5, 3]
+          setLineDash: lineDashSettings
         },
         I: {
           circleXPos: subjectCircleStartPosXSomeAre - majorSubjectCircleRadius,
           circleRadius: majorSubjectCircleRadius,
           startAngleRad: pi / 2,
           endAngleRad: -pi / 2,
-          setLineDash: [5, 3]
+          setLineDash: lineDashSettings
         },
         O: {
           circleXPos:
@@ -100,7 +56,7 @@ const canvasModule = (function () {
           startAngleRad: (pi / 180) * 75,
           endAngleRad: -(pi / 180) * 75,
           counterClockwise: false,
-          setLineDash: [5, 3]
+          setLineDash: lineDashSettings
         }
       },
       predicate: {
@@ -144,7 +100,7 @@ const canvasModule = (function () {
       },
       predicate: {
         circleRadius: minorPredicateCircleRadius,
-        setLineDash: [5, 3]
+        setLineDash: lineDashSettings
       }
     },
     conclusion: {
@@ -180,6 +136,44 @@ const canvasModule = (function () {
         }
       }
     }
+  };
+
+
+  const clearAllCanvasses = () => {
+    allCanvasses.forEach((canvas) => {
+      canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+    });
+  };
+
+  const drawToCanvas = function (canvasElemCtx, settings) {
+    canvasElemCtx.moveTo(settings.startPositionX, settings.startPositionY);
+    canvasElemCtx.setLineDash(settings.setLineDash);
+    canvasElemCtx.beginPath();
+    canvasElemCtx.arc(
+      settings.circleXPos,
+      settings.cirleYPos,
+      settings.circleRadius,
+      settings.startAngleRad,
+      settings.endAngleRad,
+      settings.counterClockwise
+    );
+    canvasElemCtx.stroke();
+  };
+
+  const drawCircle = function (canvasElemCtx, options = {}) {
+    const defaults = {
+      startPositionX: premiseStartPosX,
+      startPositionY: premiseStartPosY,
+      circleXPos: premiseCircleStartXPos,
+      cirleYPos: premiseCircleStartYPos,
+      circleRadius: majorPredicateCircleRadious,
+      startAngleRad: 0,
+      endAngleRad: pi * 2,
+      counterClockwise: true,
+      setLineDash: []
+    };
+    const settings = { ...defaults, ...options };
+    drawToCanvas(canvasElemCtx, settings);
   };
 
   const getCircleShape = (part, whichTerm, partForm) => {
