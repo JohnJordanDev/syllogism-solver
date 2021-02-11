@@ -10,20 +10,17 @@ const canvasModule = (function () {
   // i.e. make all x and y-positions relative to these central defined values,
   // faciliating easy changes
 
-  const majorPredicateCircleRadious = 60;
-  const majorSubjectCircleRadius = 40;
-  const minorPredicateCircleRadius = majorSubjectCircleRadius;
-  const minorSubjectCircleRadius = 20;
-  const subjectCircleStartPosXAll = allCanvassesWidth / 2;
+  const bigCircleRadius = 60;
+  const midCircleRadius = 30;
+  const minorPredicateCircleRadius = midCircleRadius;
+  const smallestCircle = 15;
+  const canvasMidPoint = allCanvassesWidth / 2;
   const subjectCircleStartPosXNone = 0;
 
   const offsetForSomeCircles = allCanvassesWidth / 30;
 
-  const subjectCircleStartPosXSomeAre = allCanvassesWidth / 2;
-  const subjectCircleStartPosXSomeAreNot = subjectCircleStartPosXSomeAre - majorSubjectCircleRadius;
+  const subjectCircleStartPosXSomeAreNot = canvasMidPoint - midCircleRadius;
 
-  const premiseStartPosX = allCanvassesWidth / 2;
-  const premiseCircleStartXPos = premiseStartPosX;
   const premiseStartPosY = allCanvassesHeight / 2;
   const premiseCircleStartYPos = premiseStartPosY;
   const lineDashSettings = [5, 3];
@@ -31,20 +28,21 @@ const canvasModule = (function () {
     majorPremise: {
       subject: {
         A: {
-          circleRadius: majorSubjectCircleRadius,
+          circleXPos: canvasMidPoint,
+          circleRadius: midCircleRadius,
           setLineDash: lineDashSettings
         },
         E: {
           circleXPos:
-            subjectCircleStartPosXNone
-            + majorSubjectCircleRadius
-            + offsetForSomeCircles * 0.5,
-          circleRadius: majorSubjectCircleRadius,
+            subjectCircleStartPosXNone +
+            midCircleRadius +
+            offsetForSomeCircles * 0.5,
+          circleRadius: midCircleRadius,
           setLineDash: lineDashSettings
         },
         I: {
-          circleXPos: subjectCircleStartPosXSomeAre - majorSubjectCircleRadius,
-          circleRadius: majorSubjectCircleRadius,
+          circleXPos: canvasMidPoint - midCircleRadius,
+          circleRadius: midCircleRadius,
           startAngleRad: pi / 2,
           endAngleRad: -pi / 2,
           setLineDash: lineDashSettings
@@ -52,7 +50,7 @@ const canvasModule = (function () {
         O: {
           circleXPos:
             subjectCircleStartPosXSomeAreNot - 2 * offsetForSomeCircles,
-          circleRadius: majorSubjectCircleRadius,
+          circleRadius: midCircleRadius,
           startAngleRad: (pi / 180) * 75,
           endAngleRad: -(pi / 180) * 75,
           counterClockwise: false,
@@ -60,11 +58,9 @@ const canvasModule = (function () {
         }
       },
       predicate: {
-        startPositionX: premiseStartPosX,
-        startPositionY: premiseStartPosY,
-        circleXPos: premiseCircleStartXPos,
+        circleXPos: canvasMidPoint + midCircleRadius,
         cirleYPos: premiseCircleStartYPos,
-        circleRadius: majorPredicateCircleRadious,
+        circleRadius: bigCircleRadius,
         startAngleRad: 0,
         endAngleRad: pi * 2,
         counterClockwise: true,
@@ -74,25 +70,22 @@ const canvasModule = (function () {
     minorPremise: {
       subject: {
         A: {
-          circleXPos: subjectCircleStartPosXAll,
-          circleRadius: minorSubjectCircleRadius
+          circleXPos: canvasMidPoint,
+          circleRadius: smallestCircle
         },
         E: {
-          circleXPos: subjectCircleStartPosXNone + majorSubjectCircleRadius,
-          circleRadius: minorSubjectCircleRadius
+          circleXPos: subjectCircleStartPosXNone + midCircleRadius,
+          circleRadius: smallestCircle
         },
         I: {
-          circleXPos:
-            subjectCircleStartPosXSomeAre
-            + majorSubjectCircleRadius
-            - offsetForSomeCircles,
-          circleRadius: minorSubjectCircleRadius,
+          circleXPos: midCircleRadius + midCircleRadius - offsetForSomeCircles,
+          circleRadius: smallestCircle,
           startAngleRad: -pi / 2,
           endAngleRad: pi / 2
         },
         O: {
           circleXPos: subjectCircleStartPosXSomeAreNot,
-          circleRadius: minorSubjectCircleRadius,
+          circleRadius: smallestCircle,
           startAngleRad: (pi / 180) * 75,
           endAngleRad: -(pi / 180) * 75,
           counterClockwise: false
@@ -106,38 +99,33 @@ const canvasModule = (function () {
     conclusion: {
       subject: {
         A: {
-          circleXPos: subjectCircleStartPosXAll,
-          circleRadius: minorSubjectCircleRadius
+          circleXPos: canvasMidPoint,
+          circleRadius: smallestCircle
         },
         E: {
           circleXPos:
-            subjectCircleStartPosXNone
-            + majorSubjectCircleRadius
-            + offsetForSomeCircles * 0.5,
-          circleRadius: minorSubjectCircleRadius
+            subjectCircleStartPosXNone +
+            midCircleRadius +
+            offsetForSomeCircles * 0.5,
+          circleRadius: smallestCircle
         },
         I: {
           circleXPos:
-            subjectCircleStartPosXSomeAre
-            + majorSubjectCircleRadius
-            + 1.5 * offsetForSomeCircles,
-          circleRadius: minorSubjectCircleRadius,
+            canvasMidPoint + midCircleRadius + 1.5 * offsetForSomeCircles,
+          circleRadius: smallestCircle,
           startAngleRad: -pi / 2,
           endAngleRad: pi / 2
         },
         O: {
           circleXPos:
-            subjectCircleStartPosXSomeAre
-            - majorSubjectCircleRadius
-            - 1.5 * offsetForSomeCircles,
-          circleRadius: minorSubjectCircleRadius,
+            canvasMidPoint - midCircleRadius - 1.5 * offsetForSomeCircles,
+          circleRadius: smallestCircle,
           startAngleRad: -pi / 2,
           endAngleRad: pi / 2
         }
       }
     }
   };
-
 
   const clearAllCanvasses = () => {
     allCanvasses.forEach((canvas) => {
@@ -162,11 +150,11 @@ const canvasModule = (function () {
 
   const drawCircle = function (canvasElemCtx, options = {}) {
     const defaults = {
-      startPositionX: premiseStartPosX,
+      startPositionX: canvasMidPoint,
       startPositionY: premiseStartPosY,
-      circleXPos: premiseCircleStartXPos,
+      circleXPos: canvasMidPoint,
       cirleYPos: premiseCircleStartYPos,
-      circleRadius: majorPredicateCircleRadious,
+      circleRadius: bigCircleRadius,
       startAngleRad: 0,
       endAngleRad: pi * 2,
       counterClockwise: true,
