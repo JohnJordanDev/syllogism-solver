@@ -3,17 +3,16 @@ const canvasModule = (function () {
 
   const pi = window.Math.PI;
 
-  const allCanvassesWidth = 300;
+  const allCanvassesWidth = 400;
   const allCanvassesHeight = 150;
 
   // TODO: Need to add values for position of circle, such that convenient to change all at once,
   // i.e. make all x and y-positions relative to these central defined values,
   // faciliating easy changes
 
-  const bigCircleRadius = 60;
-  const midCircleRadius = 30;
-  const minorPredicateCircleRadius = midCircleRadius;
-  const smallestCircle = 15;
+  const bigCircleRadius = 50;
+  const midCircleRadius = 25;
+  const smallestCircle = 12.5;
   const canvasMidPoint = allCanvassesWidth / 2;
   const subjectCircleStartPosXNone = 0;
 
@@ -24,28 +23,25 @@ const canvasModule = (function () {
   const premiseStartPosY = allCanvassesHeight / 2;
   const premiseCircleStartYPos = premiseStartPosY;
   const lineDashSettings = [5, 3];
+  const solidLineSettings = [];
+  const getDefaultShapeSettings = () => ({
+    circleXPos: canvasMidPoint,
+    circleRadius: midCircleRadius,
+    startAngleRad: 0,
+    endAngleRad: pi * 2,
+    counterClockwise: true,
+    setLineDash: lineDashSettings
+  });
   const storeOfCircleShapes = {
     majorPremise: {
       subject: {
-        A: {
-          circleXPos: canvasMidPoint,
-          circleRadius: midCircleRadius,
-          setLineDash: lineDashSettings
-        },
-        E: {
-          circleXPos:
-            subjectCircleStartPosXNone +
-            midCircleRadius +
-            offsetForSomeCircles * 0.5,
-          circleRadius: midCircleRadius,
-          setLineDash: lineDashSettings
-        },
+        A: getDefaultShapeSettings(),
+        E: getDefaultShapeSettings(),
         I: {
           circleXPos: canvasMidPoint - midCircleRadius,
           circleRadius: midCircleRadius,
           startAngleRad: pi / 2,
-          endAngleRad: -pi / 2,
-          setLineDash: lineDashSettings
+          endAngleRad: -pi / 2
         },
         O: {
           circleXPos:
@@ -53,18 +49,30 @@ const canvasModule = (function () {
           circleRadius: midCircleRadius,
           startAngleRad: (pi / 180) * 75,
           endAngleRad: -(pi / 180) * 75,
-          counterClockwise: false,
-          setLineDash: lineDashSettings
+          counterClockwise: false
         }
       },
       predicate: {
-        circleXPos: canvasMidPoint + midCircleRadius,
-        cirleYPos: premiseCircleStartYPos,
-        circleRadius: bigCircleRadius,
-        startAngleRad: 0,
-        endAngleRad: pi * 2,
-        counterClockwise: true,
-        setLineDash: []
+        A: {
+          circleXPos: canvasMidPoint + midCircleRadius,
+          circleRadius: bigCircleRadius,
+          setLineDash: solidLineSettings
+        },
+        E: {
+          circleXPos: canvasMidPoint + midCircleRadius * 4,
+          circleRadius: bigCircleRadius,
+          setLineDash: solidLineSettings
+        },
+        I: {
+          circleXPos: canvasMidPoint + midCircleRadius,
+          circleRadius: bigCircleRadius,
+          setLineDash: solidLineSettings
+        },
+        O: {
+          circleXPos: canvasMidPoint + midCircleRadius,
+          circleRadius: bigCircleRadius,
+          setLineDash: solidLineSettings
+        }
       }
     },
     minorPremise: {
@@ -92,8 +100,10 @@ const canvasModule = (function () {
         }
       },
       predicate: {
-        circleRadius: minorPredicateCircleRadius,
-        setLineDash: lineDashSettings
+        A: getDefaultShapeSettings(),
+        E: getDefaultShapeSettings(),
+        I: getDefaultShapeSettings(),
+        O: getDefaultShapeSettings()
       }
     },
     conclusion: {
@@ -122,6 +132,28 @@ const canvasModule = (function () {
           circleRadius: smallestCircle,
           startAngleRad: -pi / 2,
           endAngleRad: pi / 2
+        }
+      },
+      predicate: {
+        A: {
+          circleXPos: canvasMidPoint + midCircleRadius,
+          circleRadius: bigCircleRadius,
+          setLineDash: solidLineSettings
+        },
+        E: {
+          circleXPos: canvasMidPoint + midCircleRadius,
+          circleRadius: bigCircleRadius,
+          setLineDash: solidLineSettings
+        },
+        I: {
+          circleXPos: canvasMidPoint + midCircleRadius,
+          circleRadius: bigCircleRadius,
+          setLineDash: solidLineSettings
+        },
+        O: {
+          circleXPos: canvasMidPoint + midCircleRadius,
+          circleRadius: bigCircleRadius,
+          setLineDash: solidLineSettings
         }
       }
     }
@@ -168,6 +200,8 @@ const canvasModule = (function () {
     const partShapesAllStore = storeOfCircleShapes[part];
     const defaultShape = storeOfCircleShapes.majorPremise.predicate;
     let individualTermCircleShape;
+
+    // will need to refactor this, since major SUBJECT is to be the default shape
     if (whichTerm === "subject") {
       individualTermCircleShape = {
         ...defaultShape,
@@ -188,10 +222,16 @@ const canvasModule = (function () {
   };
 
   const drawPartToBoard = (part, partForm, canvasElemCtx) => {
-    const subjectShape = getCircleShape(part, "subject", partForm);
-    const predicateShape = getCircleShape(part, "predicate", partForm);
-    drawCircle(canvasElemCtx, subjectShape);
-    drawCircle(canvasElemCtx, predicateShape);
+    const subjectCircleShape = {
+      ...getDefaultShapeSettings(),
+      ...storeOfCircleShapes[part].subject[partForm]
+    };
+    const predicateCircleShape = {
+      ...getDefaultShapeSettings(),
+      ...storeOfCircleShapes[part].predicate[partForm]
+    };
+    drawCircle(canvasElemCtx, subjectCircleShape);
+    drawCircle(canvasElemCtx, predicateCircleShape);
   };
 
   return {
