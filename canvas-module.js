@@ -1,9 +1,14 @@
 const canvasModule = (function () {
   const allCanvasses = [...window.document.getElementsByTagName("canvas")];
 
+  // TODO: set width of all canvas elements to 350, etc.
+
   const pi = window.Math.PI;
 
-  const allCanvassesWidth = 400;
+  // Note: difference between canvas logical drawing elements, and the element itself
+  // https://stackoverflow.com/questions/4938346/canvas-width-and-height-in-html5
+  // TODO: Function to redraw canvas width on resize
+  const allCanvassesWidth = 300;
   const allCanvassesHeight = 150;
 
   // TODO: Need to add values for position of circle, such that convenient to change all at once,
@@ -14,15 +19,13 @@ const canvasModule = (function () {
   const midCircleRadius = 25;
   const smallestCircle = 12.5;
   const canvasMidPoint = allCanvassesWidth / 2;
-  const subjectCircleStartPosXNone = 0;
+  const xPosZero = 0;
 
   const offsetForSomeCircles = allCanvassesWidth / 30;
 
-  const subjectCircleStartPosXSomeAreNot = canvasMidPoint - midCircleRadius;
-
   const premiseStartPosY = allCanvassesHeight / 2;
   const premiseCircleStartYPos = premiseStartPosY;
-  const lineDashSettings = [5, 3];
+  const lineDashSettings = [2,2,2,2];
   const solidLineSettings = [];
   const getDefaultShapeSettings = () => ({
     circleXPos: canvasMidPoint,
@@ -38,15 +41,10 @@ const canvasModule = (function () {
         A: getDefaultShapeSettings(),
         E: getDefaultShapeSettings(),
         I: {
-          circleXPos: canvasMidPoint - midCircleRadius,
-          circleRadius: midCircleRadius,
           startAngleRad: pi / 2,
           endAngleRad: -pi / 2
         },
         O: {
-          circleXPos:
-            subjectCircleStartPosXSomeAreNot - 2 * offsetForSomeCircles,
-          circleRadius: midCircleRadius,
           startAngleRad: (pi / 180) * 75,
           endAngleRad: -(pi / 180) * 75,
           counterClockwise: false
@@ -64,39 +62,44 @@ const canvasModule = (function () {
           setLineDash: solidLineSettings
         },
         I: {
-          circleXPos: canvasMidPoint + midCircleRadius,
+          circleXPos: canvasMidPoint + midCircleRadius * 1.5,
           circleRadius: bigCircleRadius,
           setLineDash: solidLineSettings
         },
         O: {
-          circleXPos: canvasMidPoint + midCircleRadius,
+          circleXPos: canvasMidPoint + midCircleRadius * 2,
           circleRadius: bigCircleRadius,
           setLineDash: solidLineSettings
         }
       }
     },
+    // TOODO: POSITIONING
     minorPremise: {
       subject: {
         A: {
           circleXPos: canvasMidPoint,
-          circleRadius: smallestCircle
+          circleRadius: smallestCircle,
+          setLineDash: solidLineSettings
         },
         E: {
-          circleXPos: subjectCircleStartPosXNone + midCircleRadius,
-          circleRadius: smallestCircle
+          circleXPos: xPosZero + bigCircleRadius,
+          circleRadius: smallestCircle,
+          setLineDash: solidLineSettings
         },
         I: {
-          circleXPos: midCircleRadius + midCircleRadius - offsetForSomeCircles,
+          circleXPos: canvasMidPoint - midCircleRadius * 0.75,
           circleRadius: smallestCircle,
-          startAngleRad: -pi / 2,
-          endAngleRad: pi / 2
+          startAngleRad: pi / 2,
+          endAngleRad: -pi / 2,
+          setLineDash: solidLineSettings
         },
         O: {
-          circleXPos: subjectCircleStartPosXSomeAreNot,
+          circleXPos: canvasMidPoint - midCircleRadius,
           circleRadius: smallestCircle,
           startAngleRad: (pi / 180) * 75,
           endAngleRad: -(pi / 180) * 75,
-          counterClockwise: false
+          counterClockwise: false,
+          setLineDash: solidLineSettings
         }
       },
       predicate: {
@@ -106,6 +109,7 @@ const canvasModule = (function () {
         O: getDefaultShapeSettings()
       }
     },
+    // TOODO: POSITIONING
     conclusion: {
       subject: {
         A: {
@@ -114,7 +118,7 @@ const canvasModule = (function () {
         },
         E: {
           circleXPos:
-            subjectCircleStartPosXNone +
+            xPosZero +
             midCircleRadius +
             offsetForSomeCircles * 0.5,
           circleRadius: smallestCircle
@@ -195,7 +199,7 @@ const canvasModule = (function () {
     const settings = { ...defaults, ...options };
     drawToCanvas(canvasElemCtx, settings);
   };
-
+  // TODO: DELETE
   const getCircleShape = (part, whichTerm, partForm) => {
     const partShapesAllStore = storeOfCircleShapes[part];
     const defaultShape = storeOfCircleShapes.majorPremise.predicate;
