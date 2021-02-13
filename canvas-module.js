@@ -27,6 +27,8 @@ const canvasModule = (function () {
   const premiseCircleStartYPos = premiseStartPosY;
   const lineDashSettings = [2, 2, 2, 2];
   const solidLineSettings = [];
+  const subjectFillHex = "#D1D1D1";
+
   const getDefaultShapeSettings = () => ({
     circleXPos: canvasMidPoint,
     circleRadius: midCircleRadius,
@@ -78,27 +80,31 @@ const canvasModule = (function () {
         A: {
           circleXPos: canvasMidPoint,
           circleRadius: smallestCircle,
-          setLineDash: solidLineSettings
+          setLineDash: solidLineSettings,
+          fillStyle: subjectFillHex
         },
         E: {
           circleXPos: xPosZero + bigCircleRadius,
           circleRadius: smallestCircle,
-          setLineDash: solidLineSettings
+          setLineDash: solidLineSettings,
+          fillStyle: subjectFillHex
         },
         I: {
           circleXPos: canvasMidPoint - midCircleRadius * 0.75,
           circleRadius: smallestCircle,
-          startAngleRad: pi / 2,
-          endAngleRad: -pi / 2,
-          setLineDash: solidLineSettings
+          startAngleRad: pi / 1.9,
+          endAngleRad: -pi / 1.9,
+          setLineDash: solidLineSettings,
+          fillStyle: subjectFillHex
         },
         O: {
           circleXPos: canvasMidPoint - midCircleRadius,
           circleRadius: smallestCircle,
-          startAngleRad: (pi / 180) * 76,
-          endAngleRad: -(pi / 180) * 76,
+          startAngleRad: (pi / 180) * 75,
+          endAngleRad: -(pi / 180) * 75,
           counterClockwise: false,
-          setLineDash: solidLineSettings
+          setLineDash: solidLineSettings,
+          fillStyle: subjectFillHex
         }
       },
       predicate: {
@@ -113,26 +119,30 @@ const canvasModule = (function () {
         A: {
           circleXPos: canvasMidPoint,
           circleRadius: smallestCircle,
-          setLineDash: solidLineSettings
+          setLineDash: solidLineSettings,
+          fillStyle: subjectFillHex
         },
         E: {
           circleXPos: canvasMidPoint,
           circleRadius: smallestCircle,
-          setLineDash: solidLineSettings
+          setLineDash: solidLineSettings,
+          fillStyle: subjectFillHex
         },
         I: {
           circleXPos: canvasMidPoint - midCircleRadius * 0.75,
           circleRadius: smallestCircle,
-          startAngleRad: pi / 2,
-          endAngleRad: -pi / 2,
-          setLineDash: solidLineSettings
+          startAngleRad: pi / 1.9,
+          endAngleRad: -pi / 1.9,
+          setLineDash: solidLineSettings,
+          fillStyle: subjectFillHex
         },
         O: {
           circleXPos: canvasMidPoint - midCircleRadius * 0.75,
           circleRadius: smallestCircle,
           startAngleRad: pi / 2,
           endAngleRad: -pi / 2,
-          setLineDash: solidLineSettings
+          setLineDash: solidLineSettings,
+          fillStyle: subjectFillHex
         }
       },
       predicate: {
@@ -179,6 +189,10 @@ const canvasModule = (function () {
       settings.counterClockwise
     );
     canvasElemCtx.stroke();
+    if (settings.fillStyle) {
+      canvasElemCtx.fillStyle = settings.fillStyle;
+      canvasElemCtx.fill();
+    }
   };
 
   const drawCircle = function (canvasElemCtx, options = {}) {
