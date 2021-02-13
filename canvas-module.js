@@ -25,7 +25,7 @@ const canvasModule = (function () {
 
   const premiseStartPosY = allCanvassesHeight / 2;
   const premiseCircleStartYPos = premiseStartPosY;
-  const lineDashSettings = [2,2,2,2];
+  const lineDashSettings = [2, 2, 2, 2];
   const solidLineSettings = [];
   const getDefaultShapeSettings = () => ({
     circleXPos: canvasMidPoint,
@@ -73,7 +73,6 @@ const canvasModule = (function () {
         }
       }
     },
-    // TOODO: POSITIONING
     minorPremise: {
       subject: {
         A: {
@@ -96,8 +95,8 @@ const canvasModule = (function () {
         O: {
           circleXPos: canvasMidPoint - midCircleRadius,
           circleRadius: smallestCircle,
-          startAngleRad: (pi / 180) * 75,
-          endAngleRad: -(pi / 180) * 75,
+          startAngleRad: (pi / 180) * 76,
+          endAngleRad: -(pi / 180) * 76,
           counterClockwise: false,
           setLineDash: solidLineSettings
         }
@@ -109,33 +108,31 @@ const canvasModule = (function () {
         O: getDefaultShapeSettings()
       }
     },
-    // TOODO: POSITIONING
     conclusion: {
       subject: {
         A: {
           circleXPos: canvasMidPoint,
-          circleRadius: smallestCircle
+          circleRadius: smallestCircle,
+          setLineDash: solidLineSettings
         },
         E: {
-          circleXPos:
-            xPosZero +
-            midCircleRadius +
-            offsetForSomeCircles * 0.5,
-          circleRadius: smallestCircle
+          circleXPos: canvasMidPoint,
+          circleRadius: smallestCircle,
+          setLineDash: solidLineSettings
         },
         I: {
-          circleXPos:
-            canvasMidPoint + midCircleRadius + 1.5 * offsetForSomeCircles,
+          circleXPos: canvasMidPoint - midCircleRadius * 0.75,
           circleRadius: smallestCircle,
-          startAngleRad: -pi / 2,
-          endAngleRad: pi / 2
+          startAngleRad: pi / 2,
+          endAngleRad: -pi / 2,
+          setLineDash: solidLineSettings
         },
         O: {
-          circleXPos:
-            canvasMidPoint - midCircleRadius - 1.5 * offsetForSomeCircles,
+          circleXPos: canvasMidPoint - midCircleRadius * 0.75,
           circleRadius: smallestCircle,
-          startAngleRad: -pi / 2,
-          endAngleRad: pi / 2
+          startAngleRad: pi / 2,
+          endAngleRad: -pi / 2,
+          setLineDash: solidLineSettings
         }
       },
       predicate: {
@@ -145,7 +142,7 @@ const canvasModule = (function () {
           setLineDash: solidLineSettings
         },
         E: {
-          circleXPos: canvasMidPoint + midCircleRadius,
+          circleXPos: canvasMidPoint + midCircleRadius * 4,
           circleRadius: bigCircleRadius,
           setLineDash: solidLineSettings
         },
@@ -155,7 +152,7 @@ const canvasModule = (function () {
           setLineDash: solidLineSettings
         },
         O: {
-          circleXPos: canvasMidPoint + midCircleRadius,
+          circleXPos: canvasMidPoint + midCircleRadius * 4,
           circleRadius: bigCircleRadius,
           setLineDash: solidLineSettings
         }
