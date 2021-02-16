@@ -20,6 +20,7 @@
         }
 
         fieldset {
+            margin: 0;
             padding: 1rem 0.66rem;
         }
         /*https://stackoverflow.com/questions/5805059/how-do-i-make-a-placeholder-for-a-select-box */
@@ -38,12 +39,17 @@
             display: block;
             margin: 0 auto 0.5rem;
             max-width: 100%;
-            max-height: 100px;
             border: solid 1px #ddd;
+        }
+
+        .conditional {
+            font-style: italic;
+            color: #666;
         }
 
         .data-input {
             max-width: 400px;
+            margin: 0 auto;
         }
 
         .hidden {
@@ -61,9 +67,11 @@
             left: 10px;
             background: #FFF;
         }
-        .premise-input {
-            margin-bottom: 1rem;
-            text-align: center;
+        .premise_input {
+            display: flex;
+            flex-direction: column;
+            max-width: 300px;
+            margin: 0 auto 1rem;
         }
         .conclusion {
             display: block;
@@ -73,10 +81,15 @@
             text-align: center;
         }
 
-        @media screen and (min-width: 767px) {
+        @media screen and (min-width: 768px) {
             canvas {
                max-height: none;
                max-width: 500px;
+            }
+
+            .premise_input {
+                flex-direction: row;
+                max-width: none;
             }
         }
     </style>
@@ -90,50 +103,58 @@
             <form action="#" onsubmit="return false;" id="first_figure" class="data-input">
                 <fieldset>
                     <legend>Major Premise</legend>
-                    <section class="premise-input">
-                        If
-                        <select id="prop_one_quantity" required>
-                            <option value="" disabled selected>all/some/no</option>
-                            <option value="all">all</option>
-                            <option value="some">some</option>
-                            <option value="no">no</option>
-                        </select>
-                        <!-- Commented this out, to avoid having to enter when testing -->
-                        <!-- <span class="overhead-input-label_wrapper">
-                            <label class="overhead-input-label_label" for="middle_term_first">Middle Term</label>
-                            <input type="text" id="middle_term_first" placeholder='e.g. "mammals"' required>
-                        </span> -->
-                        "Middle Term"
+                    <span class="conditional">If</span>
+                    <section class="premise_input">
+                        <fieldset>
+                            <select id="prop_one_quantity" required>
+                                <option value="" disabled selected>all/some/no</option>
+                                <option value="all">all</option>
+                                <option value="some">some</option>
+                                <option value="no">no</option>
+                            </select>
+                            <!-- Commented this out, to avoid having to enter when testing -->
+                            <!-- <span class="overhead-input-label_wrapper">
+                                <label class="overhead-input-label_label" for="middle_term_first">Middle Term</label>
+                                <input type="text" id="middle_term_first" placeholder='e.g. "mammals"' required>
+                            </span> -->
+                            "Middle Term" 
+                        </fieldset>
+                       <fieldset>
                         <select id="prop_one_quality" required>
                             <option value="" disabled selected>are/are NOT</option>
                             <option value="are">are</option>
                             <option value="arenot">are NOT</option>
                         </select>
                         "A".
+                       </fieldset>
                     </section>
                     <canvas id="canvas_prop_one">Modified Euler diagram for proposition one</canvas>
                 </fieldset>
                 <fieldset>
                     <legend>Minor Premise</legend>
-                    <section class="premise-input">
-                        And,
-                        <select id="prop_two_quantity" required>
-                            <option value="" disabled selected>all/some/no</option>
-                            <option value="all">all</option>
-                            <option value="some">some</option>
-                            <option value="no">no</option>
-                        </select>
-                        "B"
-                        <select id="prop_two_quality" required>
-                            <option value="" disabled selected>are/are NOT</option>
-                            <option value="are">are</option>
-                            <option value="arenot">are NOT</option>
-                        </select>
-                        <!-- <span class="overhead-input-label_wrapper">
-                            <label class="overhead-input-label_label" for="middle_term_second">Middle Term</label>
-                            <input type="text" id="middle_term_second" readonly>
-                        </span> -->
-                        "Middle Term"
+                    <span class="conditional">And,</span>
+                    <section class="premise_input">
+                        <fieldset>
+                            <select id="prop_two_quantity" required>
+                                <option value="" disabled selected>all/some/no</option>
+                                <option value="all">all</option>
+                                <option value="some">some</option>
+                                <option value="no">no</option>
+                            </select>
+                            "B"
+                        </fieldset>
+                        <fieldset>
+                            <select id="prop_two_quality" required>
+                                <option value="" disabled selected>are/are NOT</option>
+                                <option value="are">are</option>
+                                <option value="arenot">are NOT</option>
+                            </select>
+                            <!-- <span class="overhead-input-label_wrapper">
+                                <label class="overhead-input-label_label" for="middle_term_second">Middle Term</label>
+                                <input type="text" id="middle_term_second" readonly>
+                            </span> -->
+                            "Middle Term"
+                        </fieldset>
                     </section>
                     <canvas id="canvas_prop_two">Modified Euler diagram for proposition two</canvas>
                 </fieldset>
