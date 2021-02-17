@@ -52,6 +52,12 @@
             margin: 0 auto;
         }
 
+        .syllogism_part,
+        .syllogism_part-term {
+            display: flex;
+            flex-direction: column;
+        }
+
         .hidden {
             display: none !important;
         }
@@ -67,7 +73,7 @@
             left: 10px;
             background: #FFF;
         }
-        .premise_input {
+        .premise_input-overall {
             display: flex;
             flex-direction: column;
             max-width: 300px;
@@ -87,9 +93,42 @@
                max-width: 500px;
             }
 
-            .premise_input {
+            .premise_input-overall {
                 flex-direction: row;
                 max-width: none;
+            }
+        }
+
+        @media screen and (min-width: 1200px) {
+            main {
+                max-width: 800px;
+            }
+            canvas {
+                display: inline;
+            }
+
+            .data-input {
+                max-width: none;
+            }
+
+            .syllogism_part,
+            .syllogism_part-term {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+            }
+
+            .premise_input-overall {
+                align-items: flex-start;
+                white-space: nowrap;
+            }
+
+            .conditional {
+                margin-right: 2rem;
+            }
+
+            .premise_input-specific {
+                margin-right: 1rem;
             }
         }
     </style>
@@ -101,12 +140,12 @@
                 <!-- Keep each figure separated as an individual form, toggled between using icon clicks -->
             </header>
             <form action="#" onsubmit="return false;" id="first_figure" class="data-input">
-                <fieldset>
+                <fieldset class="syllogism_part">
                     <legend>Major Premise</legend>
                     <span class="conditional">If</span>
-                    <section class="premise_input">
-                        <fieldset>
-                            <select id="prop_one_quantity" required>
+                    <section class="premise_input-overall">
+                        <fieldset class="syllogism_part-term">
+                            <select id="prop_one_quantity" class="premise_input-specific" required>
                                 <option value="" disabled selected>all/some/no</option>
                                 <option value="all">all</option>
                                 <option value="some">some</option>
@@ -119,8 +158,8 @@
                             </span> -->
                             "Middle Term" 
                         </fieldset>
-                       <fieldset>
-                        <select id="prop_one_quality" required>
+                       <fieldset class="syllogism_part-term">
+                        <select id="prop_one_quality" class="premise_input-specific" required>
                             <option value="" disabled selected>are/are NOT</option>
                             <option value="are">are</option>
                             <option value="arenot">are NOT</option>
@@ -130,12 +169,12 @@
                     </section>
                     <canvas id="canvas_prop_one">Modified Euler diagram for proposition one</canvas>
                 </fieldset>
-                <fieldset>
+                <fieldset class="syllogism_part">
                     <legend>Minor Premise</legend>
                     <span class="conditional">And,</span>
-                    <section class="premise_input">
-                        <fieldset>
-                            <select id="prop_two_quantity" required>
+                    <section class="premise_input-overall">
+                        <fieldset class="syllogism_part-term">
+                            <select id="prop_two_quantity" class="premise_input-specific" required>
                                 <option value="" disabled selected>all/some/no</option>
                                 <option value="all">all</option>
                                 <option value="some">some</option>
@@ -143,8 +182,8 @@
                             </select>
                             "B"
                         </fieldset>
-                        <fieldset>
-                            <select id="prop_two_quality" required>
+                        <fieldset class="syllogism_part-term">
+                            <select id="prop_two_quality" class="premise_input-specific" required>
                                 <option value="" disabled selected>are/are NOT</option>
                                 <option value="are">are</option>
                                 <option value="arenot">are NOT</option>
