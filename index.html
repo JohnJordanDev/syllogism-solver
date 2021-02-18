@@ -19,7 +19,8 @@
             margin-bottom: 1.5rem;
         }
 
-        fieldset {
+        fieldset,
+        .conclusion  {
             margin: 0;
             padding: 1rem 0.66rem;
         }
@@ -81,10 +82,7 @@
         }
         .conclusion {
             display: block;
-            padding: 0.75rem;
             background: #DDD;
-            padding-left: 0.75rem;
-            text-align: center;
         }
 
         @media screen and (min-width: 768px) {
@@ -124,11 +122,17 @@
             }
 
             .conditional {
+                min-width: 2.25rem;
                 margin-right: 2rem;
             }
 
             .premise_input-specific {
                 margin-right: 1rem;
+            }
+
+            .conclusion {
+                margin: 0 auto;
+                min-width: 320px;
             }
         }
     </style>
@@ -199,8 +203,9 @@
                 </fieldset>
                 <hr/>    
                 <input type="submit" id="first_figure_submit" class="hidden">
-                <fieldset>
+                <fieldset class="syllogism_part">
                     <legend>Conclusion: </legend>
+                    <span class="conditional">Then,</span>
                     <output id="conclusion" class="conclusion" for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
                     <canvas id="canvas_conclusion">Modified Euler diagram for the conclusion.</canvas>
                 </fieldset>

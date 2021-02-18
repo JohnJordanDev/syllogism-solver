@@ -78,10 +78,10 @@
         window.app.getConclusionForm(formsOfPropositions),
         canvasConclusionCtx
       );
-      conclusionOutputElem.innerHTML = `Then, ${conclusionContent}`;
+      conclusionOutputElem.innerHTML = `${conclusionContent}`;
     } else {
       conclusionOutputElem.innerHTML =
-        "Then, we cannot draw a valid conclusion";
+        "we cannot draw a valid conclusion";
     }
   };
 
