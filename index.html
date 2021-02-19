@@ -11,6 +11,7 @@
         }
         
         main {
+            box-sizing: border-box;
             display: block;
             max-width: 500px;
             margin: 0 auto 1.5rem;
@@ -53,10 +54,16 @@
             margin: 0 auto;
         }
 
-        .syllogism_part,
-        .syllogism_part-term {
+        .syllogism_part {
             display: flex;
             flex-direction: column;
+        }
+
+        .syllogism_part-term {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            flex-basis: 50%;
         }
 
         .hidden {
@@ -77,6 +84,9 @@
         .premise_input-overall {
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
+
+            width: 100%;
             max-width: 300px;
             margin: 0 auto 1rem;
         }
@@ -117,6 +127,7 @@
             }
 
             .premise_input-overall {
+                justify-content: space-between;
                 align-items: flex-start;
                 white-space: nowrap;
             }
@@ -133,6 +144,12 @@
             .conclusion {
                 margin: 0 auto;
                 min-width: 320px;
+                box-sizing: border-box;
+            }
+
+            .conclusion,
+            .premise_input-overall {
+                flex-basis: 400px;
             }
         }
     </style>
