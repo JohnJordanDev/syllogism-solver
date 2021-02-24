@@ -64,6 +64,11 @@
             flex-direction: row;
             align-items: flex-start;
             flex-basis: 50%;
+            margin: 0 2px;
+        }
+
+        .middle-term {
+            border: dashed 2px #999;
         }
 
         .hidden {
@@ -165,7 +170,7 @@
                     <legend>Major Premise</legend>
                     <span class="conditional">If</span>
                     <section class="premise_input-overall">
-                        <fieldset class="syllogism_part-term">
+                        <fieldset class="syllogism_part-term middle-term">
                             <select id="prop_one_quantity" class="premise_input-specific" required>
                                 <option value="" disabled selected>all/some/no</option>
                                 <option value="all">all</option>
@@ -203,7 +208,7 @@
                             </select>
                             "B"
                         </fieldset>
-                        <fieldset class="syllogism_part-term">
+                        <fieldset class="syllogism_part-term middle-term">
                             <select id="prop_two_quality" class="premise_input-specific" required>
                                 <option value="" disabled selected>are/are NOT</option>
                                 <option value="are">are</option>
