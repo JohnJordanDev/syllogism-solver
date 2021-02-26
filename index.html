@@ -67,7 +67,7 @@
             margin: 0 2px;
         }
 
-        .middle-term {
+        .subject_majorPremise {
             border: dashed 2px #999;
         }
 
@@ -75,12 +75,12 @@
             display: none !important;
         }
 
-        .overhead-input-label_wrapper {
+        .overheadInputLabel_wrapper {
             position: relative;
             border: solid 1px #000;
             padding: 5px;
         }
-        .overhead-input-label_label {
+        .overheadInputLabel_label {
             position: absolute;
             top: -15px;
             left: 10px;
@@ -128,7 +128,14 @@
             .syllogism_part-term {
                 display: flex;
                 flex-direction: row;
+            }
+
+            .syllogism_part {
                 align-items: flex-start;
+            }
+
+            .syllogism_part-term {
+                align-items: center;
             }
 
             .premise_input-overall {
@@ -170,7 +177,7 @@
                     <legend>Major Premise</legend>
                     <span class="conditional">If</span>
                     <section class="premise_input-overall">
-                        <fieldset class="syllogism_part-term middle-term">
+                        <fieldset class="syllogism_part-term subject_majorPremise">
                             <select id="prop_one_quantity" class="premise_input-specific" required>
                                 <option value="" disabled selected>all/some/no</option>
                                 <option value="all">all</option>
@@ -178,11 +185,14 @@
                                 <option value="no">no</option>
                             </select>
                             <!-- Commented this out, to avoid having to enter when testing -->
-                            <!-- <span class="overhead-input-label_wrapper">
-                                <label class="overhead-input-label_label" for="middle_term_first">Middle Term</label>
+                            <!-- <span class="overheadInputLabel_wrapper">
+                                <label class="overheadInputLabel_label" for="middle_term_first">Middle Term</label>
                                 <input type="text" id="middle_term_first" placeholder='e.g. "mammals"' required>
                             </span> -->
-                            "Middle Term" 
+                            <div class="overheadInputLabel_wrapper">
+                                <label for="middle_term_major_premise" class="overheadInputLabel_label">"Middle Term"</label>
+                                <input id="middle_term_major_premise" type="text" placeholder="Enter a group of things"> 
+                            </div>
                         </fieldset>
                        <fieldset class="syllogism_part-term">
                         <select id="prop_one_quality" class="premise_input-specific" required>
@@ -208,17 +218,20 @@
                             </select>
                             "B"
                         </fieldset>
-                        <fieldset class="syllogism_part-term middle-term">
+                        <fieldset class="syllogism_part-term subject_majorPremise">
                             <select id="prop_two_quality" class="premise_input-specific" required>
                                 <option value="" disabled selected>are/are NOT</option>
                                 <option value="are">are</option>
                                 <option value="arenot">are NOT</option>
                             </select>
-                            <!-- <span class="overhead-input-label_wrapper">
-                                <label class="overhead-input-label_label" for="middle_term_second">Middle Term</label>
+                            <!-- <span class="overheadInputLabel_wrapper">
+                                <label class="overheadInputLabel_label" for="middle_term_second">Middle Term</label>
                                 <input type="text" id="middle_term_second" readonly>
                             </span> -->
-                            "Middle Term"
+                            <div class="overheadInputLabel_wrapper">
+                                <label for="middle_term_minor_premise" class="overheadInputLabel_label">"Middle Term"</label>
+                                <input id="middle_term_minor_premise" type="text" placeholder="Enter a group of things"> 
+                            </div>
                         </fieldset>
                     </section>
                     <canvas id="canvas_prop_two">Modified Euler diagram for proposition two</canvas>

@@ -5,6 +5,13 @@
   const prop2Quantity = window.document.getElementById("prop_two_quantity");
   const prop2Quality = window.document.getElementById("prop_two_quality");
 
+  const middleTermMajorPremise = window.document.getElementById(
+    "middle_term_major_premise"
+  );
+  const middleTermMinorPremise = window.document.getElementById(
+    "middle_term_minor_premise"
+  );
+
   const canvasPropOne = window.document.getElementById("canvas_prop_one");
   const canvasPropOneCtx = canvasPropOne.getContext("2d");
 
@@ -80,8 +87,7 @@
       );
       conclusionOutputElem.innerHTML = `${conclusionContent}`;
     } else {
-      conclusionOutputElem.innerHTML =
-        "we cannot draw a valid conclusion";
+      conclusionOutputElem.innerHTML = "we cannot draw a valid conclusion";
     }
   };
 
@@ -96,6 +102,15 @@
     } else {
       triggerFormUiFeedback();
       conclusionOutputElem.innerHTML = "...";
+    }
+  };
+
+  const setMiddleTermsInSync = (middleTermWithNewInput, elemId) => {
+    const newInput = middleTermWithNewInput.value;
+    if (/(major)/.test(elemId)) {
+      middleTermMinorPremise.value = newInput;
+    } else {
+      middleTermMajorPremise.value = newInput;
     }
   };
 
@@ -122,7 +137,19 @@
     updateFormOutputs();
   };
 
+  const inputHander = (event) => {
+    const elem = event.target;
+    const elemId = elem.getAttribute("id");
+    if (
+      elemId === "middle_term_major_premise"
+      || elemId === "middle_term_minor_premise"
+    ) {
+      setMiddleTermsInSync(elem, elemId);
+    }
+  };
+
   window.document.addEventListener("change", changeHandler);
+  window.document.addEventListener("input", inputHander);
 
   window.document.getElementById("first_figure").reset();
 
