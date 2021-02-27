@@ -84,6 +84,9 @@
             position: absolute;
             top: -15px;
             left: 10px;
+
+            padding: 0 0.25rem;
+            color: #999;
             background: #FFF;
         }
         .premise_input-overall {
@@ -190,8 +193,8 @@
                                 <input type="text" id="middle_term_first" placeholder='e.g. "mammals"' required>
                             </span> -->
                             <div class="overheadInputLabel_wrapper">
-                                <label for="middle_term_major_premise" class="overheadInputLabel_label">"Middle Term"</label>
-                                <input id="middle_term_major_premise" type="text" placeholder="Enter a group of things"> 
+                                <label for="middle_term_major_premise" class="overheadInputLabel_label">Middle Term</label>
+                                <input id="middle_term_major_premise" type="text" placeholder="group of things"> 
                             </div>
                         </fieldset>
                        <fieldset class="syllogism_part-term">
@@ -207,7 +210,7 @@
                 </fieldset>
                 <fieldset class="syllogism_part">
                     <legend>Minor Premise</legend>
-                    <span class="conditional">And,</span>
+                    <span class="conditional">And</span>
                     <section class="premise_input-overall">
                         <fieldset class="syllogism_part-term">
                             <select id="prop_two_quantity" class="premise_input-specific" required>
@@ -229,8 +232,8 @@
                                 <input type="text" id="middle_term_second" readonly>
                             </span> -->
                             <div class="overheadInputLabel_wrapper">
-                                <label for="middle_term_minor_premise" class="overheadInputLabel_label">"Middle Term"</label>
-                                <input id="middle_term_minor_premise" type="text" placeholder="Enter a group of things"> 
+                                <label for="middle_term_minor_premise" class="overheadInputLabel_label">Middle Term</label>
+                                <input id="middle_term_minor_premise" type="text" placeholder="group of things"> 
                             </div>
                         </fieldset>
                     </section>
@@ -240,7 +243,7 @@
                 <input type="submit" id="first_figure_submit" class="hidden">
                 <fieldset class="syllogism_part">
                     <legend>Conclusion: </legend>
-                    <span class="conditional">Then,</span>
+                    <span class="conditional">Then</span>
                     <output id="conclusion" class="conclusion" for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
                     <canvas id="canvas_conclusion">Modified Euler diagram for the conclusion.</canvas>
                 </fieldset>

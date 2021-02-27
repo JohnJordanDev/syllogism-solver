@@ -17,7 +17,7 @@ const canvasModule = (function () {
 
   const bigCircleRadius = 50;
   const midCircleRadius = 25;
-  const smallestCircle = 12.5;
+  const smallestCircleRadius = 12.5;
   const canvasMidPointX = allCanvassesWidth / 2;
   const canvasMidPointY = allCanvassesHeight / 2;
 
@@ -77,19 +77,19 @@ const canvasModule = (function () {
       subject: {
         A: {
           circleXPos: canvasMidPointX,
-          circleRadius: smallestCircle,
+          circleRadius: smallestCircleRadius,
           setLineDash: solidLineSettings,
           fillStyle: subjectFillHex
         },
         E: {
           circleXPos: xPosZero + bigCircleRadius,
-          circleRadius: smallestCircle,
+          circleRadius: smallestCircleRadius,
           setLineDash: solidLineSettings,
           fillStyle: subjectFillHex
         },
         I: {
           circleXPos: canvasMidPointX - midCircleRadius * 0.75,
-          circleRadius: smallestCircle,
+          circleRadius: smallestCircleRadius,
           startAngleRad: pi / 1.75,
           endAngleRad: -pi / 1.75,
           setLineDash: solidLineSettings,
@@ -97,7 +97,7 @@ const canvasModule = (function () {
         },
         O: {
           circleXPos: canvasMidPointX - midCircleRadius,
-          circleRadius: smallestCircle,
+          circleRadius: smallestCircleRadius,
           startAngleRad: (pi / 180) * 90,
           endAngleRad: -(pi / 180) * 90,
           counterClockwise: false,
@@ -116,19 +116,19 @@ const canvasModule = (function () {
       subject: {
         A: {
           circleXPos: canvasMidPointX,
-          circleRadius: smallestCircle,
+          circleRadius: smallestCircleRadius,
           setLineDash: solidLineSettings,
           fillStyle: subjectFillHex
         },
         E: {
           circleXPos: canvasMidPointX,
-          circleRadius: smallestCircle,
+          circleRadius: smallestCircleRadius,
           setLineDash: solidLineSettings,
           fillStyle: subjectFillHex
         },
         I: {
           circleXPos: canvasMidPointX - midCircleRadius * 0.75,
-          circleRadius: smallestCircle,
+          circleRadius: smallestCircleRadius,
           startAngleRad: pi / 1.9,
           endAngleRad: -pi / 1.9,
           setLineDash: solidLineSettings,
@@ -136,7 +136,7 @@ const canvasModule = (function () {
         },
         O: {
           circleXPos: canvasMidPointX - midCircleRadius * 0.75,
-          circleRadius: smallestCircle,
+          circleRadius: smallestCircleRadius,
           startAngleRad: pi / 2,
           endAngleRad: -pi / 2,
           setLineDash: solidLineSettings,
@@ -223,9 +223,49 @@ const canvasModule = (function () {
     drawCircle(canvasElemCtx, predicateCircleShape);
   };
 
+  const getLabelPosition = (term, part) => {
+    let xPos = canvasMidPointX - midCircleRadius;
+    let yPos = canvasMidPointY - midCircleRadius;
+    if (part === "major") {
+      if (term === "subject") {
+        yPos += 2 * midCircleRadius;
+      } else {
+        yPos -= 2 * midCircleRadius;
+      }
+    } else if (part === "minor") {
+      if (part === "subject") {
+        xPos -= 2 * smallestCircleRadius;
+        yPos = canvasMidPointY - 2 * smallestCircleRadius;
+      } else {
+        yPos -= 2 * midCircleRadius;
+      }
+    } else if (part === "conclusion") {
+      if (part === "subject") {
+        xPos -= 2 * smallestCircleRadius;
+        yPos = canvasMidPointY - 2 * smallestCircleRadius;
+      } else {
+        yPos -= 2 * midCircleRadius;
+      }
+    }
+    return [xPos, yPos];
+  };
+
+  const drawTextToBoard = (text, canvasElemCtx, term, part) => {
+    const canvasPositionsXAndY = getLabelPosition(term, part);
+    // must set BEFORE drawing to canvas
+    canvasElemCtx.font = "normal 0.75rem Helvetica, Arial, sans-serif";
+    canvasElemCtx.fillStyle = "#000"; // black text
+    canvasElemCtx.fillText(
+      text,
+      canvasPositionsXAndY[0],
+      canvasPositionsXAndY[1]
+    );
+  };
+
   return {
     drawPartToBoard,
-    clearAllCanvasses
+    clearAllCanvasses,
+    drawTextToBoard
   };
 })();
 

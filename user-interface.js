@@ -105,8 +105,7 @@
     }
   };
 
-  const setMiddleTermsInSync = (middleTermWithNewInput, elemId) => {
-    const newInput = middleTermWithNewInput.value;
+  const setMiddleTermsInSync = (elemId, newInput) => {
     if (/(major)/.test(elemId)) {
       middleTermMinorPremise.value = newInput;
     } else {
@@ -136,20 +135,53 @@
     setValidUserChoicesBasedOnInput(event);
     updateFormOutputs();
   };
+  // cannot set letter-spacing on canvas, so adding hairspace
+  const addLetterSpacing = (text) => text.split("").join(String.fromCharCode(8202));
 
-  const inputHander = (event) => {
-    const elem = event.target;
-    const elemId = elem.getAttribute("id");
-    if (
-      elemId === "middle_term_major_premise"
-      || elemId === "middle_term_minor_premise"
-    ) {
-      setMiddleTermsInSync(elem, elemId);
-    }
+  const renderTextLabelsToCanvas = (newInput) => {
+    window.app.canvas.drawTextToBoard(
+      newInput,
+      canvasPropOneCtx,
+      "major",
+      "subject"
+    );
+    window.app.canvas.drawTextToBoard(
+      newInput,
+      canvasPropTwoCtx,
+      "minor",
+      "predicate"
+    );
   };
 
-  window.document.addEventListener("change", changeHandler);
-  window.document.addEventListener("input", inputHander);
+  const inputHandler = (event) => {
+    const elem = event.target;
+    const elemId = elem.getAttribute("id");
+    let newInput;
+    // the input element being edit takes precedence
+    if (
+      elemId === "middle_term_major_premise" ||
+      elemId === "middle_term_minor_premise"
+    ) {
+      newInput = elem.value;
+      setMiddleTermsInSync(elemId, newInput);
+    } else {
+      newInput = window.document.getElementById("middle_term_major_premise")
+        .value;
+    }
+    renderTextLabelsToCanvas(addLetterSpacing(newInput));
+  };
+
+  const renderCanvas = (ev) => {
+    window.app.canvas.clearAllCanvasses();
+    changeHandler(ev);
+    inputHandler(ev);
+  };
+
+  // ANY change to input/select elements MUST result of complete canvas redraw
+
+  ["change", "input"].forEach((event) => {
+    window.document.addEventListener(event, renderCanvas);
+  });
 
   window.document.getElementById("first_figure").reset();
 
