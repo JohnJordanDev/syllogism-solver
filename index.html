@@ -194,7 +194,7 @@
                             </span> -->
                             <div class="overheadInputLabel_wrapper">
                                 <label for="middle_term_major_premise" class="overheadInputLabel_label">Middle Term</label>
-                                <input id="middle_term_major_premise" type="text" placeholder="group of things"> 
+                                <input id="middle_term_major_premise" type="text" placeholder="group of things" maxlength="10"> 
                             </div>
                         </fieldset>
                        <fieldset class="syllogism_part-term">
@@ -203,7 +203,10 @@
                             <option value="are">are</option>
                             <option value="arenot">are NOT</option>
                         </select>
-                        "A".
+                        <div class="overheadInputLabel_wrapper">
+                            <label for="major_term" class="overheadInputLabel_label">Major Term</label>
+                            <input id="major_terme" type="text" placeholder="group of things" maxlength="10"> 
+                        </div>
                        </fieldset>
                     </section>
                     <canvas id="canvas_prop_one">Modified Euler diagram for proposition one</canvas>
@@ -219,7 +222,10 @@
                                 <option value="some">some</option>
                                 <option value="no">no</option>
                             </select>
-                            "B"
+                            <div class="overheadInputLabel_wrapper">
+                                <label for="minor_term" class="overheadInputLabel_label">Minor Term</label>
+                                <input id="minor_terme" type="text" placeholder="group of things" maxlength="10"> 
+                            </div>
                         </fieldset>
                         <fieldset class="syllogism_part-term subject_majorPremise">
                             <select id="prop_two_quality" class="premise_input-specific" required>
@@ -233,7 +239,7 @@
                             </span> -->
                             <div class="overheadInputLabel_wrapper">
                                 <label for="middle_term_minor_premise" class="overheadInputLabel_label">Middle Term</label>
-                                <input id="middle_term_minor_premise" type="text" placeholder="group of things"> 
+                                <input id="middle_term_minor_premise" type="text" placeholder="group of things" maxlength="10"> 
                             </div>
                         </fieldset>
                     </section>
