@@ -5,6 +5,13 @@
   const prop2Quantity = window.document.getElementById("prop_two_quantity");
   const prop2Quality = window.document.getElementById("prop_two_quality");
 
+  const majorTerm = window.document.getElementById(
+    "major_term"
+  );
+  const minorTerm = window.document.getElementById(
+    "minor_term"
+  );
+
   const middleTermMajorPremise = window.document.getElementById(
     "middle_term_major_premise"
   );
@@ -67,7 +74,7 @@
       prop2Quantity.value,
       prop2Quality.value
     );
-    const conclusionContent = window.app.getConclusion(formsOfPropositions);
+    const conclusionContent = window.app.getConclusion(formsOfPropositions, minorTerm.value, majorTerm.value);
     window.app.canvas.drawPartToBoard(
       "majorPremise",
       formsOfPropositions[0],

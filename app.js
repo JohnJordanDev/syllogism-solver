@@ -69,15 +69,25 @@ window.app = (function appInit() {
     }
     return null;
   };
-  const getConclusion = (formOfBothPropositions) => {
-    const conclusion = validMoodsFirstFigure[formOfBothPropositions];
+  const getConclusion = (
+    formOfBothPropositions,
+    pMinorTermValue,
+    pMajorTermValue
+  ) => {
+    const conclusion = validMoodsFirstFigure[formOfBothPropositions] || undefined;
+    const minorTermValue = typeof pMinorTermValue !== "string" || pMinorTermValue.length === 0
+      ? "minor term"
+      : pMinorTermValue;
+    const majorTermValue = typeof pMajorTermValue !== "string" || pMajorTermValue.length === 0
+      ? "major term"
+      : pMajorTermValue;
     if (
-      typeof conclusion !== "undefined" &&
-      typeof validConclusions[conclusion] !== "undefined"
+      typeof conclusion !== "undefined"
+      && typeof validConclusions[conclusion] !== "undefined"
     ) {
-      return validConclusions[conclusion];
+      return validConclusions[conclusion].replace("B", minorTermValue).replace("A", majorTermValue);
     }
-    return null;
+    return conclusion;
   };
 
   return {
