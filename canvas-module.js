@@ -233,14 +233,14 @@ const canvasModule = (function () {
         yPos -= 2 * midCircleRadius;
       }
     } else if (part === "minor") {
-      if (part === "subject") {
+      if (term === "subject") {
         xPos -= 2 * smallestCircleRadius;
         yPos = canvasMidPointY - 2 * smallestCircleRadius;
       } else {
         yPos -= 2 * midCircleRadius;
       }
     } else if (part === "conclusion") {
-      if (part === "subject") {
+      if (term === "subject") {
         xPos -= 2 * smallestCircleRadius;
         yPos = canvasMidPointY - 2 * smallestCircleRadius;
       } else {
@@ -253,7 +253,7 @@ const canvasModule = (function () {
   const drawTextToBoard = (text, canvasElemCtx, term, part) => {
     const canvasPositionsXAndY = getLabelPosition(term, part);
     // must set BEFORE drawing to canvas
-    canvasElemCtx.font = "normal 0.75rem Helvetica, Arial, sans-serif";
+    canvasElemCtx.font = "normal 0.667rem Helvetica, Arial, sans-serif";
     canvasElemCtx.fillStyle = "#000"; // black text
     canvasElemCtx.fillText(
       text,
