@@ -226,21 +226,21 @@ const canvasModule = (function () {
   const getLabelPosition = (term, part) => {
     let xPos = canvasMidPointX - midCircleRadius;
     let yPos = canvasMidPointY - midCircleRadius;
-    if (part === "major") {
-      if (term === "subject") {
+    if (part === "majorPremise") {
+      if (term === "majorTerm") {
         yPos += 2 * midCircleRadius;
       } else {
-        yPos -= 2 * midCircleRadius;
+        yPos -= 0.25 * midCircleRadius;
       }
-    } else if (part === "minor") {
-      if (term === "subject") {
+    } else if (part === "minorPremise") {
+      if (term === "minorTerm") {
         xPos -= 2 * smallestCircleRadius;
         yPos = canvasMidPointY - 2 * smallestCircleRadius;
       } else {
-        yPos -= 2 * midCircleRadius;
+        yPos -= 0.25 * midCircleRadius;
       }
     } else if (part === "conclusion") {
-      if (term === "subject") {
+      if (term === "minorTerm") {
         xPos -= 2 * smallestCircleRadius;
         yPos = canvasMidPointY - 2 * smallestCircleRadius;
       } else {

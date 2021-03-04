@@ -149,14 +149,14 @@
     window.app.canvas.drawTextToBoard(
       newInput,
       canvasPropOneCtx,
-      "major",
-      "subject"
+      "middleTerm",
+      "majorPremise"
     );
     window.app.canvas.drawTextToBoard(
       newInput,
       canvasPropTwoCtx,
-      "minor",
-      "predicate"
+      "middleTerm",
+      "minorPremise"
     );
   };
 
@@ -164,18 +164,22 @@
     const elem = event.target;
     const elemId = elem.getAttribute("id");
     let newInput;
+    let term;
+    let part;
     // the input element being edit takes precedence
     if (
       elemId === "middle_term_major_premise" ||
       elemId === "middle_term_minor_premise"
     ) {
+      term = "middle";
+      part = "subject"; // default
       newInput = elem.value;
       setMiddleTermsInSync(elemId, newInput);
     } else {
       newInput = window.document.getElementById("middle_term_major_premise")
         .value;
     }
-    renderTextLabelsToCanvas(addLetterSpacing(newInput));
+    renderTextLabelsToCanvas(addLetterSpacing(newInput), term, part);
   };
 
   const renderCanvas = (ev) => {
