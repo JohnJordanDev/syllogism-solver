@@ -5,12 +5,8 @@
   const prop2Quantity = window.document.getElementById("prop_two_quantity");
   const prop2Quality = window.document.getElementById("prop_two_quality");
 
-  const majorTerm = window.document.getElementById(
-    "major_term"
-  );
-  const minorTerm = window.document.getElementById(
-    "minor_term"
-  );
+  const majorTerm = window.document.getElementById("major_term");
+  const minorTerm = window.document.getElementById("minor_term");
 
   const middleTermMajorPremise = window.document.getElementById(
     "middle_term_major_premise"
@@ -67,6 +63,45 @@
     });
   };
 
+  const storeOfDataLabels = [
+    {
+      inputElem: majorTerm,
+      canvas: canvasPropOneCtx,
+      term: "majorTerm",
+      part: "majorPremise"
+    },
+    {
+      inputElem: middleTermMajorPremise,
+      canvas: canvasPropOneCtx,
+      term: "middleTerm",
+      part: "majorPremise"
+    },
+    {
+      inputElem: middleTermMajorPremise,
+      canvas: canvasPropTwoCtx,
+      term: "middleTerm",
+      part: "minorPremise"
+    },
+    {
+      inputElem: middleTermMajorPremise,
+      canvas: canvasPropTwoCtx,
+      term: "minorTerm",
+      part: "minorPremise"
+    },
+    {
+      inputElem: majorTerm,
+      canvas: canvasConclusionCtx,
+      term: "majorTerm",
+      part: "conclusion"
+    },
+    {
+      inputElem: minorTerm,
+      canvas: canvasConclusionCtx,
+      term: "minorTerm",
+      part: "conclusion"
+    }
+  ];
+
   const drawPremisesAndConclusion = () => {
     const formsOfPropositions = window.app.getFormOfPropositions(
       prop1Quantity.value,
@@ -74,7 +109,11 @@
       prop2Quantity.value,
       prop2Quality.value
     );
-    const conclusionContent = window.app.getConclusion(formsOfPropositions, minorTerm.value, majorTerm.value);
+    const conclusionContent = window.app.getConclusion(
+      formsOfPropositions,
+      minorTerm.value,
+      majorTerm.value
+    );
     window.app.canvas.drawPartToBoard(
       "majorPremise",
       formsOfPropositions[0],
@@ -143,21 +182,21 @@
     updateFormOutputs();
   };
   // cannot set letter-spacing on canvas, so adding hairspace
-  const addLetterSpacing = (text) => text.split("").join(String.fromCharCode(8202));
+  const addLetterSpacing = (text) =>
+    text.split("").join(String.fromCharCode(8202));
 
-  const renderTextLabelsToCanvas = (newInput) => {
-    window.app.canvas.drawTextToBoard(
-      newInput,
-      canvasPropOneCtx,
-      "middleTerm",
-      "majorPremise"
-    );
-    window.app.canvas.drawTextToBoard(
-      newInput,
-      canvasPropTwoCtx,
-      "middleTerm",
-      "minorPremise"
-    );
+  // TODO: Issue with this function: need to grab data fresh each time from each of the relevant input elements
+  // and iterate over each input element, calling the "newInput".. NO need for 'newValue' at all
+  // TODO: could do with a store of settings for each text label, depending on element being updated
+  const renderTextLabelsToCanvas = (newInput, term, part) => {
+    storeOfDataLabels.forEach((l) => {
+      window.app.canvas.drawTextToBoard(
+        l.inputElem.value,
+        l.canvas,
+        l.term,
+        l.part
+      );
+    });
   };
 
   const inputHandler = (event) => {
@@ -171,10 +210,18 @@
       elemId === "middle_term_major_premise" ||
       elemId === "middle_term_minor_premise"
     ) {
-      term = "middle";
-      part = "subject"; // default
+      term = "middleTerm";
+      part = "majorPremise"; // default
       newInput = elem.value;
       setMiddleTermsInSync(elemId, newInput);
+    } else if (elemId === "minor_term") {
+      term = "minorTerm";
+      part = "minorPremise";
+      newInput = elem.value;
+    } else if (elemId === "major_term") {
+      term = "majorTerm";
+      part = "majorPremise";
+      newInput = elem.value;
     } else {
       newInput = window.document.getElementById("middle_term_major_premise")
         .value;
@@ -201,6 +248,8 @@
   prop1Quality.selectedIndex = 2;
   prop2Quantity.selectedIndex = 2;
   prop2Quality.selectedIndex = 1;
+
+  majorTerm.value = "Major term";
 
   const changeEvent = new Event("change", { bubbles: true });
 

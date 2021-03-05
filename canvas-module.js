@@ -228,7 +228,8 @@ const canvasModule = (function () {
     let yPos = canvasMidPointY - midCircleRadius;
     if (part === "majorPremise") {
       if (term === "majorTerm") {
-        yPos += 2 * midCircleRadius;
+        yPos -= 0.5 * bigCircleRadius;
+        xPos = storeOfCircleShapes.majorPremise.predicate.I.circleXPos;
       } else {
         yPos -= 0.25 * midCircleRadius;
       }
