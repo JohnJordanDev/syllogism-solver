@@ -83,7 +83,7 @@
       part: "minorPremise"
     },
     {
-      inputElem: middleTermMajorPremise,
+      inputElem: minorTerm,
       canvas: canvasPropTwoCtx,
       term: "minorTerm",
       part: "minorPremise"
@@ -188,7 +188,7 @@
   // TODO: Issue with this function: need to grab data fresh each time from each of the relevant input elements
   // and iterate over each input element, calling the "newInput".. NO need for 'newValue' at all
   // TODO: could do with a store of settings for each text label, depending on element being updated
-  const renderTextLabelsToCanvas = (newInput, term, part) => {
+  const renderTextLabelsToCanvas = () => {
     storeOfDataLabels.forEach((l) => {
       window.app.canvas.drawTextToBoard(
         l.inputElem.value,
@@ -197,36 +197,28 @@
         l.part
       );
     });
+    //TODO: use getFormOfPropositions on app, to get position for the minor term text label
   };
 
   const inputHandler = (event) => {
     const elem = event.target;
     const elemId = elem.getAttribute("id");
     let newInput;
-    let term;
-    let part;
-    // the input element being edit takes precedence
     if (
       elemId === "middle_term_major_premise" ||
       elemId === "middle_term_minor_premise"
     ) {
-      term = "middleTerm";
-      part = "majorPremise"; // default
       newInput = elem.value;
       setMiddleTermsInSync(elemId, newInput);
     } else if (elemId === "minor_term") {
-      term = "minorTerm";
-      part = "minorPremise";
       newInput = elem.value;
     } else if (elemId === "major_term") {
-      term = "majorTerm";
-      part = "majorPremise";
       newInput = elem.value;
     } else {
       newInput = window.document.getElementById("middle_term_major_premise")
         .value;
     }
-    renderTextLabelsToCanvas(addLetterSpacing(newInput), term, part);
+    renderTextLabelsToCanvas();
   };
 
   const renderCanvas = (ev) => {

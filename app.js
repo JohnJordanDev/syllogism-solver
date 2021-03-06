@@ -74,18 +74,22 @@ window.app = (function appInit() {
     pMinorTermValue,
     pMajorTermValue
   ) => {
-    const conclusion = validMoodsFirstFigure[formOfBothPropositions] || undefined;
-    const minorTermValue = typeof pMinorTermValue !== "string" || pMinorTermValue.length === 0
-      ? "minor term"
-      : pMinorTermValue;
-    const majorTermValue = typeof pMajorTermValue !== "string" || pMajorTermValue.length === 0
-      ? "major term"
-      : pMajorTermValue;
+    let conclusion = validMoodsFirstFigure[formOfBothPropositions] || undefined;
+    const minorTermValue =
+      typeof pMinorTermValue !== "string" || pMinorTermValue.length === 0
+        ? "minor term"
+        : pMinorTermValue;
+    const majorTermValue =
+      typeof pMajorTermValue !== "string" || pMajorTermValue.length === 0
+        ? "major term"
+        : pMajorTermValue;
     if (
-      typeof conclusion !== "undefined"
-      && typeof validConclusions[conclusion] !== "undefined"
+      typeof conclusion !== "undefined" &&
+      typeof validConclusions[conclusion] !== "undefined"
     ) {
-      return validConclusions[conclusion].replace("B", minorTermValue).replace("A", majorTermValue);
+      conclusion = validConclusions[conclusion]
+        .replace("'B'", minorTermValue)
+        .replace("'A'", majorTermValue);
     }
     return conclusion;
   };

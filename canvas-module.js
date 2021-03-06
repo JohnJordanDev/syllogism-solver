@@ -245,7 +245,8 @@ const canvasModule = (function () {
         xPos -= 2 * smallestCircleRadius;
         yPos = canvasMidPointY - 2 * smallestCircleRadius;
       } else {
-        yPos -= 2 * midCircleRadius;
+        yPos -= 0.5 * bigCircleRadius;
+        xPos = storeOfCircleShapes.majorPremise.predicate.I.circleXPos;
       }
     }
     return [xPos, yPos];
