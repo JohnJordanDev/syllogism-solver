@@ -25,6 +25,10 @@
             margin: 0;
             padding: 1rem 0.66rem;
         }
+
+        input[type="text"] {
+            max-width: 7rem;;
+        }
         /*https://stackoverflow.com/questions/5805059/how-do-i-make-a-placeholder-for-a-select-box */
         select:required:invalid {
             color: gray;
@@ -49,7 +53,9 @@
             color: #666;
         }
 
-        .data-input {
+        .form {
+            display: flex;
+            flex-direction: column;
             max-width: 400px;
             margin: 0 auto;
         }
@@ -62,8 +68,10 @@
         .syllogism_part-term {
             display: flex;
             flex-direction: row;
+            flex-wrap: wrap;
             align-items: flex-start;
             flex-basis: 50%;
+
             margin: 0 2px;
         }
 
@@ -82,8 +90,9 @@
         }
         .overheadInputLabel_label {
             position: absolute;
-            top: -15px;
-            left: 10px;
+            bottom: -15px;
+            left: 5px;
+            line-height: 1;
 
             padding: 0 0.25rem;
             color: #999;
@@ -98,7 +107,7 @@
             max-width: 300px;
             margin: 0 auto 1rem;
         }
-        .conclusion {
+        .conclusion-text {
             display: block;
             background: #DDD;
         }
@@ -117,13 +126,13 @@
 
         @media screen and (min-width: 1200px) {
             main {
-                max-width: 800px;
+                max-width: 1000px;
             }
             canvas {
                 display: inline;
             }
 
-            .data-input {
+            .form {
                 max-width: none;
             }
 
@@ -131,6 +140,7 @@
             .syllogism_part-term {
                 display: flex;
                 flex-direction: row;
+                flex-wrap: wrap;
             }
 
             .syllogism_part {
@@ -139,6 +149,11 @@
 
             .syllogism_part-term {
                 align-items: center;
+            }
+
+            .syllogism_part-conclusion {
+                max-width: 800px;
+                align-self: flex-end;
             }
 
             .premise_input-overall {
@@ -156,15 +171,14 @@
                 margin-right: 1rem;
             }
 
-            .conclusion {
+            .conclusion-text {
                 margin: 0 auto;
                 min-width: 320px;
                 box-sizing: border-box;
             }
 
-            .conclusion,
             .premise_input-overall {
-                flex-basis: 400px;
+                flex-basis: 600px;
             }
         }
     </style>
@@ -175,7 +189,7 @@
             <header class="header">
                 <!-- Keep each figure separated as an individual form, toggled between using icon clicks -->
             </header>
-            <form action="#" onsubmit="return false;" id="first_figure" class="data-input">
+            <form action="#" onsubmit="return false;" id="first_figure" class="form">
                 <fieldset class="syllogism_part">
                     <legend>Major Premise</legend>
                     <span class="conditional">If</span>
@@ -247,10 +261,10 @@
                 </fieldset>
                 <hr/>    
                 <input type="submit" id="first_figure_submit" class="hidden">
-                <fieldset class="syllogism_part">
+                <fieldset class="syllogism_part syllogism_part-conclusion">
                     <legend>Conclusion: </legend>
                     <span class="conditional">Then</span>
-                    <output id="conclusion" class="conclusion" for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
+                    <output id="conclusion" class="conclusion-text" for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
                     <canvas id="canvas_conclusion">Modified Euler diagram for the conclusion.</canvas>
                 </fieldset>
             </form>

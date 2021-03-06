@@ -251,7 +251,7 @@ const canvasModule = (function () {
     }
     return [xPos, yPos];
   };
-
+  // TODO: refactor the draw text box functionality into new function
   const drawTextToBoard = (text, pCanvasElemCtx, term, part) => {
     const canvasElemCtx = pCanvasElemCtx;
     const canvasPositionsXAndY = getLabelPosition(term, part);
