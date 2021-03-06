@@ -182,12 +182,9 @@
     updateFormOutputs();
   };
   // cannot set letter-spacing on canvas, so adding hairspace
-  const addLetterSpacing = (text) =>
-    text.split("").join(String.fromCharCode(8202));
+  // const addLetterSpacing = (text) =>
+  //   text.split("").join(String.fromCharCode(8202));
 
-  // TODO: Issue with this function: need to grab data fresh each time from each of the relevant input elements
-  // and iterate over each input element, calling the "newInput".. NO need for 'newValue' at all
-  // TODO: could do with a store of settings for each text label, depending on element being updated
   const renderTextLabelsToCanvas = () => {
     storeOfDataLabels.forEach((l) => {
       window.app.canvas.drawTextToBoard(
