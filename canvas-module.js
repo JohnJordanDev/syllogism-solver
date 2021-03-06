@@ -256,7 +256,10 @@ const canvasModule = (function () {
     const canvasPositionsXAndY = getLabelPosition(term, part);
     // must set BEFORE drawing to canvas
     canvasElemCtx.font = "normal 0.667rem Helvetica, Arial, sans-serif";
+    canvasElemCtx.fillStyle = "#DED";
+    // canvasElemCtx.fillRect(canvasPositionsXAndY[0], canvasPositionsXAndY[1] - 8, 100, 16);
     canvasElemCtx.fillStyle = "#000"; // black text
+    // canvasElemCtx.textAlign = "start";
     canvasElemCtx.fillText(
       text,
       canvasPositionsXAndY[0],

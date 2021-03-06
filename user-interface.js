@@ -197,26 +197,18 @@
         l.part
       );
     });
-    //TODO: use getFormOfPropositions on app, to get position for the minor term text label
+    // TODO: use getFormOfPropositions on app, to get position for the minor term text label
   };
 
   const inputHandler = (event) => {
     const elem = event.target;
     const elemId = elem.getAttribute("id");
-    let newInput;
+    const newInput = elem.value;
     if (
       elemId === "middle_term_major_premise" ||
       elemId === "middle_term_minor_premise"
     ) {
-      newInput = elem.value;
       setMiddleTermsInSync(elemId, newInput);
-    } else if (elemId === "minor_term") {
-      newInput = elem.value;
-    } else if (elemId === "major_term") {
-      newInput = elem.value;
-    } else {
-      newInput = window.document.getElementById("middle_term_major_premise")
-        .value;
     }
     renderTextLabelsToCanvas();
   };
@@ -228,7 +220,6 @@
   };
 
   // ANY change to input/select elements MUST result of complete canvas redraw
-
   ["change", "input"].forEach((event) => {
     window.document.addEventListener(event, renderCanvas);
   });
