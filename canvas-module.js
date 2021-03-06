@@ -236,14 +236,14 @@ const canvasModule = (function () {
     } else if (part === "minorPremise") {
       if (term === "minorTerm") {
         xPos -= 2 * smallestCircleRadius;
-        yPos = canvasMidPointY - 2 * smallestCircleRadius;
+        yPos = canvasMidPointY + 2 * smallestCircleRadius;
       } else {
         yPos -= 0.25 * midCircleRadius;
       }
     } else if (part === "conclusion") {
       if (term === "minorTerm") {
         xPos -= 2 * smallestCircleRadius;
-        yPos = canvasMidPointY - 2 * smallestCircleRadius;
+        yPos = canvasMidPointY + 2 * smallestCircleRadius;
       } else {
         yPos -= 0.5 * bigCircleRadius;
         xPos = storeOfCircleShapes.majorPremise.predicate.I.circleXPos;
@@ -252,14 +252,25 @@ const canvasModule = (function () {
     return [xPos, yPos];
   };
 
-  const drawTextToBoard = (text, canvasElemCtx, term, part) => {
+  const drawTextToBoard = (text, pCanvasElemCtx, term, part) => {
+    const canvasElemCtx = pCanvasElemCtx;
     const canvasPositionsXAndY = getLabelPosition(term, part);
-    // must set BEFORE drawing to canvas
+    const textWidth = canvasElemCtx.measureText(text).width;
+    const docPixelSize = window.parseFloat(
+      window.getComputedStyle(document.documentElement).fontSize
+    );
+    const offsetPixelSizing = docPixelSize * 0.667; // using 0.667rem in font styling
+    canvasElemCtx.textBaseline = "bottom"; // to allow positioning of text in middle of label
     canvasElemCtx.font = "normal 0.667rem Helvetica, Arial, sans-serif";
     canvasElemCtx.fillStyle = "#DED";
-    // canvasElemCtx.fillRect(canvasPositionsXAndY[0], canvasPositionsXAndY[1] - 8, 100, 16);
+    canvasElemCtx.fillRect(
+      canvasPositionsXAndY[0],
+      canvasPositionsXAndY[1] - offsetPixelSizing,
+      textWidth,
+      offsetPixelSizing
+    );
     canvasElemCtx.fillStyle = "#000"; // black text
-    // canvasElemCtx.textAlign = "start";
+    canvasElemCtx.textAlign = "start";
     canvasElemCtx.fillText(
       text,
       canvasPositionsXAndY[0],
