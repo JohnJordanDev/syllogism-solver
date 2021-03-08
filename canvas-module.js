@@ -252,9 +252,8 @@ const canvasModule = (function () {
     return [xPos, yPos];
   };
   // TODO: refactor the draw text box functionality into new function
-  const drawTextToBoard = (text, pCanvasElemCtx, term, part) => {
+  const drawTextBox = (text, pCanvasElemCtx, canvasPositionsXAndY) => {
     const canvasElemCtx = pCanvasElemCtx;
-    const canvasPositionsXAndY = getLabelPosition(term, part);
     const textWidth = canvasElemCtx.measureText(text).width;
     const docPixelSize = window.parseFloat(
       window.getComputedStyle(document.documentElement).fontSize
@@ -269,6 +268,13 @@ const canvasModule = (function () {
       textWidth,
       offsetPixelSizing
     );
+  };
+  const drawTextToBoard = (text, pCanvasElemCtx, term, part) => {
+    const canvasElemCtx = pCanvasElemCtx;
+    const canvasPositionsXAndY = getLabelPosition(term, part);
+
+    drawTextBox(text, canvasElemCtx, canvasPositionsXAndY);
+
     canvasElemCtx.fillStyle = "#000"; // black text
     canvasElemCtx.textAlign = "start";
     canvasElemCtx.fillText(
