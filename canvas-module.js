@@ -251,7 +251,6 @@ const canvasModule = (function () {
     }
     return [xPos, yPos];
   };
-  // TODO: refactor the draw text box functionality into new function
   const drawTextBox = (text, pCanvasElemCtx, canvasPositionsXAndY) => {
     const canvasElemCtx = pCanvasElemCtx;
     const textWidth = canvasElemCtx.measureText(text).width;
@@ -274,6 +273,7 @@ const canvasModule = (function () {
     const canvasPositionsXAndY = getLabelPosition(term, part);
 
     drawTextBox(text, canvasElemCtx, canvasPositionsXAndY);
+    //TODO: draw line between minor term text box and its circle
 
     canvasElemCtx.fillStyle = "#000"; // black text
     canvasElemCtx.textAlign = "start";

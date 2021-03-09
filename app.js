@@ -1,6 +1,17 @@
 window.app = (function appInit() {
   // ====== app - state ======
 
+  let storedFormsOfBothPropositions;
+  const setStoredFormsOfBothPropositions = (majorPremise, minorPremise) => {
+    storedFormsOfBothPropositions = majorPremise + minorPremise;
+  };
+  const getStoredFormsOfBothPropositions = () => storedFormsOfBothPropositions;
+  let storedFormOfConclusion;
+  const setStoredFormOfConclusion = (newConclusionForm) => {
+    storedFormOfConclusion = newConclusionForm;
+  };
+  const getStoredFormOfConclusion = () => storedFormOfConclusion;
+
   let middleTermIsPredicateOfMajor = false;
   let middleTermIsSubjectOfMinor = false;
   const isMiddleTermPredicateOfMajor = () => middleTermIsPredicateOfMajor;
@@ -61,13 +72,13 @@ window.app = (function appInit() {
   ) => {
     const prop1Form = formOfPropositions[prop1Quantity + prop1Quality];
     const prop2Form = formOfPropositions[prop2Quantity + prop2Quality];
+    setStoredFormsOfBothPropositions(prop1Form, prop2Form);
     return prop1Form + prop2Form;
   };
-  const getConclusionForm = (formsOfBothPropositions) => {
-    if (validMoodsFirstFigure[formsOfBothPropositions]) {
-      return validMoodsFirstFigure[formsOfBothPropositions];
-    }
-    return null;
+  const getConclusionForm = (pFormsOfBothPropositions) => {
+    const conclusion = validMoodsFirstFigure[pFormsOfBothPropositions] || null;
+    setStoredFormOfConclusion(conclusion);
+    return conclusion;
   };
   const getConclusion = (
     formOfBothPropositions,
@@ -98,6 +109,8 @@ window.app = (function appInit() {
     getFormOfPropositions,
     getConclusionForm,
     getConclusion,
+    getStoredFormsOfBothPropositions,
+    getStoredFormOfConclusion,
     isMiddleTermPredicateOfMajor,
     isMiddleTermSubjectOfMinor,
     setValueOfIsMiddleTermPredicateOfMajor,
