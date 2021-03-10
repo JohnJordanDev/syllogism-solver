@@ -3,12 +3,12 @@ window.app = (function appInit() {
 
   let storedFormsOfBothPropositions;
   const setStoredFormsOfBothPropositions = (majorPremise, minorPremise) => {
-    storedFormsOfBothPropositions = majorPremise + minorPremise;
+    storedFormsOfBothPropositions = { majorPremise, minorPremise };
   };
   const getStoredFormsOfBothPropositions = () => storedFormsOfBothPropositions;
   let storedFormOfConclusion;
-  const setStoredFormOfConclusion = (newConclusionForm) => {
-    storedFormOfConclusion = newConclusionForm;
+  const setStoredFormOfConclusion = (conclusion) => {
+    storedFormOfConclusion = { conclusion };
   };
   const getStoredFormOfConclusion = () => storedFormOfConclusion;
 

@@ -69,6 +69,7 @@
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
+            justify-content: space-evenly;
             align-items: flex-start;
             flex-basis: 50%;
 
@@ -107,8 +108,14 @@
             max-width: 300px;
             margin: 0 auto 1rem;
         }
+
+        .premise_input-specific {
+            width: 4.75rem;
+        }
+
         .conclusion-text {
             display: block;
+            text-align: center;
             background: #DDD;
         }
 
@@ -213,9 +220,9 @@
                         </fieldset>
                        <fieldset class="syllogism_part-term">
                         <select id="prop_one_quality" class="premise_input-specific" required>
-                            <option value="" disabled selected>are/are NOT</option>
+                            <option value="" disabled selected>are/are not</option>
                             <option value="are">are</option>
-                            <option value="arenot">are NOT</option>
+                            <option value="arenot">are not</option>
                         </select>
                         <div class="overheadInputLabel_wrapper">
                             <label for="major_term" class="overheadInputLabel_label">Major Term</label>
@@ -243,9 +250,9 @@
                         </fieldset>
                         <fieldset class="syllogism_part-term subject_majorPremise">
                             <select id="prop_two_quality" class="premise_input-specific" required>
-                                <option value="" disabled selected>are/are NOT</option>
+                                <option value="" disabled selected>are/are not</option>
                                 <option value="are">are</option>
-                                <option value="arenot">are NOT</option>
+                                <option value="arenot">are not</option>
                             </select>
                             <!-- <span class="overheadInputLabel_wrapper">
                                 <label class="overheadInputLabel_label" for="middle_term_second">Middle Term</label>
