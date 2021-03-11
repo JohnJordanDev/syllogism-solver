@@ -45,7 +45,12 @@
             display: block;
             margin: 0 auto 0.5rem;
             max-width: 100%;
+            box-sizing: border-box;
             border: solid 1px #ddd;
+        }
+
+        .header {
+            margin-bottom: 1rem;
         }
 
         .conditional {
@@ -63,20 +68,30 @@
         .syllogism_part {
             display: flex;
             flex-direction: column;
+            margin-bottom: 1rem;
+        }
+
+
+        .syllogism_part-label {        
+            width: -moz-fit-content;
+            width: -webkit-fit-content;
+            width: fit-content;
+            padding: 0 1rem;
         }
 
         .syllogism_part-term {
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
+
             justify-content: space-evenly;
             align-items: flex-start;
             flex-basis: 50%;
 
-            margin: 0 2px;
+            border: solid 1px #999;
         }
 
-        .subject_majorPremise {
+        .premise_middlePart {
             border: dashed 2px #999;
         }
 
@@ -156,6 +171,7 @@
 
             .syllogism_part-term {
                 align-items: center;
+                margin: 0 2px;
             }
 
             .syllogism_part-conclusion {
@@ -198,10 +214,10 @@
             </header>
             <form action="#" onsubmit="return false;" id="first_figure" class="form">
                 <fieldset class="syllogism_part">
-                    <legend>Major Premise</legend>
+                    <legend class="syllogism_part-label">Major Premise</legend>
                     <span class="conditional">If</span>
                     <section class="premise_input-overall">
-                        <fieldset class="syllogism_part-term subject_majorPremise">
+                        <fieldset class="syllogism_part-term premise_middlePart">
                             <select id="prop_one_quantity" class="premise_input-specific" required>
                                 <option value="" disabled selected>all/some/no</option>
                                 <option value="all">all</option>
@@ -233,7 +249,7 @@
                     <canvas id="canvas_prop_one">Modified Euler diagram for proposition one</canvas>
                 </fieldset>
                 <fieldset class="syllogism_part">
-                    <legend>Minor Premise</legend>
+                    <legend class="syllogism_part-label">Minor Premise</legend>
                     <span class="conditional">And</span>
                     <section class="premise_input-overall">
                         <fieldset class="syllogism_part-term">
@@ -248,7 +264,7 @@
                                 <input id="minor_term" type="text" placeholder="Enter minor term..." maxlength="10"> 
                             </div>
                         </fieldset>
-                        <fieldset class="syllogism_part-term subject_majorPremise">
+                        <fieldset class="syllogism_part-term premise_middlePart">
                             <select id="prop_two_quality" class="premise_input-specific" required>
                                 <option value="" disabled selected>are/are not</option>
                                 <option value="are">are</option>
@@ -269,7 +285,7 @@
                 <hr/>    
                 <input type="submit" id="first_figure_submit" class="hidden">
                 <fieldset class="syllogism_part syllogism_part-conclusion">
-                    <legend>Conclusion: </legend>
+                    <legend class="syllogism_part-label">Conclusion: </legend>
                     <span class="conditional">Then</span>
                     <output id="conclusion" class="conclusion-text" for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
                     <canvas id="canvas_conclusion">Modified Euler diagram for the conclusion.</canvas>
