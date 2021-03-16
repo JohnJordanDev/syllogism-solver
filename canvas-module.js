@@ -168,9 +168,13 @@ const canvasModule = (function () {
     }
   };
 
+  const clearThisCanvas = (canvas) => {
+    canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+  };
+
   const clearAllCanvasses = () => {
     allCanvasses.forEach((canvas) => {
-      canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+      clearThisCanvas(canvas);
     });
   };
 
@@ -273,7 +277,7 @@ const canvasModule = (function () {
     const canvasPositionsXAndY = getLabelPosition(term, part);
 
     drawTextBox(text, canvasElemCtx, canvasPositionsXAndY);
-    //TODO: draw line between minor term text box and its circle
+    // TODO: draw line between minor term text box and its circle
 
     canvasElemCtx.fillStyle = "#000"; // black text
     canvasElemCtx.textAlign = "start";
@@ -286,6 +290,7 @@ const canvasModule = (function () {
 
   return {
     drawPartToBoard,
+    clearThisCanvas,
     clearAllCanvasses,
     drawTextToBoard
   };

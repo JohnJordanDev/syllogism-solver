@@ -134,6 +134,7 @@
       conclusionOutputElem.innerHTML = `${conclusionContent}`;
     } else {
       conclusionOutputElem.innerHTML = "we cannot draw a valid conclusion";
+      // window.app.canvas.clearThisCanvas(canvasConclusion);
     }
   };
 
@@ -145,10 +146,13 @@
     window.app.canvas.clearAllCanvasses();
     if (firstFigure.checkValidity()) {
       drawPremisesAndConclusion();
+      // window.app.canvas.clearThisCanvas(canvasConclusion);
     } else {
       triggerFormUiFeedback();
       conclusionOutputElem.innerHTML = "...";
+      // window.app.canvas.clearThisCanvas(canvasConclusion);
     }
+    // TODO Add call to clearVanas on conclusion, and refactor our conContent from 'drawPrem..
   };
 
   const setMiddleTermsInSync = (elemId, newInput) => {
@@ -195,6 +199,7 @@
       );
     });
     // TODO: use getFormOfPropositions on app, to get position for the minor term text label
+    // TODO: to remove conclusion labels if no valid conclusion, from argument
   };
 
   const inputHandler = (event) => {
@@ -207,10 +212,12 @@
     ) {
       setMiddleTermsInSync(elemId, newInput);
     }
+    // TODO: wrap this in logic to remove conclusion labels, if no valid conclusion
     renderTextLabelsToCanvas();
   };
 
   const renderCanvas = (ev) => {
+    // get conclusion form here, and pass in
     window.app.canvas.clearAllCanvasses();
     changeHandler(ev);
     inputHandler(ev);
