@@ -29,6 +29,8 @@
     "first_figure_submit"
   );
   const conclusionOutputElem = window.document.getElementById("conclusion");
+  //TODO: refactor into app global state store
+  let validConclusion = false;
 
   // ====== utils - UI ======
 
@@ -114,6 +116,7 @@
       minorTerm.value,
       majorTerm.value
     );
+    validConclusion = conclusionContent;
     window.app.canvas.drawPartToBoard(
       "majorPremise",
       formsOfPropositions[0],
@@ -213,7 +216,7 @@
       setMiddleTermsInSync(elemId, newInput);
     }
     // TODO: wrap this in logic to remove conclusion labels, if no valid conclusion
-    renderTextLabelsToCanvas();
+    if(validConclusion) renderTextLabelsToCanvas();
   };
 
   const renderCanvas = (ev) => {

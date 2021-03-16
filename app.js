@@ -76,7 +76,7 @@ window.app = (function appInit() {
     return prop1Form + prop2Form;
   };
   const getConclusionForm = (pFormsOfBothPropositions) => {
-    const conclusion = validMoodsFirstFigure[pFormsOfBothPropositions] || null;
+    const conclusion = validMoodsFirstFigure[pFormsOfBothPropositions] || undefined;
     setStoredFormOfConclusion(conclusion);
     return conclusion;
   };
