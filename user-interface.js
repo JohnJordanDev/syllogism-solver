@@ -29,8 +29,6 @@
     "first_figure_submit"
   );
   const conclusionOutputElem = window.document.getElementById("conclusion");
-  //TODO: refactor into app global state store
-  let validConclusion = false;
 
   // ====== utils - UI ======
 
@@ -111,12 +109,8 @@
       prop2Quantity.value,
       prop2Quality.value
     );
-    const conclusionContent = window.app.getConclusion(
-      formsOfPropositions,
-      minorTerm.value,
-      majorTerm.value
-    );
-    validConclusion = conclusionContent;
+    const conclusionForm = window.app.getConclusionForm(formsOfPropositions);
+
     window.app.canvas.drawPartToBoard(
       "majorPremise",
       formsOfPropositions[0],
@@ -128,16 +122,20 @@
       canvasPropTwoCtx
     );
 
-    if (conclusionContent) {
+    if (conclusionForm) {
+      const conclusionTextContent = window.app.getConclusion(
+        formsOfPropositions,
+        minorTerm.value,
+        majorTerm.value
+      );
       window.app.canvas.drawPartToBoard(
         "conclusion",
         window.app.getConclusionForm(formsOfPropositions),
         canvasConclusionCtx
       );
-      conclusionOutputElem.innerHTML = `${conclusionContent}`;
+      conclusionOutputElem.innerHTML = `${conclusionTextContent}`;
     } else {
       conclusionOutputElem.innerHTML = "we cannot draw a valid conclusion";
-      // window.app.canvas.clearThisCanvas(canvasConclusion);
     }
   };
 
@@ -216,7 +214,8 @@
       setMiddleTermsInSync(elemId, newInput);
     }
     // TODO: wrap this in logic to remove conclusion labels, if no valid conclusion
-    if(validConclusion) renderTextLabelsToCanvas();
+    renderTextLabelsToCanvas();
+    if (!window.app.getStoredFormOfConclusion().conclusion) window.app.canvas.clearThisCanvas(canvasConclusion);
   };
 
   const renderCanvas = (ev) => {

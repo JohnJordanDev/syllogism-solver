@@ -6,8 +6,10 @@ window.app = (function appInit() {
     storedFormsOfBothPropositions = { majorPremise, minorPremise };
   };
   const getStoredFormsOfBothPropositions = () => storedFormsOfBothPropositions;
+  
   let storedFormOfConclusion;
   const setStoredFormOfConclusion = (conclusion) => {
+    console.log('in set ', storedFormOfConclusion);
     storedFormOfConclusion = { conclusion };
   };
   const getStoredFormOfConclusion = () => storedFormOfConclusion;
