@@ -1,4 +1,11 @@
 const textLabels = (function (canvasModule) {
+  const setStylingOfCanvas = (pCanvasElemCtx) => {
+    const canvasElemCtx = pCanvasElemCtx;
+    canvasElemCtx.textBaseline = "bottom"; // to allow positioning of text in middle of label
+    canvasElemCtx.font = "normal 0.667rem Helvetica, Arial, sans-serif";
+    canvasElemCtx.fillStyle = "#DED";
+  };
+
   const drawTextBox = (text, pCanvasElemCtx, canvasPositionsXAndY) => {
     const canvasElemCtx = pCanvasElemCtx;
     const textWidth = canvasElemCtx.measureText(text).width;
@@ -6,9 +13,8 @@ const textLabels = (function (canvasModule) {
       window.getComputedStyle(document.documentElement).fontSize
     );
     const offsetPixelSizing = docPixelSize * 0.667; // using 0.667rem in font styling
-    canvasElemCtx.textBaseline = "bottom"; // to allow positioning of text in middle of label
-    canvasElemCtx.font = "normal 0.667rem Helvetica, Arial, sans-serif";
-    canvasElemCtx.fillStyle = "#DED";
+    setStylingOfCanvas(canvasElemCtx);
+
     canvasElemCtx.fillRect(
       canvasPositionsXAndY[0],
       canvasPositionsXAndY[1] - offsetPixelSizing,
@@ -16,7 +22,7 @@ const textLabels = (function (canvasModule) {
       offsetPixelSizing
     );
   };
-  
+
   const drawTextToBoard = (text, pCanvasElemCtx, term, part) => {
     const canvasElemCtx = pCanvasElemCtx;
     const canvasPositionsXAndY = canvasModule.store.getLabelPosition(
