@@ -1,303 +1,366 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Syllogistic Inference</title>
     <style>
+      html {
+        box-sizing: content-box;
+      }
 
-        html {
-            box-sizing: content-box;
-        }
-        
-        main {
-            box-sizing: border-box;
-            display: block;
-            max-width: 500px;
-            margin: 0 auto 1.5rem;
-        } 
-        section {
-            margin-bottom: 1.5rem;
-        }
+      main {
+        box-sizing: border-box;
+        display: block;
+        max-width: 500px;
+        margin: 0 auto 1.5rem;
+      }
+      section {
+        margin-bottom: 1.5rem;
+      }
 
-        fieldset,
-        .conclusion  {
-            margin: 0;
-            padding: 1rem 0.66rem;
-        }
+      fieldset,
+      .conclusion {
+        margin: 0;
+        padding: 1rem 0.66rem;
+      }
 
-        input[type="text"] {
-            max-width: 7rem;;
-        }
-        /*https://stackoverflow.com/questions/5805059/how-do-i-make-a-placeholder-for-a-select-box */
-        select:required:invalid {
-            color: gray;
-        }
-        option[value=""][disabled] {
-            display: none;
-        }
-        option {
-            color: black;
-            text-transform: uppercase;
-        }
+      input[type="text"] {
+        max-width: 7rem;
+      }
+      /*https://stackoverflow.com/questions/5805059/how-do-i-make-a-placeholder-for-a-select-box */
+      select:required:invalid {
+        color: gray;
+      }
+      option[value=""][disabled] {
+        display: none;
+      }
+      option {
+        color: black;
+        text-transform: uppercase;
+      }
 
+      canvas {
+        display: block;
+        margin: 0 auto 0.5rem;
+        max-width: 100%;
+        box-sizing: border-box;
+        border: solid 1px #ddd;
+      }
+
+      .header {
+        margin-bottom: 1rem;
+      }
+
+      .conditional {
+        font-style: italic;
+        color: #666;
+      }
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        max-width: 400px;
+        margin: 0 auto;
+      }
+
+      .syllogism_part {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem;
+      }
+
+      .syllogism_part-label {
+        width: -moz-fit-content;
+        width: -webkit-fit-content;
+        width: fit-content;
+        padding: 0 1rem;
+      }
+
+      .syllogism_part-term {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        justify-content: space-evenly;
+        align-items: center;
+        flex-basis: 50%;
+
+        border: solid 1px #999;
+      }
+
+      .premise_middlePart {
+        border: dashed 2px #999;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .overheadInputLabel_wrapper {
+        position: relative;
+        border: solid 1px #000;
+        padding: 5px;
+      }
+      .overheadInputLabel_label {
+        position: absolute;
+        bottom: -15px;
+        left: 5px;
+        line-height: 1;
+
+        padding: 0 0.25rem;
+        color: #999;
+        background: #fff;
+      }
+      .premise_input-overall {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto 1rem;
+      }
+
+      .premise_input-specific {
+        width: 4.75rem;
+      }
+
+      .conclusion-text {
+        display: block;
+        text-align: center;
+        background: #ddd;
+      }
+
+      @media screen and (min-width: 768px) {
         canvas {
-            display: block;
-            margin: 0 auto 0.5rem;
-            max-width: 100%;
-            box-sizing: border-box;
-            border: solid 1px #ddd;
+          max-height: none;
+          max-width: 500px;
         }
+      }
 
-        .header {
-            margin-bottom: 1rem;
+      @media screen and (min-width: 1200px) {
+        main {
+          max-width: 1000px;
         }
-
-        .conditional {
-            font-style: italic;
-            color: #666;
+        canvas {
+          display: inline;
         }
 
         .form {
-            display: flex;
-            flex-direction: column;
-            max-width: 400px;
-            margin: 0 auto;
+          max-width: none;
+        }
+
+        .premise_input-overall {
+          flex-direction: row;
+          max-width: none;
+        }
+
+        .syllogism_part,
+        .syllogism_part-term {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
         }
 
         .syllogism_part {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 1rem;
-        }
-
-
-        .syllogism_part-label {        
-            width: -moz-fit-content;
-            width: -webkit-fit-content;
-            width: fit-content;
-            padding: 0 1rem;
+          align-items: flex-start;
         }
 
         .syllogism_part-term {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-
-            justify-content: space-evenly;
-            align-items: center;
-            flex-basis: 50%;
-
-            border: solid 1px #999;
+          align-items: center;
+          margin: 0 2px;
         }
 
-        .premise_middlePart {
-            border: dashed 2px #999;
+        .syllogism_part-conclusion {
+          max-width: 800px;
+          align-self: flex-end;
         }
 
-        .hidden {
-            display: none !important;
-        }
-
-        .overheadInputLabel_wrapper {
-            position: relative;
-            border: solid 1px #000;
-            padding: 5px;
-        }
-        .overheadInputLabel_label {
-            position: absolute;
-            bottom: -15px;
-            left: 5px;
-            line-height: 1;
-
-            padding: 0 0.25rem;
-            color: #999;
-            background: #FFF;
-        }
         .premise_input-overall {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+          justify-content: space-between;
+          align-items: flex-start;
+          white-space: nowrap;
+        }
 
-            width: 100%;
-            max-width: 300px;
-            margin: 0 auto 1rem;
+        .conditional {
+          min-width: 2.25rem;
+          margin-right: 2rem;
         }
 
         .premise_input-specific {
-            width: 4.75rem;
+          margin-right: 1rem;
         }
 
         .conclusion-text {
-            display: block;
-            text-align: center;
-            background: #DDD;
+          margin: 0 auto;
+          min-width: 320px;
+          box-sizing: border-box;
         }
 
-        @media screen and (min-width: 768px) {
-            canvas {
-               max-height: none;
-               max-width: 500px;
-            }
+        .premise_input-overall {
+          flex-basis: 600px;
         }
-
-        @media screen and (min-width: 1200px) {
-            main {
-                max-width: 1000px;
-            }
-            canvas {
-                display: inline;
-            }
-
-            .form {
-                max-width: none;
-            }
-
-            .premise_input-overall {
-                flex-direction: row;
-                max-width: none;
-            }
-
-            .syllogism_part,
-            .syllogism_part-term {
-                display: flex;
-                flex-direction: row;
-                flex-wrap: wrap;
-            }
-
-            .syllogism_part {
-                align-items: flex-start;
-            }
-
-            .syllogism_part-term {
-                align-items: center;
-                margin: 0 2px;
-            }
-
-            .syllogism_part-conclusion {
-                max-width: 800px;
-                align-self: flex-end;
-            }
-
-            .premise_input-overall {
-                justify-content: space-between;
-                align-items: flex-start;
-                white-space: nowrap;
-            }
-
-            .conditional {
-                min-width: 2.25rem;
-                margin-right: 2rem;
-            }
-
-            .premise_input-specific {
-                margin-right: 1rem;
-            }
-
-            .conclusion-text {
-                margin: 0 auto;
-                min-width: 320px;
-                box-sizing: border-box;
-            }
-
-            .premise_input-overall {
-                flex-basis: 600px;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <main>
-        <section>
-            <header class="header">
-                <!-- Keep each figure separated as an individual form, toggled between using icon clicks -->
-            </header>
-            <form action="#" onsubmit="return false;" id="first_figure" class="form">
-                <fieldset class="syllogism_part">
-                    <legend class="syllogism_part-label">Major Premise</legend>
-                    <span class="conditional">If</span>
-                    <section class="premise_input-overall">
-                        <fieldset class="syllogism_part-term premise_middlePart">
-                            <select id="prop_one_quantity" class="premise_input-specific" required>
-                                <option value="" disabled selected>all/some/no</option>
-                                <option value="all">all</option>
-                                <option value="some">some</option>
-                                <option value="no">no</option>
-                            </select>
-                            <!-- Commented this out, to avoid having to enter when testing -->
-                            <!-- <span class="overheadInputLabel_wrapper">
+      <section>
+        <header class="header">
+          <!-- Keep each figure separated as an individual form, toggled between using icon clicks -->
+        </header>
+        <form
+          action="#"
+          onsubmit="return false;"
+          id="first_figure"
+          class="form"
+        >
+          <fieldset class="syllogism_part">
+            <legend class="syllogism_part-label">Major Premise</legend>
+            <span class="conditional">If</span>
+            <section class="premise_input-overall">
+              <fieldset class="syllogism_part-term premise_middlePart">
+                <select
+                  id="prop_one_quantity"
+                  class="premise_input-specific"
+                  required
+                >
+                  <option value="" disabled selected>all/some/no</option>
+                  <option value="all">all</option>
+                  <option value="some">some</option>
+                  <option value="no">no</option>
+                </select>
+                <!-- Commented this out, to avoid having to enter when testing -->
+                <!-- <span class="overheadInputLabel_wrapper">
                                 <label class="overheadInputLabel_label" for="middle_term_first">Middle Term</label>
                                 <input type="text" id="middle_term_first" placeholder='e.g. "mammals"' required>
                             </span> -->
-                            <div class="overheadInputLabel_wrapper">
-                                <label for="middle_term_major_premise" class="overheadInputLabel_label">Middle Term</label>
-                                <input id="middle_term_major_premise" type="text" placeholder="Enter middle term" maxlength="10"> 
-                            </div>
-                        </fieldset>
-                       <fieldset class="syllogism_part-term">
-                        <select id="prop_one_quality" class="premise_input-specific" required>
-                            <option value="" disabled selected>are/are not</option>
-                            <option value="are">are</option>
-                            <option value="arenot">are not</option>
-                        </select>
-                        <div class="overheadInputLabel_wrapper">
-                            <label for="major_term" class="overheadInputLabel_label">Major Term</label>
-                            <input id="major_term" type="text" placeholder="Enter major term..." maxlength="10"> 
-                        </div>
-                       </fieldset>
-                    </section>
-                    <canvas id="canvas_prop_one">Modified Euler diagram for proposition one</canvas>
-                </fieldset>
-                <fieldset class="syllogism_part">
-                    <legend class="syllogism_part-label">Minor Premise</legend>
-                    <span class="conditional">And</span>
-                    <section class="premise_input-overall">
-                        <fieldset class="syllogism_part-term">
-                            <select id="prop_two_quantity" class="premise_input-specific" required>
-                                <option value="" disabled selected>all/some/no</option>
-                                <option value="all">all</option>
-                                <option value="some">some</option>
-                                <option value="no">no</option>
-                            </select>
-                            <div class="overheadInputLabel_wrapper">
-                                <label for="minor_term" class="overheadInputLabel_label">Minor Term</label>
-                                <input id="minor_term" type="text" placeholder="Enter minor term..." maxlength="10"> 
-                            </div>
-                        </fieldset>
-                        <fieldset class="syllogism_part-term premise_middlePart">
-                            <select id="prop_two_quality" class="premise_input-specific" required>
-                                <option value="" disabled selected>are/are not</option>
-                                <option value="are">are</option>
-                                <option value="arenot">are not</option>
-                            </select>
-                            <!-- <span class="overheadInputLabel_wrapper">
+                <div class="overheadInputLabel_wrapper">
+                  <label
+                    for="middle_term_major_premise"
+                    class="overheadInputLabel_label"
+                    >Middle Term</label
+                  >
+                  <input
+                    id="middle_term_major_premise"
+                    type="text"
+                    placeholder="Enter middle term"
+                    maxlength="10"
+                  />
+                </div>
+              </fieldset>
+              <fieldset class="syllogism_part-term">
+                <select
+                  id="prop_one_quality"
+                  class="premise_input-specific"
+                  required
+                >
+                  <option value="" disabled selected>are/are not</option>
+                  <option value="are">are</option>
+                  <option value="arenot">are not</option>
+                </select>
+                <div class="overheadInputLabel_wrapper">
+                  <label for="major_term" class="overheadInputLabel_label"
+                    >Major Term</label
+                  >
+                  <input
+                    id="major_term"
+                    type="text"
+                    placeholder="Enter major term..."
+                    maxlength="10"
+                  />
+                </div>
+              </fieldset>
+            </section>
+            <canvas id="canvas_prop_one"
+              >Modified Euler diagram for proposition one</canvas
+            >
+          </fieldset>
+          <fieldset class="syllogism_part">
+            <legend class="syllogism_part-label">Minor Premise</legend>
+            <span class="conditional">And</span>
+            <section class="premise_input-overall">
+              <fieldset class="syllogism_part-term">
+                <select
+                  id="prop_two_quantity"
+                  class="premise_input-specific"
+                  required
+                >
+                  <option value="" disabled selected>all/some/no</option>
+                  <option value="all">all</option>
+                  <option value="some">some</option>
+                  <option value="no">no</option>
+                </select>
+                <div class="overheadInputLabel_wrapper">
+                  <label for="minor_term" class="overheadInputLabel_label"
+                    >Minor Term</label
+                  >
+                  <input
+                    id="minor_term"
+                    type="text"
+                    placeholder="Enter minor term..."
+                    maxlength="10"
+                  />
+                </div>
+              </fieldset>
+              <fieldset class="syllogism_part-term premise_middlePart">
+                <select
+                  id="prop_two_quality"
+                  class="premise_input-specific"
+                  required
+                >
+                  <option value="" disabled selected>are/are not</option>
+                  <option value="are">are</option>
+                  <option value="arenot">are not</option>
+                </select>
+                <!-- <span class="overheadInputLabel_wrapper">
                                 <label class="overheadInputLabel_label" for="middle_term_second">Middle Term</label>
                                 <input type="text" id="middle_term_second" readonly>
                             </span> -->
-                            <div class="overheadInputLabel_wrapper">
-                                <label for="middle_term_minor_premise" class="overheadInputLabel_label">Middle Term</label>
-                                <input id="middle_term_minor_premise" type="text" placeholder="Enter middle term" maxlength="10"> 
-                            </div>
-                        </fieldset>
-                    </section>
-                    <canvas id="canvas_prop_two">Modified Euler diagram for proposition two</canvas>
-                </fieldset>
-                <hr/>    
-                <input type="submit" id="first_figure_submit" class="hidden">
-                <fieldset class="syllogism_part syllogism_part-conclusion">
-                    <legend class="syllogism_part-label">Conclusion: </legend>
-                    <span class="conditional">Then</span>
-                    <output id="conclusion" class="conclusion-text" for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
-                    <canvas id="canvas_conclusion">Modified Euler diagram for the conclusion.</canvas>
-                </fieldset>
-            </form>
-        </section>
-        <section>
-        </section>
+                <div class="overheadInputLabel_wrapper">
+                  <label
+                    for="middle_term_minor_premise"
+                    class="overheadInputLabel_label"
+                    >Middle Term</label
+                  >
+                  <input
+                    id="middle_term_minor_premise"
+                    type="text"
+                    placeholder="Enter middle term"
+                    maxlength="10"
+                  />
+                </div>
+              </fieldset>
+            </section>
+            <canvas id="canvas_prop_two"
+              >Modified Euler diagram for proposition two</canvas
+            >
+          </fieldset>
+          <hr />
+          <input type="submit" id="first_figure_submit" class="hidden" />
+          <fieldset class="syllogism_part syllogism_part-conclusion">
+            <legend class="syllogism_part-label">Conclusion:</legend>
+            <span class="conditional">Then</span>
+            <output
+              id="conclusion"
+              class="conclusion-text"
+              for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality"
+              form="first_figure"
+            ></output>
+            <canvas id="canvas_conclusion"
+              >Modified Euler diagram for the conclusion.</canvas
+            >
+          </fieldset>
+        </form>
+      </section>
+      <section></section>
     </main>
-    
-    <script src="app.js"></script>  
-    <script src="canvas-module.js"></script> 
-    <script src="user-interface.js"></script>  
-</body>
+
+    <script src="app.js"></script>
+    <script src="canvas-module.js"></script>
+    <script src="canvas-store.js"></script>
+    <script src="canvas-textLabels.js"></script>
+    <script src="user-interface.js"></script>
+  </body>
 </html>

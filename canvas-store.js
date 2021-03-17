@@ -1,8 +1,4 @@
-const canvasModule = (function () {
-  const allCanvasses = [...window.document.getElementsByTagName("canvas")];
-
-  // TODO: set width of all canvas elements to 350, etc.
-
+const store = (function () {
   const pi = window.Math.PI;
 
   // Note: difference between canvas logical drawing elements, and the element itself
@@ -26,7 +22,6 @@ const canvasModule = (function () {
   const lineDashSettings = [2, 2, 2, 2];
   const solidLineSettings = [];
   const subjectFillHex = "#D1D1D1";
-
   const getDefaultShapeSettings = () => ({
     circleXPos: canvasMidPointX,
     circleRadius: midCircleRadius,
@@ -167,71 +162,35 @@ const canvasModule = (function () {
       }
     }
   };
-
-  const clearThisCanvas = (canvas) => {
-    canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
-  };
-
-  const clearAllCanvasses = () => {
-    allCanvasses.forEach((canvas) => {
-      clearThisCanvas(canvas);
-    });
-  };
-
-  const drawToCanvas = function (canvasElemCtx, settings) {
-    canvasElemCtx.moveTo(settings.startPositionX, settings.startPositionY);
-    canvasElemCtx.setLineDash(settings.setLineDash);
-    canvasElemCtx.beginPath();
-    canvasElemCtx.arc(
-      settings.circleXPos,
-      settings.cirleYPos,
-      settings.circleRadius,
-      settings.startAngleRad,
-      settings.endAngleRad,
-      settings.counterClockwise
-    );
-    canvasElemCtx.stroke();
-    if (settings.fillStyle) {
-      // eslint-disable-next-line no-param-reassign
-      canvasElemCtx.fillStyle = settings.fillStyle;
-      canvasElemCtx.fill();
+  const getLabelPosition = (term, part) => {
+    let xPos = canvasMidPointX - midCircleRadius;
+    let yPos = canvasMidPointY - midCircleRadius;
+    if (part === "majorPremise") {
+      if (term === "majorTerm") {
+        yPos -= 0.5 * bigCircleRadius;
+        xPos = storeOfCircleShapes.majorPremise.predicate.I.circleXPos;
+      } else {
+        yPos -= 0.25 * midCircleRadius;
+      }
+    } else if (part === "minorPremise") {
+      if (term === "minorTerm") {
+        xPos -= 2 * smallestCircleRadius;
+        yPos = canvasMidPointY + 2 * smallestCircleRadius;
+      } else {
+        yPos -= 0.25 * midCircleRadius;
+      }
+    } else if (part === "conclusion") {
+      if (term === "minorTerm") {
+        xPos -= 2 * smallestCircleRadius;
+        yPos = canvasMidPointY + 2 * smallestCircleRadius;
+      } else {
+        yPos -= 0.5 * bigCircleRadius;
+        xPos = storeOfCircleShapes.majorPremise.predicate.I.circleXPos;
+      }
     }
+    return [xPos, yPos];
   };
-
-  const drawCircle = function (canvasElemCtx, options = {}) {
-    const defaults = {
-      startPositionX: canvasMidPointX,
-      startPositionY: canvasMidPointY,
-      circleXPos: canvasMidPointX,
-      cirleYPos: canvasMidPointY,
-      circleRadius: bigCircleRadius,
-      startAngleRad: 0,
-      endAngleRad: pi * 2,
-      counterClockwise: true,
-      setLineDash: []
-    };
-    const settings = { ...defaults, ...options };
-    drawToCanvas(canvasElemCtx, settings);
-  };
-
-  const drawPartToBoard = (part, partForm, canvasElemCtx) => {
-    const subjectCircleShape = {
-      ...getDefaultShapeSettings(),
-      ...storeOfCircleShapes[part].subject[partForm]
-    };
-    const predicateCircleShape = {
-      ...getDefaultShapeSettings(),
-      ...storeOfCircleShapes[part].predicate[partForm]
-    };
-    drawCircle(canvasElemCtx, subjectCircleShape);
-    drawCircle(canvasElemCtx, predicateCircleShape);
-  };
-
-  return {
-    drawPartToBoard,
-    clearThisCanvas,
-    clearAllCanvasses
-  };
+  return { getLabelPosition };
 })();
 
-window.app.canvas = canvasModule;
+window.app.canvas.store = store;

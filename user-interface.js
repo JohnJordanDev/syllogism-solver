@@ -192,7 +192,7 @@
 
   const renderTextLabelsToCanvas = () => {
     storeOfDataLabels.forEach((l) => {
-      window.app.canvas.drawTextToBoard(
+      window.app.canvas.textLabels.drawTextToBoard(
         l.inputElem.value,
         l.canvas,
         l.term,
@@ -213,7 +213,6 @@
     ) {
       setMiddleTermsInSync(elemId, newInput);
     }
-    // TODO: wrap this in logic to remove conclusion labels, if no valid conclusion
     renderTextLabelsToCanvas();
     if (!window.app.getStoredFormOfConclusion().conclusion) window.app.canvas.clearThisCanvas(canvasConclusion);
   };

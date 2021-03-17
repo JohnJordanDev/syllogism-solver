@@ -9,7 +9,6 @@ window.app = (function appInit() {
   
   let storedFormOfConclusion;
   const setStoredFormOfConclusion = (conclusion) => {
-    console.log('in set ', storedFormOfConclusion);
     storedFormOfConclusion = { conclusion };
   };
   const getStoredFormOfConclusion = () => storedFormOfConclusion;
