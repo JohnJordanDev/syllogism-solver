@@ -2,41 +2,45 @@
   const canvasMod = app.canvas;
   const canvasStore = canvasMod.store;
   const canvasTextLabels = canvasMod.textLabels;
+
+
+  const doc = window.document;
+  doc.getEbyId = doc.getElementById;
   // ToDo: Place all this on an object
-  const prop1Quantity = window.document.getElementById("prop_one_quantity");
-  const prop1Quality = window.document.getElementById("prop_one_quality");
-  const prop2Quantity = window.document.getElementById("prop_two_quantity");
-  const prop2Quality = window.document.getElementById("prop_two_quality");
+  const prop1Quantity = doc.getEbyId("prop_one_quantity");
+  const prop1Quality = doc.getEbyId("prop_one_quality");
+  const prop2Quantity = doc.getEbyId("prop_two_quantity");
+  const prop2Quality = doc.getEbyId("prop_two_quality");
 
-  const majorTerm = window.document.getElementById("major_term");
-  const minorTerm = window.document.getElementById("minor_term");
+  const majorTerm = doc.getEbyId("major_term");
+  const minorTerm = doc.getEbyId("minor_term");
 
-  const middleTermMajorPremise = window.document.getElementById(
+  const middleTermMajorPremise = doc.getEbyId(
     "middle_term_major_premise"
   );
-  const middleTermMinorPremise = window.document.getElementById(
+  const middleTermMinorPremise = doc.getEbyId(
     "middle_term_minor_premise"
   );
 
-  const canvasPropOne = window.document.getElementById("canvas_prop_one");
+  const canvasPropOne = doc.getEbyId("canvas_prop_one");
   const canvasPropOneCtx = canvasPropOne.getContext("2d");
 
-  const canvasPropTwo = window.document.getElementById("canvas_prop_two");
+  const canvasPropTwo = doc.getEbyId("canvas_prop_two");
   const canvasPropTwoCtx = canvasPropTwo.getContext("2d");
 
-  const canvasConclusion = window.document.getElementById("canvas_conclusion");
+  const canvasConclusion = doc.getEbyId("canvas_conclusion");
   const canvasConclusionCtx = canvasConclusion.getContext("2d");
 
-  const firstFigure = window.document.getElementById("first_figure");
-  const firstFigureSubmit = window.document.getElementById(
+  const firstFigure = doc.getEbyId("first_figure");
+  const firstFigureSubmit = doc.getEbyId(
     "first_figure_submit"
   );
-  const conclusionOutputElem = window.document.getElementById("conclusion");
+  const conclusionOutputElem = doc.getEbyId("conclusion");
 
   // ====== utils - UI ======
 
   const hideAreNotOptionOfPropQuality = (propQualityId) => {
-    const propQualityElem = window.document.getElementById(propQualityId);
+    const propQualityElem = doc.getEbyId(propQualityId);
     propQualityElem.value = "are";
     propQualityElem.querySelectorAll("option").forEach((optionElem) => {
       if (optionElem.value === "arenot") {
@@ -51,13 +55,13 @@
 
   // Only valid quantity given quality of 'are NOT', is 'some'
   const selectSomeOptionOfPropQuantity = (propQuantityId) => {
-    const propQuantityElem = window.document.getElementById(propQuantityId);
+    const propQuantityElem = doc.getEbyId(propQuantityId);
     propQuantityElem.value = "some";
   };
 
   // showAreNotOptionOfPropQuality(), to undo effect of hideAreNotOptionOfPropQuality
   const showAreNotOptionOfPropQuality = (propQualityId) => {
-    const propQualityElem = window.document.getElementById(propQualityId);
+    const propQualityElem = doc.getEbyId(propQualityId);
     propQualityElem.querySelectorAll("option").forEach((optionElem) => {
       // Want to maintain disabled status of 'placeholder' element
       if (optionElem.value === "arenot") {
@@ -229,10 +233,10 @@
 
   // ANY change to input/select elements MUST result of complete canvas redraw
   ["change", "input"].forEach((event) => {
-    window.document.addEventListener(event, renderCanvas);
+    doc.addEventListener(event, renderCanvas);
   });
 
-  window.document.getElementById("first_figure").reset();
+  doc.getEbyId("first_figure").reset();
 
   // For testing purposes
   prop1Quantity.selectedIndex = 3;
