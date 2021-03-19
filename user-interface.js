@@ -1,4 +1,7 @@
-(function userInterface() {
+(function userInterface(app) {
+  const canvasMod = app.canvas;
+  const canvasStore = canvasMod.store;
+  const canvasTextLabels = canvasMod.textLabels;
   // ToDo: Place all this on an object
   const prop1Quantity = window.document.getElementById("prop_one_quantity");
   const prop1Quality = window.document.getElementById("prop_one_quality");
@@ -192,7 +195,7 @@
 
   const renderTextLabelsToCanvas = () => {
     storeOfDataLabels.forEach((l) => {
-      window.app.canvas.textLabels.drawTextToBoard(
+      canvasTextLabels.drawTextToBoard(
         l.inputElem.value,
         l.canvas,
         l.term,
@@ -245,4 +248,4 @@
   prop1Quantity.dispatchEvent(changeEvent);
   prop1Quality.dispatchEvent(changeEvent);
   prop2Quantity.dispatchEvent(changeEvent);
-})();
+})(window.app);
