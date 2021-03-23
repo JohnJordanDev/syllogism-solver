@@ -1,9 +1,4 @@
-(function userInterface(app) {
-  const canvasMod = app.canvas;
-  const canvasStore = canvasMod.store;
-  const canvasTextLabels = canvasMod.textLabels;
-
-
+(function userInterface(app, canvasMod, canvasStore, canvasTextLabels) {
   const doc = window.document;
   doc.getEbyId = doc.getElementById;
   // ToDo: Place all this on an object
@@ -15,12 +10,8 @@
   const majorTerm = doc.getEbyId("major_term");
   const minorTerm = doc.getEbyId("minor_term");
 
-  const middleTermMajorPremise = doc.getEbyId(
-    "middle_term_major_premise"
-  );
-  const middleTermMinorPremise = doc.getEbyId(
-    "middle_term_minor_premise"
-  );
+  const middleTermMajorPremise = doc.getEbyId("middle_term_major_premise");
+  const middleTermMinorPremise = doc.getEbyId("middle_term_minor_premise");
 
   const canvasPropOne = doc.getEbyId("canvas_prop_one");
   const canvasPropOneCtx = canvasPropOne.getContext("2d");
@@ -32,9 +23,7 @@
   const canvasConclusionCtx = canvasConclusion.getContext("2d");
 
   const firstFigure = doc.getEbyId("first_figure");
-  const firstFigureSubmit = doc.getEbyId(
-    "first_figure_submit"
-  );
+  const firstFigureSubmit = doc.getEbyId("first_figure_submit");
   const conclusionOutputElem = doc.getEbyId("conclusion");
 
   // ====== utils - UI ======
@@ -69,7 +58,7 @@
       }
     });
   };
-
+  // TODO: once an element store is created, refactor this and renderTextLabelsToCanvas into textLabel module
   const storeOfDataLabels = [
     {
       inputElem: majorTerm,
@@ -109,6 +98,19 @@
     }
   ];
 
+  const renderTextLabelsToCanvas = () => {
+    storeOfDataLabels.forEach((l) => {
+      canvasTextLabels.drawTextToBoard(
+        l.inputElem.value,
+        l.canvas,
+        l.term,
+        l.part
+      );
+    });
+    // TODO: use getFormOfPropositions on app, to get position for the minor term text label
+    // TODO: to remove conclusion labels if no valid conclusion, from argument
+  };
+
   const drawPremisesAndConclusion = () => {
     const formsOfPropositions = window.app.getFormOfPropositions(
       prop1Quantity.value,
@@ -118,12 +120,12 @@
     );
     const conclusionForm = window.app.getConclusionForm(formsOfPropositions);
 
-    window.app.canvas.drawPartToBoard(
+    window.app.canvas.utilsCircle.drawPartToBoard(
       "majorPremise",
       formsOfPropositions[0],
       canvasPropOneCtx
     );
-    window.app.canvas.drawPartToBoard(
+    window.app.canvas.utilsCircle.drawPartToBoard(
       "minorPremise",
       formsOfPropositions[1],
       canvasPropTwoCtx
@@ -135,7 +137,7 @@
         minorTerm.value,
         majorTerm.value
       );
-      window.app.canvas.drawPartToBoard(
+      window.app.canvas.utilsCircle.drawPartToBoard(
         "conclusion",
         window.app.getConclusionForm(formsOfPropositions),
         canvasConclusionCtx
@@ -197,19 +199,6 @@
   // const addLetterSpacing = (text) =>
   //   text.split("").join(String.fromCharCode(8202));
 
-  const renderTextLabelsToCanvas = () => {
-    storeOfDataLabels.forEach((l) => {
-      canvasTextLabels.drawTextToBoard(
-        l.inputElem.value,
-        l.canvas,
-        l.term,
-        l.part
-      );
-    });
-    // TODO: use getFormOfPropositions on app, to get position for the minor term text label
-    // TODO: to remove conclusion labels if no valid conclusion, from argument
-  };
-
   const inputHandler = (event) => {
     const elem = event.target;
     const elemId = elem.getAttribute("id");
@@ -221,7 +210,9 @@
       setMiddleTermsInSync(elemId, newInput);
     }
     renderTextLabelsToCanvas();
-    if (!window.app.getStoredFormOfConclusion().conclusion) window.app.canvas.clearThisCanvas(canvasConclusion);
+    if (!window.app.getStoredFormOfConclusion().conclusion) {
+      window.app.canvas.clearThisCanvas(canvasConclusion);
+    }
   };
 
   const renderCanvas = (ev) => {
@@ -252,4 +243,9 @@
   prop1Quantity.dispatchEvent(changeEvent);
   prop1Quality.dispatchEvent(changeEvent);
   prop2Quantity.dispatchEvent(changeEvent);
-})(window.app);
+})(
+  window.app,
+  window.app.canvas,
+  window.app.canvas.store,
+  window.app.canvas.textLabels
+);

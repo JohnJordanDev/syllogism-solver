@@ -190,7 +190,11 @@ const store = (function () {
     }
     return [xPos, yPos];
   };
-  return { getLabelPosition };
-})();
+  return {
+    getDefaultShapeSettings,
+    storeOfCircleShapes,
+    getLabelPosition
+  };
+})(window.app.canvas);
 
 window.app.canvas.store = store;
