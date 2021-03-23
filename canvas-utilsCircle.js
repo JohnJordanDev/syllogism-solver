@@ -21,18 +21,8 @@ const utilsCircle = (function (canvasModuleStore) {
   };
 
   const drawCircle = function (canvasElemCtx, options = {}) {
-    // TODO refactor to remove duplicates from getDefaultShapeSettings
-    const defaults = {
-      startPositionX: storeCircleShapes.canvasMidPointX,
-      startPositionY: storeCircleShapes.canvasMidPointY,
-      circleXPos: storeCircleShapes.canvasMidPointX,
-      cirleYPos: storeCircleShapes.canvasMidPointY,
-      circleRadius: storeCircleShapes.bigCircleRadius,
-      setLineDash: []
-    };
     const settings = {
       ...canvasModuleStore.getDefaultShapeSettings(),
-      ...defaults,
       ...options
     };
     drawToCanvas(canvasElemCtx, settings);

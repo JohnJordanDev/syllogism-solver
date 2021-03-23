@@ -23,7 +23,10 @@ const store = (function () {
   const solidLineSettings = [];
   const subjectFillHex = "#D1D1D1";
   const getDefaultShapeSettings = () => ({
+    startPositionX: canvasMidPointX,
+    startPositionY: canvasMidPointY,
     circleXPos: canvasMidPointX,
+    cirleYPos: canvasMidPointY,
     circleRadius: midCircleRadius,
     startAngleRad: 0,
     endAngleRad: pi * 2,
