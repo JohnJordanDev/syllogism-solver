@@ -1,35 +1,37 @@
 (function userInterface(app, canvasMod, canvasStore, canvasTextLabels) {
   const doc = window.document;
-  doc.getEbyId = doc.getElementById;
+  doc.getEById = doc.getElementById;
   // ToDo: Place all this on an object
-  const prop1Quantity = doc.getEbyId("prop_one_quantity");
-  const prop1Quality = doc.getEbyId("prop_one_quality");
-  const prop2Quantity = doc.getEbyId("prop_two_quantity");
-  const prop2Quality = doc.getEbyId("prop_two_quality");
+  const prop1Quantity = doc.getEById("prop_one_quantity");
+  const prop1Quality = doc.getEById("prop_one_quality");
+  const prop2Quantity = doc.getEById("prop_two_quantity");
+  const prop2Quality = doc.getEById("prop_two_quality");
 
-  const majorTerm = doc.getEbyId("major_term");
-  const minorTerm = doc.getEbyId("minor_term");
+  const majorTerm = doc.getEById("major_term");
+  const minorTerm = doc.getEById("minor_term");
 
-  const middleTermMajorPremise = doc.getEbyId("middle_term_major_premise");
-  const middleTermMinorPremise = doc.getEbyId("middle_term_minor_premise");
+  const middleTermMajorPremise = doc.getEById("middle_term_major_premise");
+  const middleTermMinorPremise = doc.getEById("middle_term_minor_premise");
 
-  const canvasPropOne = doc.getEbyId("canvas_prop_one");
+  const canvasPropOne = doc.getEById("canvas_prop_one");
   const canvasPropOneCtx = canvasPropOne.getContext("2d");
 
-  const canvasPropTwo = doc.getEbyId("canvas_prop_two");
+  const canvasPropTwo = doc.getEById("canvas_prop_two");
   const canvasPropTwoCtx = canvasPropTwo.getContext("2d");
 
-  const canvasConclusion = doc.getEbyId("canvas_conclusion");
+  const canvasConclusion = doc.getEById("canvas_conclusion");
   const canvasConclusionCtx = canvasConclusion.getContext("2d");
 
-  const firstFigure = doc.getEbyId("first_figure");
-  const firstFigureSubmit = doc.getEbyId("first_figure_submit");
-  const conclusionOutputElem = doc.getEbyId("conclusion");
+  const firstFigure = doc.getEById("first_figure");
+  const firstFigureSubmit = doc.getEById("first_figure_submit");
+  const conclusionOutputElem = doc.getEById("conclusion");
+
+  const svgConclusion = doc.getEById("svg_conclusion");
 
   // ====== utils - UI ======
 
   const hideAreNotOptionOfPropQuality = (propQualityId) => {
-    const propQualityElem = doc.getEbyId(propQualityId);
+    const propQualityElem = doc.getEById(propQualityId);
     propQualityElem.value = "are";
     propQualityElem.querySelectorAll("option").forEach((optionElem) => {
       if (optionElem.value === "arenot") {
@@ -44,13 +46,13 @@
 
   // Only valid quantity given quality of 'are NOT', is 'some'
   const selectSomeOptionOfPropQuantity = (propQuantityId) => {
-    const propQuantityElem = doc.getEbyId(propQuantityId);
+    const propQuantityElem = doc.getEById(propQuantityId);
     propQuantityElem.value = "some";
   };
 
   // showAreNotOptionOfPropQuality(), to undo effect of hideAreNotOptionOfPropQuality
   const showAreNotOptionOfPropQuality = (propQualityId) => {
-    const propQualityElem = doc.getEbyId(propQualityId);
+    const propQualityElem = doc.getEById(propQualityId);
     propQualityElem.querySelectorAll("option").forEach((optionElem) => {
       // Want to maintain disabled status of 'placeholder' element
       if (optionElem.value === "arenot") {
@@ -144,6 +146,7 @@
       );
       conclusionOutputElem.innerHTML = `${conclusionTextContent}`;
     } else {
+      app.svgModule.drawCircle(svgConclusion);
       conclusionOutputElem.innerHTML = "we cannot draw a valid conclusion";
     }
   };
@@ -227,12 +230,12 @@
     doc.addEventListener(event, renderCanvas);
   });
 
-  doc.getEbyId("first_figure").reset();
+  doc.getEById("first_figure").reset();
 
   // For testing purposes
   prop1Quantity.selectedIndex = 3;
   prop1Quality.selectedIndex = 2;
-  prop2Quantity.selectedIndex = 2;
+  prop2Quantity.selectedIndex = 3;
   prop2Quality.selectedIndex = 1;
 
   majorTerm.value = "Major term";

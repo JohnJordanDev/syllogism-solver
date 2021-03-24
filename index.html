@@ -45,7 +45,7 @@
       text-transform: uppercase;
     }
 
-    canvas {
+    canvas, svg {
       display: block;
       margin: 0 auto 0.5rem;
       max-width: 100%;
@@ -297,6 +297,7 @@
           <output id="conclusion" class="conclusion-text"
             for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
           <canvas id="canvas_conclusion">Modified Euler diagram for the conclusion.</canvas>
+          <svg id="svg_conclusion" width="300" height="150">Modified Euler diagram for the conclusion.</svg>
         </fieldset>
       </form>
     </section>
@@ -308,6 +309,7 @@
   <script src="canvas-store.js"></script>
   <script src="canvas-utilsCircle.js"></script>
   <script src="canvas-textLabels.js"></script>
+  <script src="svg-module.js"></script>
   <script src="user-interface.js"></script>
 </body>
 

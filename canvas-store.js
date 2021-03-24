@@ -198,6 +198,6 @@ const store = (function () {
     storeOfCircleShapes,
     getLabelPosition
   };
-})(window.app.canvas);
+})();
 
 window.app.canvas.store = store;

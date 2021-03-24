@@ -1,5 +1,5 @@
 const utilsCircle = (function (canvasModuleStore) {
-  const storeCircleShapes = canvasModuleStore.storeOfCircleShapes;
+  const storeCircleShapesByPart = canvasModuleStore.storeOfCircleShapes;
   const drawToCanvas = function (canvasElemCtx, settings) {
     canvasElemCtx.moveTo(settings.startPositionX, settings.startPositionY);
     canvasElemCtx.setLineDash(settings.setLineDash);
@@ -31,11 +31,11 @@ const utilsCircle = (function (canvasModuleStore) {
   const drawPartToBoard = (part, partForm, canvasElemCtx) => {
     const subjectCircleShape = {
       ...canvasModuleStore.getDefaultShapeSettings(),
-      ...storeCircleShapes[part].subject[partForm]
+      ...storeCircleShapesByPart[part].subject[partForm]
     };
     const predicateCircleShape = {
       ...canvasModuleStore.getDefaultShapeSettings(),
-      ...storeCircleShapes[part].predicate[partForm]
+      ...storeCircleShapesByPart[part].predicate[partForm]
     };
     drawCircle(canvasElemCtx, subjectCircleShape);
     drawCircle(canvasElemCtx, predicateCircleShape);
