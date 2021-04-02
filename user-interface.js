@@ -146,7 +146,6 @@
       );
       conclusionOutputElem.innerHTML = `${conclusionTextContent}`;
     } else {
-      app.svgModule.drawCircle(svgConclusion);
       conclusionOutputElem.innerHTML = "we cannot draw a valid conclusion";
     }
   };
@@ -156,7 +155,8 @@
   };
 
   const updateFormOutputs = () => {
-    window.app.canvas.clearAllCanvasses();
+    //is this needed
+    //window.app.canvas.clearAllCanvasses();
     if (firstFigure.checkValidity()) {
       drawPremisesAndConclusion();
       // window.app.canvas.clearThisCanvas(canvasConclusion);
