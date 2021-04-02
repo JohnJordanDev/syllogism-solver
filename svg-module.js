@@ -9,8 +9,22 @@ const svgModule = (function () {
   //   svgElem.innerHTML += `${getTextLabel()}${getCircleShape()}`;
   // };
 
+  const allCanvasses = [...window.document.getElementsByTagName("svg")];
+
+  const clearThisElement = (elem) => {
+    // eslint-disable-next-line no-param-reassign
+    elem.innerHTML = "";
+  };
+
+  const clearAllSvgs = () => {
+    allCanvasses.forEach((elem) => {
+      clearThisElement(elem);
+    });
+  };
+
   return {
-    
+    clearThisElement,
+    clearAllSvgs
   };
 })();
 
