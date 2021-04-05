@@ -147,6 +147,11 @@
       conclusionOutputElem.innerHTML = `${conclusionTextContent}`;
     } else {
       conclusionOutputElem.innerHTML = "we cannot draw a valid conclusion";
+      window.app.svgModule.utils.circle.drawPartToBoard(
+        "conclusion",
+        window.app.getConclusionForm(formsOfPropositions),
+        svgConclusion
+      );
     }
   };
 
@@ -155,8 +160,8 @@
   };
 
   const updateFormOutputs = () => {
-    //is this needed
-    //window.app.canvas.clearAllCanvasses();
+    // is this needed
+    // window.app.canvas.clearAllCanvasses();
     if (firstFigure.checkValidity()) {
       drawPremisesAndConclusion();
       // window.app.canvas.clearThisCanvas(canvasConclusion);
