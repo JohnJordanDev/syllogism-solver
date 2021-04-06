@@ -1,8 +1,8 @@
-const utilsSVGCircle = (function (SVGModuleStore) {
-  const storeCircleShapesByPart = SVGModuleStore.storeOfCircleShapes;
+const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
+  const SVGMod = SVGModule;
+  const getCircleShapeFromStore = SVGModuleStore.getCircleShape;
   // console.log("store is ", storeCircleShapesByPart);
   const drawToSVGElem = function (SVGElem, settings) {
-      console.log(settings)
     const subjectFillHex = "#D1D1D1";
 
     const getCircleShape = () => `<circle cx="${settings.circleXPos}" cy="${settings.circleYPos}" 
@@ -12,26 +12,26 @@ const utilsSVGCircle = (function (SVGModuleStore) {
     SVGElem.innerHTML += `${getCircleShape()}`;
   };
 
-  const drawCircle = function (SVGElem, options = {}) {
-    // console.log(options);
-    drawToSVGElem(SVGElem, options);
-  };
-
-  const drawPartToBoard = (part, partForm = "A", SVGElem) => {
-    // TODO IF no partForm, e.g. if no conclusion to be drawn, catch!
-    // Need to re-write this API
-    const subjectCircleShape = storeCircleShapesByPart[part].subject[partForm];
-
-    const predicateCircleShape = {}
-      storeCircleShapesByPart[part].predicate[partForm];
-
-    drawCircle(SVGElem, subjectCircleShape);
-    drawCircle(SVGElem, predicateCircleShape);
+  const drawPartToBoard = (syllogismPart, partForm = "A", SVGElem) => {
+    const subjectCircleShape = getCircleShapeFromStore(
+      syllogismPart,
+      "subject",
+      partForm
+    );
+    const predicateCircleShape = getCircleShapeFromStore(
+      syllogismPart,
+      "predicate",
+      partForm
+    );
+    // each time 'change' emitted, drawPartToBoard called
+    SVGMod.clearThisElement(SVGElem);
+    drawToSVGElem(SVGElem, subjectCircleShape);
+    drawToSVGElem(SVGElem, predicateCircleShape);
   };
 
   return {
     drawPartToBoard
   };
-})(window.app.svgModule.store);
+})(window.app.svgModule, window.app.svgModule.store);
 
 window.app.svgModule.utils.circle = utilsSVGCircle;

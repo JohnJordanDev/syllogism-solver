@@ -16,7 +16,7 @@ const svgStore = (function () {
     circleXPos: SVGMidPointX,
     circleYPos: SVGMidPointY,
     circleRadius: midCircleRadius,
-    fill: "blue",
+    fill: "none",
     stroke: "black"
   });
   // TODO: add function for half circle shape
@@ -113,9 +113,13 @@ const svgStore = (function () {
       }
     }
   };
+
+  const getCircleShape = (syllogismPart, propositionPart, propositionForm) => ({
+    ...getDefaultShapeSettings(),
+    ...storeOfCircleShapes[syllogismPart][propositionPart][propositionForm]
+  });
   return {
-    // Need to rewrite this API, to expose two functions
-    storeOfCircleShapes
+    getCircleShape
   };
 })();
 
