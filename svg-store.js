@@ -5,6 +5,7 @@ const svgStore = (function () {
   const allSVGHeight = conclusionSVG.attributes.height.value || 150;
   const allSVGWidth = conclusionSVG.attributes.width.value || 300;
 
+  // need to make all these percentages to ensure responsive design
   const bigCircleRadius = 50;
   const midCircleRadius = 25;
   const smallestCircleRadius = 12.5;

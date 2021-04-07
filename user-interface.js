@@ -27,6 +27,8 @@
   const conclusionOutputElem = doc.getEById("conclusion");
 
   const svgConclusion = doc.getEById("svg_conclusion");
+  const svgMajorPremise = doc.getEById("svg_majorPremise");
+  const svgMinorPremise = doc.getEById("svg_minorPremise");
 
   // ====== utils - UI ======
 
@@ -127,10 +129,23 @@
       formsOfPropositions[0],
       canvasPropOneCtx
     );
+
+    window.app.svgModule.utils.circle.drawPartToBoard(
+      "majorPremise",
+      formsOfPropositions[0],
+      svgMajorPremise
+    );
+
     window.app.canvas.utilsCircle.drawPartToBoard(
       "minorPremise",
       formsOfPropositions[1],
       canvasPropTwoCtx
+    );
+
+    window.app.svgModule.utils.circle.drawPartToBoard(
+      "minorPremise",
+      formsOfPropositions[1],
+      svgMinorPremise
     );
 
     if (conclusionForm) {
