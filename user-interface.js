@@ -256,7 +256,7 @@
   doc.getEById("first_figure").reset();
 
   // For testing purposes
-  prop1Quantity.selectedIndex = 3;
+  prop1Quantity.selectedIndex = 2;
   prop1Quality.selectedIndex = 2;
   prop2Quantity.selectedIndex = 3;
   prop2Quality.selectedIndex = 1;

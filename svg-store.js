@@ -43,11 +43,11 @@ const svgStore = (function () {
           circleRadius: bigCircleRadius
         },
         I: {
-          circleXPos: SVGMidPointX + midCircleRadius * 1.5,
+          circleXPos: SVGMidPointX + midCircleRadius * 1.375,
           circleRadius: bigCircleRadius
         },
         O: {
-          circleXPos: SVGMidPointX + midCircleRadius * 2,
+          circleXPos: SVGMidPointX + midCircleRadius * 1.5,
           circleRadius: bigCircleRadius
         }
       }
@@ -73,7 +73,7 @@ const svgStore = (function () {
           stroke: "#2BA1BD"
         },
         O: {
-          circleXPos: SVGMidPointX - midCircleRadius,
+          circleXPos: SVGMidPointX - midCircleRadius * 0.75,
           circleRadius: smallestCircleRadius,
           fill: "#F7F7F7",
           stroke: "#2BA1BD"
