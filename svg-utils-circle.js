@@ -30,6 +30,13 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
 
   const getHalfCircleShape = () => "<path/>";
 
+  const getSubjectShape = (circleShape, partForm) => {
+    if (partForm === "I" || partForm === "O") {
+      return getHalfCircleShape(circleShape);
+    }
+    return circleShape;
+  };
+
   // each time 'change' emitted, drawPartToBoard called
   const drawPartToBoard = (syllogismPart, partForm = "A", SVGElem) => {
     const subjectCircleShape = getCircleShapeFromStore(
@@ -42,12 +49,7 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
       "predicate",
       partForm
     );
-    let subjectShape;
-    if (partForm === "I" || partForm === "O") {
-      subjectShape = getHalfCircleShape(subjectCircleShape);
-    } else {
-      subjectShape = subjectCircleShape;
-    }
+    const subjectShape = getSubjectShape(subjectCircleShape, partForm);
 
     SVGMod.clearThisElement(SVGElem);
     drawToSVGElem(SVGElem, subjectShape);
