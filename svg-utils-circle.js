@@ -5,8 +5,12 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
   const getPerCentValue = (numValue, ofTotalNum) =>
     `${window.parseInt((numValue / ofTotalNum) * 100)}%`;
 
-  // console.log("store is ", storeCircleShapesByPart);
-  const drawToSVGElem = function (SVGElem, settings) {
+  const drawToSVGElem = function (SVGElem, shapeElement) {
+    // eslint-disable-next-line no-param-reassign
+    SVGElem.innerHTML += `${shapeElement}`;
+  };
+
+  const circleElementFromSettings = (settings) => {
     const xPos = getPerCentValue(
       settings.circleXPos,
       SVGModuleStore.getSVGWidth()
@@ -21,39 +25,36 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
       SVGModuleStore.getSVGWidth()
     );
 
-    const getCircleShape = () => `<circle cx="${xPos}" cy="${yPos}" 
-      r="${radius}" fill="${settings.fill}" stroke="${settings.stroke}"/>`;
-
-    // eslint-disable-next-line no-param-reassign
-    SVGElem.innerHTML += `${getCircleShape()}`;
+    return `<circle cx="${xPos}" cy="${yPos}" 
+        r="${radius}" fill="${settings.fill}" stroke="${settings.stroke}"/>`;
   };
 
-  const getHalfCircleShape = () => "<path/>";
+  const halfCircleElementFromSettings = () => "<path/>";
 
-  const getSubjectShape = (circleShape, partForm) => {
+  const getSubjectShape = (circleShapeSettings, partForm) => {
     if (partForm === "I" || partForm === "O") {
-      return getHalfCircleShape(circleShape);
+      return halfCircleElementFromSettings(circleShapeSettings);
     }
-    return circleShape;
+    return circleElementFromSettings(circleShapeSettings);
   };
 
   // each time 'change' emitted, drawPartToBoard called
   const drawPartToBoard = (syllogismPart, partForm = "A", SVGElem) => {
-    const subjectCircleShape = getCircleShapeFromStore(
+    const subjectShapeSettings = getCircleShapeFromStore(
       syllogismPart,
       "subject",
       partForm
     );
-    const predicateCircleShape = getCircleShapeFromStore(
+    const predicateShapeSettings = getCircleShapeFromStore(
       syllogismPart,
       "predicate",
       partForm
     );
-    const subjectShape = getSubjectShape(subjectCircleShape, partForm);
+    const subjectSVGElement = getSubjectShape(subjectShapeSettings, partForm);
 
     SVGMod.clearThisElement(SVGElem);
-    drawToSVGElem(SVGElem, subjectShape);
-    drawToSVGElem(SVGElem, predicateCircleShape);
+    drawToSVGElem(SVGElem, subjectSVGElement);
+    drawToSVGElem(SVGElem, circleElementFromSettings(predicateShapeSettings));
   };
 
   return {
