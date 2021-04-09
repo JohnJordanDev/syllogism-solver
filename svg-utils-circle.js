@@ -16,10 +16,10 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
       SVGModuleStore.getSVGHeight()
     );
 
-    const radius = getPerCentValue(settings.circleRadius, SVGModuleStore.getSVGWidth());
-    const subjectFillHex = "#D1D1D1";
-
-    console.log(xPos, yPos);
+    const radius = getPerCentValue(
+      settings.circleRadius,
+      SVGModuleStore.getSVGWidth()
+    );
 
     const getCircleShape = () => `<circle cx="${xPos}" cy="${yPos}" 
       r="${radius}" fill="${settings.fill}" stroke="${settings.stroke}"/>`;
@@ -28,6 +28,9 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
     SVGElem.innerHTML += `${getCircleShape()}`;
   };
 
+  const getHalfCircleShape = () => "<path/>";
+
+  // each time 'change' emitted, drawPartToBoard called
   const drawPartToBoard = (syllogismPart, partForm = "A", SVGElem) => {
     const subjectCircleShape = getCircleShapeFromStore(
       syllogismPart,
@@ -39,9 +42,15 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
       "predicate",
       partForm
     );
-    // each time 'change' emitted, drawPartToBoard called
+    let subjectShape;
+    if (partForm === "I" || partForm === "O") {
+      subjectShape = getHalfCircleShape(subjectCircleShape);
+    } else {
+      subjectShape = subjectCircleShape;
+    }
+
     SVGMod.clearThisElement(SVGElem);
-    drawToSVGElem(SVGElem, subjectCircleShape);
+    drawToSVGElem(SVGElem, subjectShape);
     drawToSVGElem(SVGElem, predicateCircleShape);
   };
 
