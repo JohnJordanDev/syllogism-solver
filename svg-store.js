@@ -8,7 +8,7 @@ const svgStore = (function () {
   // need to make all these percentages to ensure responsive design
   const bigCircleRadius = 60;
   const midCircleRadius = 30;
-  const smallestCircleRadius = 12.5;
+  const smallestCircleRadius = 15;
   const SVGMidPointX = allSVGWidth / 2;
   const SVGMidPointY = allSVGHeight / 2;
   const xPosZero = 0;
@@ -55,20 +55,28 @@ const svgStore = (function () {
     minorPremise: {
       subject: {
         A: {
-          circleXPos: SVGMidPointX,
-          circleRadius: smallestCircleRadius
+          circleXPos: SVGMidPointX - midCircleRadius * 0.25,
+          circleRadius: smallestCircleRadius,
+          fill: "#F7F7F7",
+          stroke: "#2BA1BD"
         },
         E: {
           circleXPos: xPosZero + bigCircleRadius,
-          circleRadius: smallestCircleRadius
+          circleRadius: smallestCircleRadius,
+          fill: "#F7F7F7",
+          stroke: "#2BA1BD"
         },
         I: {
           circleXPos: SVGMidPointX - midCircleRadius * 0.75,
-          circleRadius: smallestCircleRadius
+          circleRadius: smallestCircleRadius,
+          fill: "#F7F7F7",
+          stroke: "#2BA1BD"
         },
         O: {
           circleXPos: SVGMidPointX - midCircleRadius,
-          circleRadius: smallestCircleRadius
+          circleRadius: smallestCircleRadius,
+          fill: "#F7F7F7",
+          stroke: "#2BA1BD"
         }
       },
       predicate: {
