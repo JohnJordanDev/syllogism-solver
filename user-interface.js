@@ -124,6 +124,8 @@
     );
     const conclusionForm = window.app.getConclusionForm(formsOfPropositions);
 
+    /* TODO: To be removed once SVG completed */
+
     window.app.canvas.utilsCircle.drawPartToBoard(
       "majorPremise",
       formsOfPropositions[0],
@@ -136,6 +138,7 @@
       svgMajorPremise
     );
 
+    // TODO: To be removed once SVG completed
     window.app.canvas.utilsCircle.drawPartToBoard(
       "minorPremise",
       formsOfPropositions[1],
@@ -159,14 +162,14 @@
         window.app.getConclusionForm(formsOfPropositions),
         canvasConclusionCtx
       );
-      conclusionOutputElem.innerHTML = `${conclusionTextContent}`;
-    } else {
-      conclusionOutputElem.innerHTML = "we cannot draw a valid conclusion";
       window.app.svgModule.utils.circle.drawPartToBoard(
         "conclusion",
         window.app.getConclusionForm(formsOfPropositions),
         svgConclusion
       );
+      conclusionOutputElem.innerHTML = `${conclusionTextContent}`;
+    } else {
+      conclusionOutputElem.innerHTML = "we cannot draw a valid conclusion";
     }
   };
 

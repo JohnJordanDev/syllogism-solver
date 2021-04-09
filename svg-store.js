@@ -6,12 +6,15 @@ const svgStore = (function () {
   const allSVGWidth = conclusionSVG.attributes.width.value || 300;
 
   // need to make all these percentages to ensure responsive design
-  const bigCircleRadius = 50;
-  const midCircleRadius = 25;
+  const bigCircleRadius = 60;
+  const midCircleRadius = 30;
   const smallestCircleRadius = 12.5;
   const SVGMidPointX = allSVGWidth / 2;
   const SVGMidPointY = allSVGHeight / 2;
   const xPosZero = 0;
+
+  const getSVGHeight = () => allSVGHeight;
+  const getSVGWidth = () => allSVGWidth;
 
   const getDefaultShapeSettings = () => ({
     circleXPos: SVGMidPointX,
@@ -32,11 +35,11 @@ const svgStore = (function () {
       },
       predicate: {
         A: {
-          circleXPos: SVGMidPointX + midCircleRadius,
+          circleXPos: SVGMidPointX + midCircleRadius * 0.75,
           circleRadius: bigCircleRadius
         },
         E: {
-          circleXPos: SVGMidPointX + midCircleRadius * 4,
+          circleXPos: SVGMidPointX + midCircleRadius * 3,
           circleRadius: bigCircleRadius
         },
         I: {
@@ -120,7 +123,9 @@ const svgStore = (function () {
     ...storeOfCircleShapes[syllogismPart][propositionPart][propositionForm]
   });
   return {
-    getCircleShape
+    getCircleShape,
+    getSVGHeight,
+    getSVGWidth
   };
 })();
 
