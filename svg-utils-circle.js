@@ -26,7 +26,7 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
     );
 
     return `<circle cx="${xPos}" cy="${yPos}" 
-        r="${radius}" fill="${settings.fill}" stroke="${settings.stroke}"/>`;
+        r="${radius}" fill="${settings.fill}" stroke="${settings.stroke}" class="${settings.cssClass}"/>`;
   };
 
   const getScaledValueRelativeToOriginalSVG = (orgValue) =>
@@ -53,7 +53,7 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
     const startingPoint = `M ${xPos} ${yPos - radiusForPath}`;
     const arcPath = getArcPath(partForm, radiusForPath, xPos, yPos);
     const totalPath = startingPoint + arcPath;
-    return `<path d='${totalPath} M ${xPos} ${yPos}z' fill="${settings.fill}" stroke="${settings.stroke}" stroke-width='1'/>`;
+    return `<path class="${settings.cssClass}" d='${totalPath} M ${xPos} ${yPos}z' fill="${settings.fill}" stroke="${settings.stroke}" stroke-width='1'/>`;
   };
 
   const getSubjectShape = (circleShapeSettings, partForm) => {

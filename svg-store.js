@@ -21,19 +21,20 @@ const svgStore = (function () {
     circleYPos: SVGMidPointY,
     circleRadius: midCircleRadius,
     fill: "none",
-    stroke: "black"
+    stroke: "black",
+    cssClass: ""
   });
-  
+
   const minorTermFill = "#2BA1BD";
   const minorTermStroke = "#000000";
   // for dashed borders:https://kovart.github.io/dashed-border-generator
   const storeOfCircleShapes = {
     majorPremise: {
       subject: {
-        A: getDefaultShapeSettings(),
-        E: getDefaultShapeSettings(),
-        I: getDefaultShapeSettings(),
-        O: getDefaultShapeSettings()
+        A: { ...getDefaultShapeSettings(), cssClass: "shape_border-dashed" },
+        E: { ...getDefaultShapeSettings(), cssClass: "shape_border-dashed" },
+        I: { ...getDefaultShapeSettings(), cssClass: "shape_border-dashed" },
+        O: { ...getDefaultShapeSettings(), cssClass: "shape_border-dashed" }
       },
       predicate: {
         A: {
@@ -82,10 +83,10 @@ const svgStore = (function () {
         }
       },
       predicate: {
-        A: getDefaultShapeSettings(),
-        E: getDefaultShapeSettings(),
-        I: getDefaultShapeSettings(),
-        O: getDefaultShapeSettings()
+        A: { ...getDefaultShapeSettings(), cssClass: "shape_border-dashed" },
+        E: { ...getDefaultShapeSettings(), cssClass: "shape_border-dashed" },
+        I: { ...getDefaultShapeSettings(), cssClass: "shape_border-dashed" },
+        O: { ...getDefaultShapeSettings(), cssClass: "shape_border-dashed" }
       }
     },
     conclusion: {
