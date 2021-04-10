@@ -157,11 +157,6 @@
         minorTerm.value,
         majorTerm.value
       );
-      window.app.canvas.utilsCircle.drawPartToBoard(
-        "conclusion",
-        window.app.getConclusionForm(formsOfPropositions),
-        canvasConclusionCtx
-      );
       window.app.svgModule.utils.circle.drawPartToBoard(
         "conclusion",
         window.app.getConclusionForm(formsOfPropositions),
@@ -169,6 +164,7 @@
       );
       conclusionOutputElem.innerHTML = `${conclusionTextContent}`;
     } else {
+      window.app.svgModule.clearThisElement(svgConclusion);
       conclusionOutputElem.innerHTML = "we cannot draw a valid conclusion";
     }
   };
@@ -258,7 +254,7 @@
   // For testing purposes
   prop1Quantity.selectedIndex = 2;
   prop1Quality.selectedIndex = 2;
-  prop2Quantity.selectedIndex = 3;
+  prop2Quantity.selectedIndex = 2;
   prop2Quality.selectedIndex = 1;
 
   majorTerm.value = "Major term";

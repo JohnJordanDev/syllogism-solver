@@ -2,8 +2,8 @@ const svgStore = (function () {
   const pi = window.Math.PI;
 
   const conclusionSVG = window.document.getElementById("svg_conclusion");
-  const allSVGHeight = conclusionSVG.attributes.height.value || 150;
-  const allSVGWidth = conclusionSVG.attributes.width.value || 300;
+  const allSVGHeight = conclusionSVG.clientHeight || 150;
+  const allSVGWidth = conclusionSVG.clientWidth || 300;
 
   // need to make all these percentages to ensure responsive design
   const bigCircleRadius = 60;
@@ -67,13 +67,13 @@ const svgStore = (function () {
           stroke: "#2BA1BD"
         },
         I: {
-          circleXPos: SVGMidPointX - midCircleRadius * 0.75,
+          circleXPos: SVGMidPointX - midCircleRadius * 0.625,
           circleRadius: smallestCircleRadius,
           fill: "#F7F7F7",
           stroke: "#2BA1BD"
         },
         O: {
-          circleXPos: SVGMidPointX - midCircleRadius * 0.75,
+          circleXPos: SVGMidPointX - midCircleRadius * 0.6875,
           circleRadius: smallestCircleRadius,
           fill: "#F7F7F7",
           stroke: "#2BA1BD"
@@ -90,19 +90,27 @@ const svgStore = (function () {
       subject: {
         A: {
           circleXPos: SVGMidPointX,
-          circleRadius: smallestCircleRadius
+          circleRadius: smallestCircleRadius,
+          fill: "#F7F7F7",
+          stroke: "#2BA1BD"
         },
         E: {
           circleXPos: SVGMidPointX,
-          circleRadius: smallestCircleRadius
+          circleRadius: smallestCircleRadius,
+          fill: "#F7F7F7",
+          stroke: "#2BA1BD"
         },
         I: {
           circleXPos: SVGMidPointX - midCircleRadius * 0.75,
-          circleRadius: smallestCircleRadius
+          circleRadius: smallestCircleRadius,
+          fill: "#F7F7F7",
+          stroke: "#2BA1BD"
         },
         O: {
           circleXPos: SVGMidPointX - midCircleRadius * 0.75,
-          circleRadius: smallestCircleRadius
+          circleRadius: smallestCircleRadius,
+          fill: "#F7F7F7",
+          stroke: "#2BA1BD"
         }
       },
       predicate: {
@@ -111,15 +119,15 @@ const svgStore = (function () {
           circleRadius: bigCircleRadius
         },
         E: {
-          circleXPos: SVGMidPointX + midCircleRadius * 4,
+          circleXPos: SVGMidPointX + midCircleRadius * 3,
           circleRadius: bigCircleRadius
         },
         I: {
-          circleXPos: SVGMidPointX + midCircleRadius,
+          circleXPos: SVGMidPointX + midCircleRadius * 0.75,
           circleRadius: bigCircleRadius
         },
         O: {
-          circleXPos: SVGMidPointX + midCircleRadius * 4,
+          circleXPos: SVGMidPointX + midCircleRadius * 3,
           circleRadius: bigCircleRadius
         }
       }

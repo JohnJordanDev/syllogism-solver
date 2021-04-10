@@ -2,7 +2,8 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
   const SVGMod = SVGModule;
   const getCircleShapeFromStore = SVGModuleStore.getCircleShape;
   // need function to convert % to numbers
-  const getPerCentValue = (numValue, ofTotalNum) => `${window.parseInt((numValue / ofTotalNum) * 100)}%`;
+  const getPerCentValue = (numValue, ofTotalNum) =>
+    `${window.parseInt((numValue / ofTotalNum) * 100)}%`;
 
   const drawToSVGElem = function (SVGElem, shapeElement) {
     // eslint-disable-next-line no-param-reassign
@@ -28,17 +29,31 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
         r="${radius}" fill="${settings.fill}" stroke="${settings.stroke}"/>`;
   };
 
-  const halfCircleElementFromSettings = (settings, partForm) => {
-    const radiusForPath = settings.circleRadius * 0.75;
-    // need scaled down differences since cannot enter percentage value
+  const getScaledValueRelativeToOriginalSVG = (orgValue) =>
+    orgValue * (SVGModuleStore.getSVGWidth() / 300); // original SVG element width
+
+  const getArcPath = (partForm, radiusForPath, xPos, yPos) => {
     // A(rx,ry) ellipse radii needs to match A(.... x,y)
-    const startingPoint = `M ${settings.circleXPos} ${settings.circleYPos - radiusForPath}`;
-    // eslint-disable-next-line max-len
-    const arcPath = partForm === "I" ? ` A${radiusForPath},${radiusForPath} 0 0,1 ${settings.circleXPos}, ${settings.circleYPos + radiusForPath}`
-      : `A${radiusForPath},${radiusForPath} 0 0,0 ${settings.circleXPos}, ${settings.circleYPos + radiusForPath}`;
+    if (partForm === "I") {
+      return `A${radiusForPath},${radiusForPath} 0 0,1 ${xPos}, ${
+        yPos + radiusForPath
+      }`;
+    }
+    return `A${radiusForPath},${radiusForPath} 0 0,0 ${xPos}, ${
+      yPos + radiusForPath
+    }`;
+  };
+  const halfCircleElementFromSettings = (settings, partForm) => {
+    const radiusForPath = getScaledValueRelativeToOriginalSVG(
+      settings.circleRadius * 0.75
+    );
+    const xPos = settings.circleXPos;
+    const yPos = settings.circleYPos;
+
+    const startingPoint = `M ${xPos} ${yPos - radiusForPath}`;
+    const arcPath = getArcPath(partForm, radiusForPath, xPos, yPos);
     const totalPath = startingPoint + arcPath;
-    // eslint-disable-next-line max-len
-    return `<path d='${totalPath} M ${settings.circleXPos} ${settings.circleYPos}z' fill="none" stroke="black" stroke-width='1'/>`;
+    return `<path d='${totalPath} M ${xPos} ${yPos}z' fill="${settings.fill}" stroke="${settings.stroke}" stroke-width='1'/>`;
   };
 
   const getSubjectShape = (circleShapeSettings, partForm) => {
