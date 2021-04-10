@@ -7,11 +7,11 @@
   const prop2Quantity = doc.getEById("prop_two_quantity");
   const prop2Quality = doc.getEById("prop_two_quality");
 
-  const majorTerm = doc.getEById("major_term");
-  const minorTerm = doc.getEById("minor_term");
+  const majorTerm = doc.getEById("majorTerm");
+  const minorTerm = doc.getEById("minorTerm");
 
-  const middleTermMajorPremise = doc.getEById("middle_term_major_premise");
-  const middleTermMinorPremise = doc.getEById("middle_term_minor_premise");
+  const middleTermMajorPremise = doc.getEById("middleTerm_majorPremise");
+  const middleTermMinorPremise = doc.getEById("middleTerm_minorPremise");
 
   const firstFigure = doc.getEById("first_figure");
   const firstFigureSubmit = doc.getEById("first_figure_submit");
@@ -141,26 +141,27 @@
     setValidUserChoicesBasedOnInput(event);
     updateFormOutputs();
   };
-  // cannot set letter-spacing on canvas, so adding hairspace
-  // const addLetterSpacing = (text) =>
-  //   text.split("").join(String.fromCharCode(8202));
 
   const inputHandler = (event) => {
     const elem = event.target;
     const elemId = elem.getAttribute("id");
     const newInput = elem.value;
     if (
-      elemId === "middle_term_major_premise" ||
-      elemId === "middle_term_minor_premise"
+      elemId === "middleTerm_majorPremise" ||
+      elemId === "middleTerm_minorPremise"
     ) {
       setMiddleTermsInSync(elemId, newInput);
     }
-    //TODO render text labels
+    // TODO render text labels: need to split out in renderCanvas
+    if (elem.nodeName === "INPUT") {
+      app.svgModule.utils.textLabel.addSVGTextElemFromInputElem(elem);
+    }
   };
 
   const renderCanvas = (ev) => {
     // get conclusion form here, and pass in
     app.svgModule.clearAllSVGs();
+    // TODO: will need to split out the changes made for change and input events, to text label
     changeHandler(ev);
     inputHandler(ev);
   };
@@ -171,6 +172,17 @@
   });
 
   doc.getEById("first_figure").reset();
+
+  // TODO: place into userinterface polish, when ready
+  doc.addEventListener(
+    "focusout",
+    () => {
+      doc.querySelectorAll(".changing").forEach((elem) => {
+        elem.classList.remove("changing");
+      });
+    },
+    false
+  );
 
   // For testing purposes
   prop1Quantity.selectedIndex = 2;
@@ -186,6 +198,4 @@
   prop1Quantity.dispatchEvent(changeEvent);
   prop1Quality.dispatchEvent(changeEvent);
   prop2Quantity.dispatchEvent(changeEvent);
-})(
-  window.app
-);
+})(window.app);

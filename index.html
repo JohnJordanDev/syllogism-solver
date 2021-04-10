@@ -15,6 +15,7 @@
       display: block;
       max-width: 500px;
       margin: 0 auto 1.5rem;
+      font-family: Arial, Helvetica, Tahoma, sans-serif;
     }
 
     section {
@@ -56,7 +57,7 @@
     }
 
     .shape_border-dashed {
-      stroke-dasharray: 4 4; 
+      stroke-dasharray: 4 4;
     }
 
     .header {
@@ -143,6 +144,10 @@
       display: block;
       text-align: center;
       background: #ddd;
+    }
+
+    .changing {
+      stroke: red;
     }
 
     @media screen and (min-width: 768px) {
@@ -243,8 +248,8 @@
                                 <input type="text" id="middle_term_first" placeholder='e.g. "mammals"' required>
                             </span> -->
               <div class="overheadInputLabel_wrapper">
-                <label for="middle_term_major_premise" class="overheadInputLabel_label">Middle Term</label>
-                <input id="middle_term_major_premise" type="text" placeholder="Enter middle term" maxlength="10" />
+                <label for="middleTerm_majorPremise" class="overheadInputLabel_label">Middle Term</label>
+                <input id="middleTerm_majorPremise" type="text" placeholder="Enter middle term" maxlength="10" />
               </div>
             </fieldset>
             <fieldset class="syllogism_part-term">
@@ -254,12 +259,13 @@
                 <option value="arenot">are not</option>
               </select>
               <div class="overheadInputLabel_wrapper">
-                <label for="major_term" class="overheadInputLabel_label">Major Term</label>
-                <input id="major_term" type="text" placeholder="Enter major term..." maxlength="10" />
+                <label for="majorTerm" class="overheadInputLabel_label">Major Term</label>
+                <input id="majorTerm" type="text" placeholder="Enter major term..." maxlength="10" />
               </div>
             </fieldset>
           </section>
-          <svg id="svg_majorPremise" width="300" height="150" viewBox="0 0 300 150">Modified Euler diagram for the major premise.</svg>
+          <svg id="svg_majorPremise" width="300" height="150" viewBox="0 0 300 150">Modified Euler diagram for the major
+            premise.</svg>
         </fieldset>
         <fieldset class="syllogism_part">
           <legend class="syllogism_part-label">Minor Premise</legend>
@@ -273,8 +279,8 @@
                 <option value="no">no</option>
               </select>
               <div class="overheadInputLabel_wrapper">
-                <label for="minor_term" class="overheadInputLabel_label">Minor Term</label>
-                <input id="minor_term" type="text" placeholder="Enter minor term..." maxlength="10" />
+                <label for="minorTerm" class="overheadInputLabel_label">Minor Term</label>
+                <input id="minorTerm" type="text" placeholder="Enter minor term..." maxlength="10" />
               </div>
             </fieldset>
             <fieldset class="syllogism_part-term premise_middlePart">
@@ -288,12 +294,13 @@
                                 <input type="text" id="middle_term_second" readonly>
                             </span> -->
               <div class="overheadInputLabel_wrapper">
-                <label for="middle_term_minor_premise" class="overheadInputLabel_label">Middle Term</label>
-                <input id="middle_term_minor_premise" type="text" placeholder="Enter middle term" maxlength="10" />
+                <label for="middleTerm_minorPremise" class="overheadInputLabel_label">Middle Term</label>
+                <input id="middleTerm_minorPremise" type="text" placeholder="Enter middle term" maxlength="10" />
               </div>
             </fieldset>
           </section>
-          <svg id="svg_minorPremise" width="300" height="150" viewBox="0 0 300 150">Modified Euler diagram for the minor premise.</svg>
+          <svg id="svg_minorPremise" width="300" height="150" viewBox="0 0 300 150">Modified Euler diagram for the minor
+            premise.</svg>
         </fieldset>
         <hr />
         <input type="submit" id="first_figure_submit" class="hidden" />

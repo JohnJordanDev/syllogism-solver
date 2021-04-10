@@ -22,7 +22,8 @@ const svgStore = (function () {
     circleRadius: midCircleRadius,
     fill: "none",
     stroke: "black",
-    cssClass: ""
+    cssClass: "",
+    identifier: "middleTerm"
   });
 
   const minorTermFill = "#2BA1BD";
@@ -39,19 +40,23 @@ const svgStore = (function () {
       predicate: {
         A: {
           circleXPos: SVGMidPointX + midCircleRadius * 0.75,
-          circleRadius: bigCircleRadius
+          circleRadius: bigCircleRadius,
+          identifier: "majorTerm"
         },
         E: {
           circleXPos: SVGMidPointX + midCircleRadius * 3,
-          circleRadius: bigCircleRadius
+          circleRadius: bigCircleRadius,
+          identifier: "majorTerm"
         },
         I: {
           circleXPos: SVGMidPointX + midCircleRadius * 1.375,
-          circleRadius: bigCircleRadius
+          circleRadius: bigCircleRadius,
+          identifier: "majorTerm"
         },
         O: {
           circleXPos: SVGMidPointX + midCircleRadius * 1.5,
-          circleRadius: bigCircleRadius
+          circleRadius: bigCircleRadius,
+          identifier: "majorTerm"
         }
       }
     },
@@ -61,25 +66,29 @@ const svgStore = (function () {
           circleXPos: SVGMidPointX - midCircleRadius * 0.25,
           circleRadius: smallestCircleRadius,
           fill: minorTermFill,
-          stroke: minorTermStroke
+          stroke: minorTermStroke,
+          identifier: "minorTerm"
         },
         E: {
           circleXPos: xPosZero + bigCircleRadius,
           circleRadius: smallestCircleRadius,
           fill: minorTermFill,
-          stroke: minorTermStroke
+          stroke: minorTermStroke,
+          identifier: "minorTerm"
         },
         I: {
           circleXPos: SVGMidPointX - midCircleRadius * 0.625,
           circleRadius: smallestCircleRadius,
           fill: minorTermFill,
-          stroke: minorTermStroke
+          stroke: minorTermStroke,
+          identifier: "minorTerm"
         },
         O: {
-          circleXPos: SVGMidPointX - midCircleRadius * 0.6875,
+          circleXPos: SVGMidPointX - midCircleRadius * 0.8125,
           circleRadius: smallestCircleRadius,
           fill: minorTermFill,
-          stroke: minorTermStroke
+          stroke: minorTermStroke,
+          identifier: "minorTerm"
         }
       },
       predicate: {
@@ -95,43 +104,51 @@ const svgStore = (function () {
           circleXPos: SVGMidPointX,
           circleRadius: smallestCircleRadius,
           fill: minorTermFill,
-          stroke: minorTermStroke
+          stroke: minorTermStroke,
+          identifier: "minorTerm"
         },
         E: {
           circleXPos: SVGMidPointX,
           circleRadius: smallestCircleRadius,
           fill: minorTermFill,
-          stroke: minorTermStroke
+          stroke: minorTermStroke,
+          identifier: "minorTerm"
         },
         I: {
           circleXPos: SVGMidPointX - midCircleRadius * 0.75,
           circleRadius: smallestCircleRadius,
           fill: minorTermFill,
-          stroke: minorTermStroke
+          stroke: minorTermStroke,
+          identifier: "minorTerm"
         },
         O: {
           circleXPos: SVGMidPointX - midCircleRadius * 0.75,
           circleRadius: smallestCircleRadius,
           fill: minorTermFill,
-          stroke: minorTermStroke
+          stroke: minorTermStroke,
+          identifier: "minorTerm"
         }
       },
       predicate: {
         A: {
           circleXPos: SVGMidPointX + midCircleRadius,
-          circleRadius: bigCircleRadius
+          circleRadius: bigCircleRadius,
+          identifier: "majorTerm"
         },
         E: {
           circleXPos: SVGMidPointX + midCircleRadius * 3,
-          circleRadius: bigCircleRadius
+          circleRadius: bigCircleRadius,
+          identifier: "majorTerm"
         },
         I: {
           circleXPos: SVGMidPointX + midCircleRadius * 0.75,
-          circleRadius: bigCircleRadius
+          circleRadius: bigCircleRadius,
+          identifier: "majorTerm"
         },
         O: {
           circleXPos: SVGMidPointX + midCircleRadius * 3,
-          circleRadius: bigCircleRadius
+          circleRadius: bigCircleRadius,
+          identifier: "majorTerm"
         }
       }
     }
