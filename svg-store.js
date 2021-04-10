@@ -23,7 +23,9 @@ const svgStore = (function () {
     fill: "none",
     stroke: "black"
   });
-  // TODO: add function for half circle shape
+  
+  const minorTermFill = "#2BA1BD";
+  const minorTermStroke = "#000000";
   // for dashed borders:https://kovart.github.io/dashed-border-generator
   const storeOfCircleShapes = {
     majorPremise: {
@@ -57,26 +59,26 @@ const svgStore = (function () {
         A: {
           circleXPos: SVGMidPointX - midCircleRadius * 0.25,
           circleRadius: smallestCircleRadius,
-          fill: "#F7F7F7",
-          stroke: "#2BA1BD"
+          fill: minorTermFill,
+          stroke: minorTermStroke
         },
         E: {
           circleXPos: xPosZero + bigCircleRadius,
           circleRadius: smallestCircleRadius,
-          fill: "#F7F7F7",
-          stroke: "#2BA1BD"
+          fill: minorTermFill,
+          stroke: minorTermStroke
         },
         I: {
           circleXPos: SVGMidPointX - midCircleRadius * 0.625,
           circleRadius: smallestCircleRadius,
-          fill: "#F7F7F7",
-          stroke: "#2BA1BD"
+          fill: minorTermFill,
+          stroke: minorTermStroke
         },
         O: {
           circleXPos: SVGMidPointX - midCircleRadius * 0.6875,
           circleRadius: smallestCircleRadius,
-          fill: "#F7F7F7",
-          stroke: "#2BA1BD"
+          fill: minorTermFill,
+          stroke: minorTermStroke
         }
       },
       predicate: {
@@ -91,26 +93,26 @@ const svgStore = (function () {
         A: {
           circleXPos: SVGMidPointX,
           circleRadius: smallestCircleRadius,
-          fill: "#F7F7F7",
-          stroke: "#2BA1BD"
+          fill: minorTermFill,
+          stroke: minorTermStroke
         },
         E: {
           circleXPos: SVGMidPointX,
           circleRadius: smallestCircleRadius,
-          fill: "#F7F7F7",
-          stroke: "#2BA1BD"
+          fill: minorTermFill,
+          stroke: minorTermStroke
         },
         I: {
           circleXPos: SVGMidPointX - midCircleRadius * 0.75,
           circleRadius: smallestCircleRadius,
-          fill: "#F7F7F7",
-          stroke: "#2BA1BD"
+          fill: minorTermFill,
+          stroke: minorTermStroke
         },
         O: {
           circleXPos: SVGMidPointX - midCircleRadius * 0.75,
           circleRadius: smallestCircleRadius,
-          fill: "#F7F7F7",
-          stroke: "#2BA1BD"
+          fill: minorTermFill,
+          stroke: minorTermStroke
         }
       },
       predicate: {

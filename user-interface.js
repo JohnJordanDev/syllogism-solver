@@ -124,25 +124,10 @@
     );
     const conclusionForm = window.app.getConclusionForm(formsOfPropositions);
 
-    /* TODO: To be removed once SVG completed */
-
-    window.app.canvas.utilsCircle.drawPartToBoard(
-      "majorPremise",
-      formsOfPropositions[0],
-      canvasPropOneCtx
-    );
-
     window.app.svgModule.utils.circle.drawPartToBoard(
       "majorPremise",
       formsOfPropositions[0],
       svgMajorPremise
-    );
-
-    // TODO: To be removed once SVG completed
-    window.app.canvas.utilsCircle.drawPartToBoard(
-      "minorPremise",
-      formsOfPropositions[1],
-      canvasPropTwoCtx
     );
 
     window.app.svgModule.utils.circle.drawPartToBoard(
