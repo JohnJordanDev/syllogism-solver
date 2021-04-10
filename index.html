@@ -45,25 +45,16 @@
       text-transform: uppercase;
     }
 
-    canvas,
     svg {
       display: block;
-      margin: 0 auto 0.5rem;
       max-width: 100%;
+      height: auto;
+      margin: 0 auto 0.5rem;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
       box-sizing: border-box;
       border: solid 1px #ddd;
     }
-
-    svg {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      max-width: 100%;
-      height: auto;
-    }
-
-    canvas {
-      display: none !important;
-    }
-
+    
     .header {
       margin-bottom: 1rem;
     }
@@ -264,7 +255,6 @@
               </div>
             </fieldset>
           </section>
-          <canvas id="canvas_prop_one">Modified Euler diagram for proposition one</canvas>
           <svg id="svg_majorPremise" width="300" height="150" viewBox="0 0 300 150">Modified Euler diagram for the major premise.</svg>
         </fieldset>
         <fieldset class="syllogism_part">
@@ -299,7 +289,6 @@
               </div>
             </fieldset>
           </section>
-          <canvas id="canvas_prop_two">Modified Euler diagram for proposition two</canvas>
           <svg id="svg_minorPremise" width="300" height="150" viewBox="0 0 300 150">Modified Euler diagram for the minor premise.</svg>
         </fieldset>
         <hr />
@@ -309,7 +298,6 @@
           <span class="conditional">Then</span>
           <output id="conclusion" class="conclusion-text"
             for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
-          <canvas id="canvas_conclusion">Modified Euler diagram for the conclusion.</canvas>
           <svg id="svg_conclusion" width="300" height="150" viewBox="0 0 300 150">Modified Euler diagram for the
             conclusion.</svg>
         </fieldset>
@@ -319,10 +307,6 @@
   </main>
 
   <script src="app.js"></script>
-  <script src="canvas-module.js"></script>
-  <script src="canvas-store.js"></script>
-  <script src="canvas-utilsCircle.js"></script>
-  <script src="canvas-textLabels.js"></script>
   <script src="svg-module.js"></script>
   <script src="svg-store.js"></script>
   <script src="svg-utils-circle.js"></script>

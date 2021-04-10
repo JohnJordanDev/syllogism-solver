@@ -1,4 +1,4 @@
-(function userInterface(app, canvasMod, canvasStore, canvasTextLabels) {
+(function userInterface(app) {
   const doc = window.document;
   doc.getEById = doc.getElementById;
   // ToDo: Place all this on an object
@@ -12,15 +12,6 @@
 
   const middleTermMajorPremise = doc.getEById("middle_term_major_premise");
   const middleTermMinorPremise = doc.getEById("middle_term_minor_premise");
-
-  const canvasPropOne = doc.getEById("canvas_prop_one");
-  const canvasPropOneCtx = canvasPropOne.getContext("2d");
-
-  const canvasPropTwo = doc.getEById("canvas_prop_two");
-  const canvasPropTwoCtx = canvasPropTwo.getContext("2d");
-
-  const canvasConclusion = doc.getEById("canvas_conclusion");
-  const canvasConclusionCtx = canvasConclusion.getContext("2d");
 
   const firstFigure = doc.getEById("first_figure");
   const firstFigureSubmit = doc.getEById("first_figure_submit");
@@ -62,94 +53,42 @@
       }
     });
   };
-  // TODO: once an element store is created, refactor this and renderTextLabelsToCanvas into textLabel module
-  const storeOfDataLabels = [
-    {
-      inputElem: majorTerm,
-      canvas: canvasPropOneCtx,
-      term: "majorTerm",
-      part: "majorPremise"
-    },
-    {
-      inputElem: middleTermMajorPremise,
-      canvas: canvasPropOneCtx,
-      term: "middleTerm",
-      part: "majorPremise"
-    },
-    {
-      inputElem: middleTermMajorPremise,
-      canvas: canvasPropTwoCtx,
-      term: "middleTerm",
-      part: "minorPremise"
-    },
-    {
-      inputElem: minorTerm,
-      canvas: canvasPropTwoCtx,
-      term: "minorTerm",
-      part: "minorPremise"
-    },
-    {
-      inputElem: majorTerm,
-      canvas: canvasConclusionCtx,
-      term: "majorTerm",
-      part: "conclusion"
-    },
-    {
-      inputElem: minorTerm,
-      canvas: canvasConclusionCtx,
-      term: "minorTerm",
-      part: "conclusion"
-    }
-  ];
-
-  const renderTextLabelsToCanvas = () => {
-    storeOfDataLabels.forEach((l) => {
-      canvasTextLabels.drawTextToBoard(
-        l.inputElem.value,
-        l.canvas,
-        l.term,
-        l.part
-      );
-    });
-    // TODO: use getFormOfPropositions on app, to get position for the minor term text label
-    // TODO: to remove conclusion labels if no valid conclusion, from argument
-  };
 
   const drawPremisesAndConclusion = () => {
-    const formsOfPropositions = window.app.getFormOfPropositions(
+    const formsOfPropositions = app.getFormOfPropositions(
       prop1Quantity.value,
       prop1Quality.value,
       prop2Quantity.value,
       prop2Quality.value
     );
-    const conclusionForm = window.app.getConclusionForm(formsOfPropositions);
+    const conclusionForm = app.getConclusionForm(formsOfPropositions);
 
-    window.app.svgModule.utils.circle.drawPartToBoard(
+    app.svgModule.utils.circle.drawPartToBoard(
       "majorPremise",
       formsOfPropositions[0],
       svgMajorPremise
     );
 
-    window.app.svgModule.utils.circle.drawPartToBoard(
+    app.svgModule.utils.circle.drawPartToBoard(
       "minorPremise",
       formsOfPropositions[1],
       svgMinorPremise
     );
 
     if (conclusionForm) {
-      const conclusionTextContent = window.app.getConclusion(
+      const conclusionTextContent = app.getConclusion(
         formsOfPropositions,
         minorTerm.value,
         majorTerm.value
       );
-      window.app.svgModule.utils.circle.drawPartToBoard(
+      app.svgModule.utils.circle.drawPartToBoard(
         "conclusion",
-        window.app.getConclusionForm(formsOfPropositions),
+        app.getConclusionForm(formsOfPropositions),
         svgConclusion
       );
       conclusionOutputElem.innerHTML = `${conclusionTextContent}`;
     } else {
-      window.app.svgModule.clearThisElement(svgConclusion);
+      app.svgModule.clearThisElement(svgConclusion);
       conclusionOutputElem.innerHTML = "we cannot draw a valid conclusion";
     }
   };
@@ -160,14 +99,14 @@
 
   const updateFormOutputs = () => {
     // is this needed
-    // window.app.canvas.clearAllCanvasses();
+    // app.canvas.clearAllCanvasses();
     if (firstFigure.checkValidity()) {
       drawPremisesAndConclusion();
-      // window.app.canvas.clearThisCanvas(canvasConclusion);
+      // app.canvas.clearThisCanvas(canvasConclusion);
     } else {
       triggerFormUiFeedback();
       conclusionOutputElem.innerHTML = "...";
-      // window.app.canvas.clearThisCanvas(canvasConclusion);
+      // app.canvas.clearThisCanvas(canvasConclusion);
     }
     // TODO Add call to clearVanas on conclusion, and refactor our conContent from 'drawPrem..
   };
@@ -216,15 +155,12 @@
     ) {
       setMiddleTermsInSync(elemId, newInput);
     }
-    renderTextLabelsToCanvas();
-    if (!window.app.getStoredFormOfConclusion().conclusion) {
-      window.app.canvas.clearThisCanvas(canvasConclusion);
-    }
+    //TODO render text labels
   };
 
   const renderCanvas = (ev) => {
     // get conclusion form here, and pass in
-    window.app.canvas.clearAllCanvasses();
+    app.svgModule.clearAllSVGs();
     changeHandler(ev);
     inputHandler(ev);
   };
@@ -251,8 +187,5 @@
   prop1Quality.dispatchEvent(changeEvent);
   prop2Quantity.dispatchEvent(changeEvent);
 })(
-  window.app,
-  window.app.canvas,
-  window.app.canvas.store,
-  window.app.canvas.textLabels
+  window.app
 );

@@ -6,7 +6,7 @@ const svgModule = (function () {
     elem.innerHTML = "";
   };
 
-  const clearAllSvgs = () => {
+  const clearAllSVGs = () => {
     allCanvasses.forEach((elem) => {
       clearThisElement(elem);
     });
@@ -16,7 +16,7 @@ const svgModule = (function () {
 
   return {
     clearThisElement,
-    clearAllSvgs,
+    clearAllSVGs,
     utils
   };
 })();
