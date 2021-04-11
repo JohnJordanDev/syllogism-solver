@@ -7,8 +7,8 @@
   const prop2Quantity = doc.getEById("prop_two_quantity");
   const prop2Quality = doc.getEById("prop_two_quality");
 
-  const majorTerm = doc.getEById("majorTerm");
-  const minorTerm = doc.getEById("minorTerm");
+  const majorTermMajorPremise = doc.getEById("majorTerm_majorPremise");
+  const minorTermMinorPremise = doc.getEById("minorTerm_minorPremise");
 
   const middleTermMajorPremise = doc.getEById("middleTerm_majorPremise");
   const middleTermMinorPremise = doc.getEById("middleTerm_minorPremise");
@@ -55,6 +55,7 @@
   };
 
   const drawPremisesAndConclusion = () => {
+    // TODO refactor in to function
     const formsOfPropositions = app.getFormOfPropositions(
       prop1Quantity.value,
       prop1Quality.value,
@@ -78,8 +79,8 @@
     if (conclusionForm) {
       const conclusionTextContent = app.getConclusion(
         formsOfPropositions,
-        minorTerm.value,
-        majorTerm.value
+        minorTermMinorPremise.value,
+        majorTermMajorPremise.value
       );
       app.svgModule.utils.circle.drawPartToBoard(
         "conclusion",
@@ -146,24 +147,35 @@
     const elem = event.target;
     const elemId = elem.getAttribute("id");
     const newInput = elem.value;
+
     if (
-      elemId === "middleTerm_majorPremise" ||
-      elemId === "middleTerm_minorPremise"
+      elemId === "middleTerm_majorPremise"
+      || elemId === "middleTerm_minorPremise"
     ) {
       setMiddleTermsInSync(elemId, newInput);
-    }
-    // TODO render text labels: need to split out in renderCanvas
-    if (elem.nodeName === "INPUT") {
-      app.svgModule.utils.textLabel.addSVGTextElemFromInputElem(elem);
     }
   };
 
   const renderCanvas = (ev) => {
-    // get conclusion form here, and pass in
-    app.svgModule.clearAllSVGs();
-    // TODO: will need to split out the changes made for change and input events, to text label
-    changeHandler(ev);
-    inputHandler(ev);
+    const elem = ev.target;
+    // TODO: refactor into function
+    const formsOfPropositions = app.getFormOfPropositions(
+      prop1Quantity.value,
+      prop1Quality.value,
+      prop2Quantity.value,
+      prop2Quality.value
+    );
+    const conclusionForm = app.getConclusionForm(formsOfPropositions);
+    // TODO render text labels: need to split out in renderCanvas
+    if (elem.nodeName === "INPUT") {
+      app.svgModule.utils.textLabel.addSVGTextElemFromInputElem(elem, formsOfPropositions);
+      inputHandler(ev);
+    } else {
+      // get conclusion form here, and pass in
+      app.svgModule.clearAllSVGs();
+      // TODO: will need to split out the changes made for change and input events, to text label
+      changeHandler(ev);
+    }
   };
 
   // ANY change to input/select elements MUST result of complete canvas redraw
@@ -190,7 +202,7 @@
   prop2Quantity.selectedIndex = 2;
   prop2Quality.selectedIndex = 1;
 
-  majorTerm.value = "Major term";
+  majorTermMajorPremise.value = "Major term";
 
   const changeEvent = new Event("change", { bubbles: true });
 
