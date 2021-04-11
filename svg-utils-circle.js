@@ -77,6 +77,9 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
     );
     const subjectSVGElement = getSubjectShape(subjectShapeSettings, partForm);
 
+
+    //TODO: Need to refactor this code, so that it mirrors textLabel, adding new or updating existing
+    // rather than clearing the entire SVG element, which causes a reset on 'change'
     SVGMod.clearThisElement(SVGElem);
     drawToSVGElem(SVGElem, subjectSVGElement);
     drawToSVGElem(SVGElem, circleElementFromSettings(predicateShapeSettings));

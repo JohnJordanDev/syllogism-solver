@@ -168,7 +168,7 @@
     const conclusionForm = app.getConclusionForm(formsOfPropositions);
     // TODO render text labels: need to split out in renderCanvas
     if (elem.nodeName === "INPUT") {
-      app.svgModule.utils.textLabel.addSVGTextElemFromInputElem(elem, formsOfPropositions);
+      app.svgModule.utils.textLabel.addSVGTextElemFromInputElem(elem, formsOfPropositions, conclusionForm);
       inputHandler(ev);
     } else {
       // get conclusion form here, and pass in
