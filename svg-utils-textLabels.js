@@ -15,6 +15,7 @@ const utilsSVGTextLabels = (function () {
       "data-identifier": `textLabel-${inputElemIdentififer}`
     });
     t.textContent = text;
+    t.classList.add("changing");
     return t;
   };
 
@@ -32,16 +33,29 @@ const utilsSVGTextLabels = (function () {
     return textElemFromInputElemData(inputElem.value, inputElemIdentififer);
   };
 
-  const noMatchingTextLabelPresent = (SVGShape) => {
-    const shapeOfWhichTerm = SVGShape.dataset.identifier.split("-")[1];
-    const listOfTextLabels = SVGShape.parentNode.querySelectorAll(
-      `[data-identifier="textLabel-${shapeOfWhichTerm}"]`
-    );
-
-    return listOfTextLabels.length === 0;
+  const addNewTextLabelBesideTarget = (inputElem, targetShape) => {
+    const SVGTextElement = getSVGShapeTarget(inputElem);
+    targetShape.parentNode.insertBefore(SVGTextElement, targetShape);
   };
 
-  const updateExistingTextLabel = () => {};
+  const updateExistingTextLabel = (inputElem, listOfTextLabelsInParent) => {
+    listOfTextLabelsInParent.forEach((textLabel) => {
+      // eslint-disable-next-line no-param-reassign
+      textLabel.textContent = inputElem.value;
+    });
+  };
+
+  const updateExistingOrAddNewTextLabel = (inputElem, targetShape) => {
+    const shapeOfWhichTerm = targetShape.dataset.identifier.split("-")[1];
+    const listOfTextLabelsInParent = targetShape.parentNode.querySelectorAll(
+      `[data-identifier="textLabel-${shapeOfWhichTerm}"]`
+    );
+    if (listOfTextLabelsInParent.length === 0) {
+      addNewTextLabelBesideTarget(inputElem, targetShape);
+    } else {
+      updateExistingTextLabel(inputElem, listOfTextLabelsInParent);
+    }
+  };
 
   const addSVGTextElemFromInputElem = (inputElem, formsOfPropositions) => {
     // TODO need to pull out the premise/subject or predicate/form of premise from the available info
@@ -53,10 +67,7 @@ const utilsSVGTextLabels = (function () {
     );
 
     listOfSVGShapeTargets.forEach((targetShape) => {
-      if (noMatchingTextLabelPresent(targetShape)) {
-        const SVGTextElement = getSVGShapeTarget(inputElem);
-        targetShape.parentNode.insertBefore(SVGTextElement, targetShape);
-      }
+      updateExistingOrAddNewTextLabel(inputElem, targetShape);
     });
   };
 
