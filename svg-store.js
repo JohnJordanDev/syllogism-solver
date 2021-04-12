@@ -23,7 +23,8 @@ const svgStore = (function () {
     fill: "none",
     stroke: "black",
     cssClass: "",
-    identifier: "middleTerm"
+    identifier: "middleTerm",
+    arcSweepFlag: "1"
   });
 
   const minorTermFill = "#2BA1BD";
@@ -35,7 +36,7 @@ const svgStore = (function () {
         A: { ...getDefaultShapeSettings(), cssClass: "shape_border-dashed" },
         E: { ...getDefaultShapeSettings(), cssClass: "shape_border-dashed" },
         I: { ...getDefaultShapeSettings(), cssClass: "shape_border-dashed" },
-        O: { ...getDefaultShapeSettings(), cssClass: "shape_border-dashed" }
+        O: { ...getDefaultShapeSettings(), cssClass: "shape_border-dashed", arcSweepFlag: "0" }
       },
       predicate: {
         A: {
@@ -88,7 +89,8 @@ const svgStore = (function () {
           circleRadius: smallestCircleRadius,
           fill: minorTermFill,
           stroke: minorTermStroke,
-          identifier: "minorTerm"
+          identifier: "minorTerm",
+          arcSweepFlag: "0"
         }
       },
       predicate: {

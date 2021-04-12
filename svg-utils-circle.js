@@ -2,8 +2,7 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
   const SVGMod = SVGModule;
   const getCircleShapeFromStore = SVGModuleStore.getCircleShape;
   // need function to convert % to numbers
-  const getPerCentValue = (numValue, ofTotalNum) =>
-    `${window.parseInt((numValue / ofTotalNum) * 100)}%`;
+  const getPerCentValue = (numValue, ofTotalNum) => `${window.parseInt((numValue / ofTotalNum) * 100)}%`;
 
   const drawToSVGElem = function (SVGElem, shapeElement) {
     // eslint-disable-next-line no-param-reassign
@@ -11,39 +10,23 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
   };
 
   const circleElementFromSettings = (settings) => {
-    const xPos = getPerCentValue(
-      settings.circleXPos,
-      SVGModuleStore.getSVGWidth()
-    );
-    const yPos = getPerCentValue(
-      settings.circleYPos,
-      SVGModuleStore.getSVGHeight()
-    );
-
-    const radius = getPerCentValue(
-      settings.circleRadius,
-      SVGModuleStore.getSVGWidth()
-    );
-
+    const xPos = getPerCentValue(settings.circleXPos, SVGModuleStore.getSVGWidth());
+    const yPos = getPerCentValue(settings.circleYPos, SVGModuleStore.getSVGHeight());
+    const radius = getPerCentValue(settings.circleRadius, SVGModuleStore.getSVGWidth());
     return `<circle data-identifier="shape-${settings.identifier}" cx="${xPos}" cy="${yPos}" 
         r="${radius}" fill="${settings.fill}" stroke="${settings.stroke}" class="shape ${settings.cssClass}"/>`;
   };
 
-  const getScaledValueRelativeToOriginalSVG = (orgValue) =>
-    orgValue * (SVGModuleStore.getSVGWidth() / 300); // original SVG element width
-
-  const getArcPath = (partForm, radiusForPath, xPos, yPos) => {
-    // A(rx,ry) ellipse radii needs to match A(.... x,y)
-    if (partForm === "I") {
-      return `A${radiusForPath},${radiusForPath} 0 0,1 ${xPos}, ${
-        yPos + radiusForPath
-      }`;
-    }
-    return `A${radiusForPath},${radiusForPath} 0 0,0 ${xPos}, ${
-      yPos + radiusForPath
-    }`;
+  const getScaledValueRelativeToOriginalSVG = (orgValue) => {
+    const scaledValue = orgValue * (SVGModuleStore.getSVGWidth() / 300); // original SVG element width
+    return scaledValue;
   };
-  const halfCircleElementFromSettings = (settings, partForm) => {
+
+  const getArcPath = (radiusForPath, xPos, yPos, arcSweepFlag) => `
+    A${radiusForPath},${radiusForPath} 0 0,${arcSweepFlag} ${xPos}, ${yPos + radiusForPath}
+  `;
+
+  const halfCircleElementFromSettings = (settings) => {
     const radiusForPath = getScaledValueRelativeToOriginalSVG(
       settings.circleRadius * 0.75
     );
@@ -51,14 +34,16 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
     const yPos = settings.circleYPos;
 
     const startingPoint = `M ${xPos} ${yPos - radiusForPath}`;
-    const arcPath = getArcPath(partForm, radiusForPath, xPos, yPos);
+    const arcPath = getArcPath(radiusForPath, xPos, yPos, settings.arcSweepFlag);
     const totalPath = startingPoint + arcPath;
-    return `<path data-identifier="shape-${settings.identifier}" class="shape ${settings.cssClass}" d='${totalPath} M ${xPos} ${yPos}z' fill="${settings.fill}" stroke="${settings.stroke}" stroke-width='1'/>`;
+    return `<path data-identifier="shape-${settings.identifier}" class="shape ${settings.cssClass}" 
+      d='${totalPath} M ${xPos} ${yPos}z' fill="${settings.fill}" stroke="${settings.stroke}" stroke-width='1'/>
+    `;
   };
 
   const getSubjectShape = (circleShapeSettings, partForm) => {
     if (partForm === "I" || partForm === "O") {
-      return halfCircleElementFromSettings(circleShapeSettings, partForm);
+      return halfCircleElementFromSettings(circleShapeSettings);
     }
     return circleElementFromSettings(circleShapeSettings);
   };
@@ -77,8 +62,7 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
     );
     const subjectSVGElement = getSubjectShape(subjectShapeSettings, partForm);
 
-
-    //TODO: Need to refactor this code, so that it mirrors textLabel, adding new or updating existing
+    // TODO: Need to refactor this code, so that it mirrors textLabel, adding new or updating existing
     // rather than clearing the entire SVG element, which causes a reset on 'change'
     SVGMod.clearThisElement(SVGElem);
     drawToSVGElem(SVGElem, subjectSVGElement);
