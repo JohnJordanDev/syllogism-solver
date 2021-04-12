@@ -4,14 +4,14 @@ const utilsSVGTextLabels = (function (SVGStore) {
       element.setAttribute(attribute, attributes[attribute]);
     });
   };
-  // See here for https://stackoverflow.com/questions/15500894/background-color-of-text-in-svg text box
-  const textElemFromInputElemData = (text, inputElemIdentififer) => {
-    const xmlns = "http://www.w3.org/2000/svg";
-    const t = window.document.createElementNS(xmlns, "text");
+  // TODO; Background image See here for https://stackoverflow.com/questions/15500894/background-color-of-text-in-svg text box
+  const textElemFromInputElemData = (text, inputElemIdentififer, labelSettings) => {
+    const nsSVG = "http://www.w3.org/2000/svg";
+    const t = window.document.createElementNS(nsSVG, "text");
     updateAttributes(t, {
-      "text-achor": "middle",
-      x: "50%",
-      y: "50%",
+      "text-anchor": "end",
+      x: labelSettings.circleXPos,
+      y: labelSettings.labelYPos,
       "data-identifier": `textLabel-${inputElemIdentififer}`
     });
     t.textContent = text;
@@ -19,22 +19,18 @@ const utilsSVGTextLabels = (function (SVGStore) {
     return t;
   };
 
-  const getSVGShapeTarget = (inputElem) => {
-    // query DOM
+  const createSVGTextLabel = (inputElem, labelSettings) => {
     const inputElemIdentififer = inputElem.attributes.id.value.split("_")[0];
-    const inputElementParentPremise = inputElem.attributes.id.value.split(
-      "_"
-    )[1];
     window.document
       .querySelectorAll(`[data-identifier*="${inputElemIdentififer}"]`)
       .forEach((shape) => {
         shape.classList.add("changing");
       });
-    return textElemFromInputElemData(inputElem.value, inputElemIdentififer);
+    return textElemFromInputElemData(inputElem.value, inputElemIdentififer, labelSettings);
   };
 
-  const addNewTextLabelBesideTarget = (inputElem, targetShape) => {
-    const SVGTextElement = getSVGShapeTarget(inputElem);
+  const addNewTextLabelBesideTarget = (inputElem, targetShape, labelSettings) => {
+    const SVGTextElement = createSVGTextLabel(inputElem, labelSettings);
     targetShape.parentNode.insertBefore(SVGTextElement, targetShape);
   };
 
@@ -47,13 +43,13 @@ const utilsSVGTextLabels = (function (SVGStore) {
     targetShape.classList.add("changing");
   };
 
-  const updateExistingOrAddNewTextLabel = (inputElem, targetShape, settingsFromStore) => {
+  const updateExistingOrAddNewTextLabel = (inputElem, targetShape, labelSettings) => {
     const shapeOfWhichTerm = targetShape.dataset.identifier.split("-")[1];
     const listOfTextLabelsInParent = targetShape.parentNode.querySelectorAll(
       `[data-identifier="textLabel-${shapeOfWhichTerm}"]`
     );
     if (listOfTextLabelsInParent.length === 0) {
-      addNewTextLabelBesideTarget(inputElem, targetShape);
+      addNewTextLabelBesideTarget(inputElem, targetShape, labelSettings);
     } else {
       updateExistingTextLabel(inputElem, listOfTextLabelsInParent, targetShape);
     }
@@ -106,10 +102,13 @@ const utilsSVGTextLabels = (function (SVGStore) {
       );
       const formOfPartOfSyllogism = getFormOfPartOfSyllogism(partOfSyllogism, formsOfPropositions, conclusionForm);
       const settingsFromStore = SVGStore.getCircleShape(partOfSyllogism, subjectOrPredicate, formOfPartOfSyllogism);
-      console.log('settingsFromStore: ', settingsFromStore);
+      const textLabelSettings = { ...settingsFromStore, labelYPos: settingsFromStore.circleYPos - settingsFromStore.circleRadius};
+      console.log(settingsFromStore, textLabelSettings);
+      // TODO function to create new yPos from settings reflecting offset, for the label yPos
+      // which will be used to position textLabel, and the original circleYPos used for line marker (to come)
 
       // need formOfProsition
-      updateExistingOrAddNewTextLabel(inputElem, targetShape, settingsFromStore);
+      updateExistingOrAddNewTextLabel(inputElem, targetShape, textLabelSettings);
     });
   };
 

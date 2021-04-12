@@ -51,7 +51,12 @@
       max-width: 100%;
       height: auto;
       margin: 0 auto 0.5rem;
+
       font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-size: 0.66rem;
+      font-style: normal;
+      font-weight: 400;
+
       box-sizing: border-box;
       border: solid 1px #ddd;
     }
@@ -146,8 +151,13 @@
       background: #ddd;
     }
 
-    .changing {
+    .shape.changing {
       stroke: red;
+      stroke-width: 2px;
+    }
+
+    text.changing {
+      fill: red;
     }
 
     @media screen and (min-width: 768px) {
