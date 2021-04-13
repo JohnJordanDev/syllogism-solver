@@ -6,6 +6,7 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
 
   const drawToSVGElem = function (SVGElem, shapeElement) {
     // eslint-disable-next-line no-param-reassign
+    // TODO: refactor to prepend elements, rather than string, to allow "z-indexing" of shapes
     SVGElem.innerHTML += `${shapeElement}`;
   };
 
@@ -65,8 +66,10 @@ const utilsSVGCircle = (function (SVGModule, SVGModuleStore) {
     // TODO: Need to refactor this code, so that it mirrors textLabel, adding new or updating existing
     // rather than clearing the entire SVG element, which causes a reset on 'change'
     SVGMod.clearThisElement(SVGElem);
-    drawToSVGElem(SVGElem, subjectSVGElement);
+    // Note: calling in this order, as NO z-indexing in SVG, and elements added as string to SVG,
+    // and order in mark-up determines 3D position
     drawToSVGElem(SVGElem, circleElementFromSettings(predicateShapeSettings));
+    drawToSVGElem(SVGElem, subjectSVGElement);
   };
 
   return {

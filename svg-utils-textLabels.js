@@ -25,11 +25,23 @@ const utilsSVGTextLabels = (function (SVGStore) {
       y: bBox.y - 2.5,
       width: bBox.width + 10,
       height: bBox.height + 5,
-      fill: "#aeaeae"
+      "data-identifier": `rect-${targetTextLabel.dataset.identifier}`,
+      fill: "#DEDEDE"
     });
-    rect.classList.add("textL");
+    rect.classList.add("textLabel-rect", "changing");
     targetTextLabel.parentNode.insertBefore(rect, targetTextLabel);
-    console.log("rect is: ", rect);
+  };
+
+  const updateRectBehind = (targetTextLabel) => {
+    const rect = targetTextLabel.parentNode.querySelectorAll(`[data-identifier=rect-${targetTextLabel.dataset.identifier}]`)[0];
+    const bBox = targetTextLabel.getBBox();
+    updateAttributes(rect, {
+      x: bBox.x - 5,
+      y: bBox.y - 2.5,
+      width: bBox.width + 10,
+      height: bBox.height + 5
+    });
+    rect.classList.add("changing");
   };
 
   const getLabelYPos = (inputElementIdentifier, storeSettings) => {
@@ -62,7 +74,7 @@ const utilsSVGTextLabels = (function (SVGStore) {
       "data-identifier": `textLabel-${inputElemIdentififer}`
     });
     t.textContent = text;
-    t.classList.add("changing");
+    t.classList.add("changing", "textLabel");
     return t;
   };
 
@@ -88,6 +100,7 @@ const utilsSVGTextLabels = (function (SVGStore) {
       // eslint-disable-next-line no-param-reassign
       textLabel.textContent = inputElem.value;
       textLabel.classList.add("changing");
+      updateRectBehind(textLabel);
     });
     targetShape.classList.add("changing");
   };
@@ -134,7 +147,6 @@ const utilsSVGTextLabels = (function (SVGStore) {
   const addSVGTextElemFromInputElem = (inputElem, formsOfPropositions, conclusionForm) => {
     const inputElemID = inputElem.attributes.id.value;
     const inputElemTermIdentififer = inputElemID.split("_")[0];
-    // TODO: need to retrieve settings from store before passing into updateExistingOrAddNewTextLabel
     const listOfSVGShapeTargets = window.document.querySelectorAll(
       `[data-identifier="shape-${inputElemTermIdentififer}"]`
     );
