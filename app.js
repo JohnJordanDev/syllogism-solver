@@ -100,8 +100,8 @@ window.app = (function appInit() {
       typeof validConclusions[conclusion] !== "undefined"
     ) {
       conclusion = validConclusions[conclusion]
-        .replace("'B'", minorTermValue)
-        .replace("'A'", majorTermValue);
+        .replace("'B'", `<span id="conclusion_minorTerm">${minorTermValue}</span>`)
+        .replace("'A'", `<span id="conclusion_majorTerm">${majorTermValue}</span>`);
     }
     return conclusion;
   };

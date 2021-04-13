@@ -166,8 +166,14 @@ const utilsSVGTextLabels = (function (SVGStore) {
     });
   };
 
+  const updateConclusionTextLabel = (concTerm, newText) => {
+    concTerm.textContent = newText;
+    concTerm.classList.add("changing");
+  };
+
   return {
-    addSVGTextElemFromInputElem
+    addSVGTextElemFromInputElem,
+    updateConclusionTextLabel
   };
 })(window.app.svgModule.store);
 

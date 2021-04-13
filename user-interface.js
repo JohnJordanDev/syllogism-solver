@@ -168,7 +168,10 @@
     const conclusionForm = app.getConclusionForm(formsOfPropositions);
     // TODO render text labels: need to split out in renderCanvas
     if (elem.nodeName === "INPUT") {
+      const inputElemIdentififer = elem.attributes.id.value;
+      const relevantTerm = inputElemIdentififer.split("_")[0];
       app.svgModule.utils.textLabel.addSVGTextElemFromInputElem(elem, formsOfPropositions, conclusionForm);
+      app.svgModule.utils.textLabel.updateConclusionTextLabel(doc.getElementById(`conclusion_${relevantTerm}`), elem.value);
       inputHandler(ev);
     } else {
       // get conclusion form here, and pass in
@@ -196,8 +199,10 @@
     false
   );
 
+  // TODO: adding hover behavior revealing info boxs
+
   // For testing purposes
-  prop1Quantity.selectedIndex = 2;
+  prop1Quantity.selectedIndex = 1;
   prop1Quality.selectedIndex = 2;
   prop2Quantity.selectedIndex = 2;
   prop2Quality.selectedIndex = 1;
