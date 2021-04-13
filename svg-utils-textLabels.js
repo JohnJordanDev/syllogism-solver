@@ -11,11 +11,17 @@ const utilsSVGTextLabels = (function (SVGStore) {
     }
   };
 
-  const getLabelYPos = (inputElementIdentifier, storeSettings) => (
-    inputElementIdentifier === "minorTerm"
-      ? storeSettings.circleYPos + storeSettings.circleRadius + 10
-      : storeSettings.circleYPos - storeSettings.circleRadius
-  );
+  const getLabelYPos = (inputElementIdentifier, storeSettings) => {
+    let labelYPos = "";
+    if (inputElementIdentifier === "majorTerm") {
+      labelYPos = storeSettings.circleYPos - storeSettings.circleRadius + 5;
+    } else if (inputElementIdentifier === "minorTerm") {
+      labelYPos = storeSettings.circleYPos + storeSettings.circleRadius + 10;
+    } else {
+      labelYPos = storeSettings.circleYPos - storeSettings.circleRadius;
+    }
+    return labelYPos;
+  };
 
   const getTextLabelSpecificSettings = (inputElementIdentifier, storeSettings) => {
     const labelYPos = getLabelYPos(inputElementIdentifier, storeSettings);
