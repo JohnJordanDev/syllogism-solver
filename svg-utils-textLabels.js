@@ -11,6 +11,27 @@ const utilsSVGTextLabels = (function (SVGStore) {
     }
   };
 
+  const updateAttributes = (element, attributes) => {
+    Object.keys(attributes).forEach((attribute) => {
+      element.setAttribute(attribute, attributes[attribute]);
+    });
+  };
+
+  const drawRectBehind = (targetTextLabel) => {
+    const bBox = targetTextLabel.getBBox();
+    const rect = window.document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    updateAttributes(rect, {
+      x: bBox.x - 5,
+      y: bBox.y - 2.5,
+      width: bBox.width + 10,
+      height: bBox.height + 5,
+      fill: "#aeaeae"
+    });
+    rect.classList.add("textL");
+    targetTextLabel.parentNode.insertBefore(rect, targetTextLabel);
+    console.log("rect is: ", rect);
+  };
+
   const getLabelYPos = (inputElementIdentifier, storeSettings) => {
     let labelYPos = "";
     if (inputElementIdentifier === "majorTerm") {
@@ -26,12 +47,6 @@ const utilsSVGTextLabels = (function (SVGStore) {
   const getTextLabelSpecificSettings = (inputElementIdentifier, storeSettings) => {
     const labelYPos = getLabelYPos(inputElementIdentifier, storeSettings);
     return { ...storeSettings, ...storeOfTextLabelData[inputElementIdentifier], labelYPos };
-  };
-
-  const updateAttributes = (element, attributes) => {
-    Object.keys(attributes).forEach((attribute) => {
-      element.setAttribute(attribute, attributes[attribute]);
-    });
   };
 
   // TODO; Background image See here for https://stackoverflow.com/questions/15500894/background-color-of-text-in-svg text box
@@ -65,6 +80,7 @@ const utilsSVGTextLabels = (function (SVGStore) {
   const addNewTextLabelBesideTarget = (inputElem, targetShape, labelSettings) => {
     const SVGTextElement = createSVGTextLabel(inputElem, labelSettings);
     targetShape.parentNode.insertBefore(SVGTextElement, targetShape);
+    drawRectBehind(SVGTextElement);
   };
 
   const updateExistingTextLabel = (inputElem, listOfTextLabelsInParent, targetShape) => {
