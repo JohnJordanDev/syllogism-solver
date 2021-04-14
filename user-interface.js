@@ -54,6 +54,17 @@
     });
   };
 
+  const triggerAllInputElementInput = () => {
+    const inputElems = [middleTermMajorPremise, majorTermMajorPremise, minorTermMinorPremise, middleTermMinorPremise];
+    const inputEvent = new Event("input", { bubbles: true });
+    console.log("in trigger function");
+    inputElems.forEach((elem) => {
+      console.log("elem is: ", elem, inputEvent);
+      elem.dispatchEvent(inputEvent);
+    });
+    inputElems.forEach((elem) => elem.classList.remove("changing"));
+  };
+
   const drawPremisesAndConclusion = () => {
     // TODO refactor in to function
     const formsOfPropositions = app.getFormOfPropositions(
@@ -105,7 +116,7 @@
       triggerFormUiFeedback();
       conclusionOutputElem.innerHTML = "...";
     }
-    // TODO Add call to clearVanas on conclusion, and refactor our conContent from 'drawPrem..
+    triggerAllInputElementInput();
   };
 
   const setMiddleTermsInSync = (elemId, newInput) => {
@@ -153,10 +164,13 @@
   };
 
   const handleChangeEvent = (ev) => {
-    // get conclusion form here, and pass in
-    app.svgModule.clearAllSVGs();
-    // TODO: will need to split out the changes made for change and input events, to text label
-    changeHandler(ev);
+    console.log("a change! ", ev.target.nodeName);
+    if (ev.target.nodeName === "SELECT") {
+      // get conclusion form here, and pass in
+      app.svgModule.clearAllSVGs();
+      // TODO: will need to split out the changes made for change and input events, to text label
+      changeHandler(ev);
+    }
   };
 
   doc.addEventListener("change", handleChangeEvent);

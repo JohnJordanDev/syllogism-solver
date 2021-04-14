@@ -66,7 +66,6 @@ const utilsSVGTextLabels = (function (SVGStore) {
   const textElemFromInputElemData = (text, inputElemIdentififer, labelSettings) => {
     const nsSVG = "http://www.w3.org/2000/svg";
     const t = window.document.createElementNS(nsSVG, "text");
-    console.log("getTextLabelSpecificSettings: ", getTextLabelSpecificSettings(inputElemIdentififer, labelSettings));
     updateAttributes(t, {
       "text-anchor": labelSettings.textAnchor,
       x: labelSettings.circleXPos,
