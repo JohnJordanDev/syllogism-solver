@@ -57,12 +57,13 @@
   const triggerAllInputElementInput = () => {
     const inputElems = [middleTermMajorPremise, majorTermMajorPremise, minorTermMinorPremise, middleTermMinorPremise];
     const inputEvent = new Event("input", { bubbles: true });
-    console.log("in trigger function");
     inputElems.forEach((elem) => {
-      console.log("elem is: ", elem, inputEvent);
       elem.dispatchEvent(inputEvent);
+      // TODO need to remove "changing" class from shape and text label, related to this input (new function)
+      // or just call 'unfocus' event, which will do the same thing
     });
-    inputElems.forEach((elem) => elem.classList.remove("changing"));
+    const unfocusEvent = new Event("focusout");
+    doc.dispatchEvent(unfocusEvent);
   };
 
   const drawPremisesAndConclusion = () => {
@@ -164,7 +165,6 @@
   };
 
   const handleChangeEvent = (ev) => {
-    console.log("a change! ", ev.target.nodeName);
     if (ev.target.nodeName === "SELECT") {
       // get conclusion form here, and pass in
       app.svgModule.clearAllSVGs();
@@ -198,15 +198,12 @@
   doc.getEById("first_figure").reset();
 
   // TODO: place into userinterface polish, when ready
-  doc.addEventListener(
-    "focusout",
-    () => {
-      doc.querySelectorAll(".changing").forEach((elem) => {
-        elem.classList.remove("changing");
-      });
-    },
-    false
-  );
+  doc.addEventListener("focusout", () => {
+    doc.querySelectorAll(".changing").forEach((elem) => {
+      elem.classList.remove("changing");
+    });
+  },
+  false);
 
   // TODO: adding hover behavior revealing info boxs
 

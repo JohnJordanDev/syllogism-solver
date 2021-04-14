@@ -1,13 +1,14 @@
 const utilsSVGTextLabels = (function (SVGStore) {
+  // TODO remove this, as now redundant
   const storeOfTextLabelData = {
     majorTerm: {
-      textAnchor: "start"
+      textAnchor: "middle"
     },
     middleTerm: {
       textAnchor: "middle"
     },
     minorTerm: {
-      textAnchor: "end"
+      textAnchor: "middle"
     }
   };
 
