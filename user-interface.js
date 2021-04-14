@@ -98,16 +98,12 @@
     firstFigureSubmit.click();
   };
 
-  const updateFormOutputs = () => {
-    // is this needed
-    // app.canvas.clearAllCanvasses();
+  const updateFormUI = () => {
     if (firstFigure.checkValidity()) {
       drawPremisesAndConclusion();
-      // app.canvas.clearThisCanvas(canvasConclusion);
     } else {
       triggerFormUiFeedback();
       conclusionOutputElem.innerHTML = "...";
-      // app.canvas.clearThisCanvas(canvasConclusion);
     }
     // TODO Add call to clearVanas on conclusion, and refactor our conContent from 'drawPrem..
   };
@@ -140,7 +136,7 @@
 
   const changeHandler = (event) => {
     setValidUserChoicesBasedOnInput(event);
-    updateFormOutputs();
+    updateFormUI();
   };
 
   const inputHandler = (event) => {
@@ -156,7 +152,16 @@
     }
   };
 
-  const renderCanvas = (ev) => {
+  const handleChangeEvent = (ev) => {
+    // get conclusion form here, and pass in
+    app.svgModule.clearAllSVGs();
+    // TODO: will need to split out the changes made for change and input events, to text label
+    changeHandler(ev);
+  };
+
+  doc.addEventListener("change", handleChangeEvent);
+
+  doc.addEventListener("input", (ev) => {
     const elem = ev.target;
     // TODO: refactor into function
     const formsOfPropositions = app.getFormOfPropositions(
@@ -165,25 +170,15 @@
       prop2Quantity.value,
       prop2Quality.value
     );
+    const inputElemIdentififer = elem.attributes.id.value;
+    const relevantTerm = inputElemIdentififer.split("_")[0];
+    const relevantConclusionTermElem = doc.getElementById(`conclusion_${relevantTerm}`);
     const conclusionForm = app.getConclusionForm(formsOfPropositions);
-    // TODO render text labels: need to split out in renderCanvas
-    if (elem.nodeName === "INPUT") {
-      const inputElemIdentififer = elem.attributes.id.value;
-      const relevantTerm = inputElemIdentififer.split("_")[0];
-      app.svgModule.utils.textLabel.addSVGTextElemFromInputElem(elem, formsOfPropositions, conclusionForm);
-      app.svgModule.utils.textLabel.updateConclusionTextLabel(doc.getElementById(`conclusion_${relevantTerm}`), elem.value);
-      inputHandler(ev);
-    } else {
-      // get conclusion form here, and pass in
-      app.svgModule.clearAllSVGs();
-      // TODO: will need to split out the changes made for change and input events, to text label
-      changeHandler(ev);
+    app.svgModule.utils.textLabel.addSVGTextElemFromInputElem(elem, formsOfPropositions, conclusionForm);
+    if (relevantConclusionTermElem) {
+      app.svgModule.utils.textLabel.updateConclusionTextLabel(relevantConclusionTermElem, elem.value);
     }
-  };
-
-  // ANY change to input/select elements MUST result of complete canvas redraw
-  ["change", "input"].forEach((event) => {
-    doc.addEventListener(event, renderCanvas);
+    inputHandler(ev);
   });
 
   doc.getEById("first_figure").reset();
