@@ -208,17 +208,17 @@
   // TODO: adding hover behavior revealing info boxs
 
   // For testing purposes
-  prop1Quantity.selectedIndex = 1;
-  prop1Quality.selectedIndex = 2;
-  prop2Quantity.selectedIndex = 2;
-  prop2Quality.selectedIndex = 1;
+  // prop1Quantity.selectedIndex = 1;
+  // prop1Quality.selectedIndex = 2;
+  // prop2Quantity.selectedIndex = 2;
+  // prop2Quality.selectedIndex = 1;
 
-  majorTermMajorPremise.value = "Major term";
+  // majorTermMajorPremise.value = "Major term";
 
-  const changeEvent = new Event("change", { bubbles: true });
+  // const changeEvent = new Event("change", { bubbles: true });
 
-  // Dispatch it.
-  prop1Quantity.dispatchEvent(changeEvent);
-  prop1Quality.dispatchEvent(changeEvent);
-  prop2Quantity.dispatchEvent(changeEvent);
+  // // Dispatch it.
+  // prop1Quantity.dispatchEvent(changeEvent);
+  // prop1Quality.dispatchEvent(changeEvent);
+  // prop2Quantity.dispatchEvent(changeEvent);
 })(window.app);
