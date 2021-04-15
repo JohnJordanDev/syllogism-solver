@@ -166,7 +166,10 @@ const utilsSVGTextLabels = (function (SVGStore) {
     });
   };
 
-  const updateConclusionTextLabel = (concTerm, newText) => {
+  const updateConclusionTextLabel = (concTerm, currentInputValue) => {
+    const unFormattedFallback = concTerm.attributes.id.value.split("_")[1];
+    const formattedFallback = `${unFormattedFallback.toLowerCase().split("term")[0]} term`;
+    const newText = currentInputValue || formattedFallback;
     concTerm.textContent = newText;
     concTerm.classList.add("changing");
   };
