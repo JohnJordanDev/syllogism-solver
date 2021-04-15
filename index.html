@@ -170,6 +170,10 @@
       fill: red;
     }
 
+    .svg_textMsg {
+      text-align: center;
+    }
+
     @media screen and (min-width: 768px) {
       canvas {
         max-height: none;
@@ -284,8 +288,13 @@
               </div>
             </fieldset>
           </section>
-          <svg id="svg_majorPremise" width="300" height="150" viewBox="0 0 300 150">Modified Euler diagram for the major
-            premise.</svg>
+          <svg id="svg_majorPremise" width="300" height="150" viewBox="0 0 300 150">
+            <foreignObject  x="50" y="50" height="100" width="200" text-anchor="middle">
+            <div xmlns="http://www.w3.org/1999/xhtml" class="svg_textMsg">
+               Euler diagram for the major premise will appear here, once details entered.
+            </div>
+          </foreignObject>
+          </svg>
         </fieldset>
         <fieldset class="syllogism_part">
           <legend class="syllogism_part-label">Minor Premise</legend>
@@ -319,8 +328,13 @@
               </div>
             </fieldset>
           </section>
-          <svg id="svg_minorPremise" width="300" height="150" viewBox="0 0 300 150">Modified Euler diagram for the minor
-            premise.</svg>
+          <svg id="svg_minorPremise" width="300" height="150" viewBox="0 0 300 150">
+            <foreignObject  x="50" y="50" height="100" width="200" text-anchor="middle">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg_textMsg">
+                 Euler diagram for the minor premise will appear here, once details entered.
+              </div>
+            </foreignObject>
+          </svg>
         </fieldset>
         <hr />
         <input type="submit" id="first_figure_submit" class="hidden" />
@@ -329,8 +343,13 @@
           <span class="conditional">Then</span>
           <output id="conclusion" class="conclusion-text"
             for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
-          <svg id="svg_conclusion" width="300" height="150" viewBox="0 0 300 150">Modified Euler diagram for the
-            conclusion.</svg>
+          <svg id="svg_conclusion" width="300" height="150" viewBox="0 0 300 150">
+            <foreignObject  x="50" y="50" height="100" width="200" text-anchor="middle">
+              <div xmlns="http://www.w3.org/1999/xhtml" class="svg_textMsg">
+                 Euler diagram for the conclusion will appear here, once details entered.
+              </div>
+            </foreignObject>
+          </svg>
         </fieldset>
       </form>
     </section>
