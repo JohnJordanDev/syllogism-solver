@@ -20,6 +20,7 @@ const utilsSVGTextLabels = (function (SVGStore) {
 
   const drawRectBehind = (targetTextLabel) => {
     const bBox = targetTextLabel.getBBox();
+    const cssClass = bBox.x === 0 ? "hidden" : "";
     const rect = window.document.createElementNS("http://www.w3.org/2000/svg", "rect");
     updateAttributes(rect, {
       x: bBox.x - 5,
@@ -29,18 +30,29 @@ const utilsSVGTextLabels = (function (SVGStore) {
       "data-identifier": `rect-${targetTextLabel.dataset.identifier}`,
       fill: "#DEDEDE"
     });
-    rect.classList.add("textLabel-rect", "changing");
+    rect.classList.add("textLabel-rect", "changing", cssClass);
     targetTextLabel.parentNode.insertBefore(rect, targetTextLabel);
   };
 
   const updateRectBehind = (targetTextLabel) => {
     const rect = targetTextLabel.parentNode.querySelectorAll(`[data-identifier=rect-${targetTextLabel.dataset.identifier}]`)[0];
     const bBox = targetTextLabel.getBBox();
+    let width;
+    let height;
+    if (bBox.x <= 0) {
+      width = 0;
+      height = 0;
+      rect.classList.add("hidden");
+    } else {
+      width = bBox.width + 10;
+      height = bBox.height + 5;
+      rect.classList.remove("hidden");
+    }
     updateAttributes(rect, {
       x: bBox.x - 5,
       y: bBox.y - 2.5,
-      width: bBox.width + 10,
-      height: bBox.height + 5
+      width,
+      height
     });
     rect.classList.add("changing");
   };
