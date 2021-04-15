@@ -20,7 +20,6 @@ const utilsSVGTextLabels = (function (SVGStore) {
 
   const drawRectBehind = (targetTextLabel) => {
     const bBox = targetTextLabel.getBBox();
-    const cssClass = bBox.x === 0 ? "hidden" : "";
     const rect = window.document.createElementNS("http://www.w3.org/2000/svg", "rect");
     updateAttributes(rect, {
       x: bBox.x - 5,
@@ -30,7 +29,7 @@ const utilsSVGTextLabels = (function (SVGStore) {
       "data-identifier": `rect-${targetTextLabel.dataset.identifier}`,
       fill: "#DEDEDE"
     });
-    rect.classList.add("textLabel-rect", "changing", cssClass);
+    rect.classList.add("textLabel-rect", "changing");
     targetTextLabel.parentNode.insertBefore(rect, targetTextLabel);
   };
 
