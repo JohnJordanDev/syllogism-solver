@@ -1,6 +1,4 @@
 const svgStore = (function () {
-  const pi = window.Math.PI;
-
   const conclusionSVG = window.document.getElementById("svg_conclusion");
   const allSVGHeight = conclusionSVG.clientHeight || 150;
   const allSVGWidth = conclusionSVG.clientWidth || 300;
@@ -11,7 +9,6 @@ const svgStore = (function () {
   const smallestCircleRadius = 15;
   const SVGMidPointX = allSVGWidth / 2;
   const SVGMidPointY = allSVGHeight / 2;
-  const xPosZero = 0;
 
   const getSVGHeight = () => allSVGHeight;
   const getSVGWidth = () => allSVGWidth;
@@ -71,7 +68,7 @@ const svgStore = (function () {
           identifier: "minorTerm"
         },
         E: {
-          circleXPos: xPosZero + bigCircleRadius,
+          circleXPos: SVGMidPointX - bigCircleRadius,
           circleRadius: smallestCircleRadius,
           fill: minorTermFill,
           stroke: minorTermStroke,
@@ -103,7 +100,7 @@ const svgStore = (function () {
     conclusion: {
       subject: {
         A: {
-          circleXPos: SVGMidPointX,
+          circleXPos: SVGMidPointX - midCircleRadius * 0.25,
           circleRadius: smallestCircleRadius,
           fill: minorTermFill,
           stroke: minorTermStroke,
@@ -133,7 +130,7 @@ const svgStore = (function () {
       },
       predicate: {
         A: {
-          circleXPos: SVGMidPointX + midCircleRadius,
+          circleXPos: SVGMidPointX + midCircleRadius * 0.75,
           circleRadius: bigCircleRadius,
           identifier: "majorTerm"
         },
@@ -148,7 +145,7 @@ const svgStore = (function () {
           identifier: "majorTerm"
         },
         O: {
-          circleXPos: SVGMidPointX + midCircleRadius * 3,
+          circleXPos: SVGMidPointX + midCircleRadius * 1.5,
           circleRadius: bigCircleRadius,
           identifier: "majorTerm"
         }

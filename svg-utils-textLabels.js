@@ -8,7 +8,7 @@ const utilsSVGTextLabels = (function (SVGStore) {
       textAnchor: "middle"
     },
     minorTerm: {
-      textAnchor: "middle"
+      textAnchor: "end"
     }
   };
 
