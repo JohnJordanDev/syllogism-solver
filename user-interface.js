@@ -114,7 +114,7 @@
     if (firstFigure.checkValidity()) {
       drawPremisesAndConclusion();
     } else {
-      triggerFormUiFeedback();
+      // triggerFormUiFeedback();
       conclusionOutputElem.innerHTML = "...";
     }
     triggerAllInputElementInput();
@@ -170,6 +170,10 @@
       app.svgModule.clearAllSVGs();
       // TODO: will need to split out the changes made for change and input events, to text label
       changeHandler(ev);
+      if (app.getState("selectionMadeMajorPremise") === false) {
+        window.app.userInterfaceAnimations.checkAndAnimateParts(ev.target);
+        app.setState("selectionMadeMajorPremise", true);
+      }
     }
   };
 

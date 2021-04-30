@@ -79,12 +79,17 @@
       flex-direction: column;
       max-width: 400px;
       margin: 0 auto;
+      overflow: hidden;
     }
 
     .syllogism_part {
       display: flex;
       flex-direction: column;
       margin-bottom: 1rem;
+      position: relative;
+      z-index: 3;
+      transition: transform 600ms ease-in;
+      background: #FFF;
     }
 
     .syllogism_part-label {
@@ -92,6 +97,7 @@
       width: -webkit-fit-content;
       width: fit-content;
       padding: 0 1rem;
+      background: #FFF;
     }
 
     .syllogism_part-term {
@@ -172,6 +178,11 @@
 
     .svg_textMsg {
       text-align: center;
+    }
+
+    .animation_part-hidden {
+      transform: translateX(-100%);
+      z-index: 2;
     }
 
     @media screen and (min-width: 768px) {
@@ -255,7 +266,7 @@
         <!-- Keep each figure separated as an individual form, toggled between using icon clicks -->
       </header>
       <form action="#" onsubmit="return false;" id="first_figure" class="form">
-        <fieldset class="syllogism_part">
+        <fieldset class="syllogism_part" id="syllogism_part_major">
           <legend class="syllogism_part-label">Major Premise</legend>
           <span class="conditional">If</span>
           <section class="premise_input-overall">
@@ -296,7 +307,7 @@
           </foreignObject>
           </svg>
         </fieldset>
-        <fieldset class="syllogism_part">
+        <fieldset class="syllogism_part animation_part-hidden" id="syllogism_part_minor">
           <legend class="syllogism_part-label">Minor Premise</legend>
           <span class="conditional">And</span>
           <section class="premise_input-overall">
@@ -338,7 +349,7 @@
         </fieldset>
         <hr />
         <input type="submit" id="first_figure_submit" class="hidden" />
-        <fieldset class="syllogism_part syllogism_part-conclusion">
+        <fieldset class="syllogism_part syllogism_part-conclusion" id="syllogism_part_conclusion">
           <legend class="syllogism_part-label">Conclusion:</legend>
           <span class="conditional">Then</span>
           <output id="conclusion" class="conclusion-text"
@@ -361,7 +372,7 @@
   <script src="svg-store.js"></script>
   <script src="svg-utils-circle.js"></script>
   <script src="svg-utils-textLabels.js"></script>
+  <script src="user-interface-animations.js"></script>
   <script src="user-interface.js"></script>
 </body>
-
 </html>

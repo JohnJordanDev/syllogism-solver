@@ -26,6 +26,17 @@ window.app = (function appInit() {
   const setValueOfIsMiddleTermSubjectOfMinor = (value) => {
     middleTermIsSubjectOfMinor = Boolean(value);
   };
+  
+  let state = {
+    selectionMadeMajorPremise: false,
+    selectionMadeMinorPremise: false
+  };
+
+  const getState = (stateProp) => state[stateProp];
+
+  const setState = (stateProp, value) => {
+    state[stateProp] = value;
+  };
 
   // ====== utils - UI ======
 
@@ -115,6 +126,8 @@ window.app = (function appInit() {
     isMiddleTermPredicateOfMajor,
     isMiddleTermSubjectOfMinor,
     setValueOfIsMiddleTermPredicateOfMajor,
-    setValueOfIsMiddleTermSubjectOfMinor
+    setValueOfIsMiddleTermSubjectOfMinor,
+    getState,
+    setState
   };
 })();
