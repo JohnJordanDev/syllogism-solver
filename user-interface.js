@@ -169,10 +169,10 @@
       // get conclusion form here, and pass in
       app.svgModule.clearAllSVGs();
       // TODO: will need to split out the changes made for change and input events, to text label
-      changeHandler(ev);
-      if (app.getState("selectionMadeMajorPremise") === false) {
+      if (app.getState("selectionMadeMajorPremise") === true || app.getState("selectionMadeMinorPremise") === true) {
+        changeHandler(ev);
+      } else {
         window.app.userInterfaceAnimations.checkAndAnimateParts(ev.target);
-        app.setState("selectionMadeMajorPremise", true);
       }
     }
   };
