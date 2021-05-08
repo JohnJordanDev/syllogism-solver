@@ -121,7 +121,7 @@ const svgStore = (function () {
           identifier: "minorTerm"
         },
         O: {
-          circleXPos: SVGMidPointX - midCircleRadius * 0.75,
+          circleXPos: SVGMidPointX - midCircleRadius * 0.8125,
           circleRadius: smallestCircleRadius,
           fill: minorTermFill,
           stroke: minorTermStroke,
@@ -145,7 +145,7 @@ const svgStore = (function () {
           identifier: "majorTerm"
         },
         O: {
-          circleXPos: SVGMidPointX + midCircleRadius * 1.5,
+          circleXPos: SVGMidPointX + midCircleRadius * 3,
           circleRadius: bigCircleRadius,
           identifier: "majorTerm"
         }
