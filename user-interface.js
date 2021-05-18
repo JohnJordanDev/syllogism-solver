@@ -23,9 +23,15 @@
 
   // ====== utils - UI ======
 
+  const dispatchEvent = (eventType, elem) => {
+    const newEvent = new Event(eventType, { bubbles: true });
+    elem.dispatchEvent(newEvent);
+  };
+
   const hideAreNotOptionOfPropQuality = (propQualityId) => {
     const propQualityElem = doc.getEById(propQualityId);
     propQualityElem.value = "are";
+    dispatchEvent('change', propQualityElem);
     propQualityElem.querySelectorAll("option").forEach((optionElem) => {
       if (optionElem.value === "arenot") {
         optionElem.setAttribute("disabled", "disabled");
@@ -41,6 +47,7 @@
   const selectSomeOptionOfPropQuantity = (propQuantityId) => {
     const propQuantityElem = doc.getEById(propQuantityId);
     propQuantityElem.value = "some";
+    dispatchEvent("change", propQuantityElem);
   };
 
   // showAreNotOptionOfPropQuality(), to undo effect of hideAreNotOptionOfPropQuality
@@ -147,6 +154,7 @@
   };
 
   const changeHandler = (event) => {
+    // ALWAYS want this function to run, to ensure correct UI
     setValidUserChoicesBasedOnInput(event);
     updateFormUI();
   };
@@ -168,12 +176,9 @@
     if (ev.target.nodeName === "SELECT") {
       // get conclusion form here, and pass in
       app.svgModule.clearAllSVGs();
+      window.app.userInterfaceAnimations.checkAndAnimateParts(ev.target);
       // TODO: will need to split out the changes made for change and input events, to text label
-      if (app.getState("selectionMadeMajorPremise") === true || app.getState("selectionMadeMinorPremise") === true) {
-        changeHandler(ev);
-      } else {
-        window.app.userInterfaceAnimations.checkAndAnimateParts(ev.target);
-      }
+      changeHandler(ev);
     }
   };
 
