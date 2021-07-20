@@ -261,11 +261,14 @@
 
 <body>
   <main>
+    <section id="react_app">
+      
+    </section>
     <section>
       <header class="header">
         <!-- Keep each figure separated as an individual form, toggled between using icon clicks -->
       </header>
-      <form action="#" onsubmit="return false;" id="first_figure" class="form">
+      <form action="#" onsubmit="return false;" id="first_figure" class="form" style="display: none;">
         <fieldset class="syllogism_part" id="syllogism_part_major">
           <legend class="syllogism_part-label">Major Premise</legend>
           <span class="conditional">If</span>
@@ -366,13 +369,25 @@
     </section>
     <section></section>
   </main>
+      <!-- Babel CDN Link -->
+      <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+      <!-- Runtime checking for React props -->
+      <script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+    
+      <!-- React & ReactDOM CDN Links -->
+      <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script> 
+      <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
 
-  <script src="app.js"></script>
+  <!-- <script src="app.js"></script>
   <script src="svg-module.js"></script>
   <script src="svg-store.js"></script>
   <script src="svg-utils-circle.js"></script>
   <script src="svg-utils-textLabels.js"></script>
   <script src="user-interface-animations.js"></script>
-  <script src="user-interface.js"></script>
+  <script src="user-interface.js"></script> -->
+
+  <script src="react-app.js" type="text/babel" data-type="module"></script>
+  <script src="Form.js" type="text/babel" data-type="module"></script>
+
 </body>
 </html>
