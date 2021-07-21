@@ -3,7 +3,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/jsx-filename-extension */
-// import Form from "./Form.js";
 
 const { React, ReactDOM, PropTypes } = window;
 
@@ -27,6 +26,7 @@ Quality.propTypes = {
 
 const Quantity = (props) => {
 	const { value, changeHandler } = props;
+	console.log(`Input Elem: Quantity value: ${value}`);
 	return (
   <>
     <label htmlFor="prop_one_quantity">Quantity</label>
@@ -38,9 +38,9 @@ const Quantity = (props) => {
       onChange={changeHandler}
     >
       <option value="none" disabled hidden>all/some/no</option>
-      <option value="all" data-typePremise="A">all</option>
-      <option value="some" data-typePremise="E">some</option>
-      <option value="no" data-typeOfPremise="I">no</option>
+      <option value="all">all</option>
+      <option value="some">some</option>
+      <option value="no">no</option>
     </select>
   </>
 	);
@@ -103,6 +103,13 @@ const mappingQuantityToType = {
 	some: "I"
 };
 
+const mapTypeToQuantity = {
+	A: "all",
+	E: "no",
+	I: "some",
+	none: "none"
+};
+
 const App = () => {
   const foo = "bar";
   const [typeMajor, setTypeMajor] = React.useState('none');
@@ -112,14 +119,15 @@ const App = () => {
 	setTypeMajor(mappingQuantityToType[target.value]);
   };
   React.useEffect(()=>{
-	  console.log(`Major premise is of type: ${typeMajor}`);
+	  console.log(`Use Effect: Major premise is of type: ${typeMajor}`);
   });
   return (
     <>
       Hello, world{foo}!
       <Form>
         <Premise identity="majorPremise">
-          <Quantity value={typeMajor} changeHandler={changeHandler} />
+			<span>Value of: {typeMajor}</span>
+          <Quantity value={mapTypeToQuantity[typeMajor]} changeHandler={changeHandler} />
           <Quality value="none" />
         </Premise>
       </Form>
