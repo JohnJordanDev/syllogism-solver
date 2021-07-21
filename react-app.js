@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable indent */
 /* eslint-disable no-tabs */
 /* eslint-disable import/extensions */
@@ -11,7 +12,7 @@ const Quality = (props) => {
 	return (
   <>
     <label htmlFor="prop_one_quality">Quality</label>
-    <select id="prop_one_quality" className="" required value={value}>
+    <select className="" required value={value} disabled={value === "none"}>
       <option value="none" disabled hidden>are/are NOT</option>
       <option value="are">are</option>
       <option value="arenot">are NOT</option>
@@ -26,16 +27,17 @@ Quality.propTypes = {
 
 const Quantity = (props) => {
 	const { value, changeHandler } = props;
-	console.log(`Input Elem: Quantity value: ${value}`);
 	return (
   <>
     <label htmlFor="prop_one_quantity">Quantity</label>
     <select
       id="prop_one_quantity"
+      name="quantity-major-premise"
       className=""
       required
       value={value}
       onChange={changeHandler}
+      data-aspect="quantity"
     >
       <option value="none" disabled hidden>all/some/no</option>
       <option value="all">all</option>
@@ -51,20 +53,20 @@ Quantity.propTypes = {
 	changeHandler: PropTypes.func.isRequired
 };
 
-const UserInput = (props) => {
-	// TODO: to pass down
-	const { typeOfPremise } = props;
-  return (
-    <>
-      <Quantity value="none" />
-      <Quality value="none" />
-    </>
-	);
-};
+// const UserInput = (props) => {
+// 	// TODO: to pass down
+// 	const { typeOfPremise } = props;
+//   return (
+//     <>
+//       <Quantity value="none" />
+//       <Quality value="none" />
+//     </>
+// 	);
+// };
 
-UserInput.propTypes = {
-	typeOfPremise: PropTypes.string.isRequired
-};
+// UserInput.propTypes = {
+// 	typeOfPremise: PropTypes.string.isRequired
+// };
 
 const Premise = (props) => {
   const { identity, children } = props;
@@ -111,24 +113,25 @@ const mapTypeToQuantity = {
 };
 
 const App = () => {
-  const foo = "bar";
-  const [typeMajor, setTypeMajor] = React.useState('none');
+  const [typeMajor, setTypeMajor] = React.useState("none");
   const changeHandler = ({ target }) => {
-	console.log(`target value is: ${target.value}`);
-	console.log(`premise type is now:`, mappingQuantityToType[target.value]);
-	setTypeMajor(mappingQuantityToType[target.value]);
+    const { dataset: { aspect } } = target;
+    console.log(`target dataset is: ${target.dataset}`, target.dataset);
+    console.log("premise type is now:", mappingQuantityToType[target.value]);
+    if (aspect === "quantity") {
+      setTypeMajor(mappingQuantityToType[target.value]);
+    }
   };
-  React.useEffect(()=>{
-	  console.log(`Use Effect: Major premise is of type: ${typeMajor}`);
+  React.useEffect(() => {
+	// console.log(`Use Effect: Major premise is of type: ${typeMajor}`);
   });
   return (
     <>
-      Hello, world{foo}!
       <Form>
         <Premise identity="majorPremise">
-			<span>Value of: {typeMajor}</span>
+          <div>Value of: {typeMajor}</div>
           <Quantity value={mapTypeToQuantity[typeMajor]} changeHandler={changeHandler} />
-          <Quality value="none" />
+          <Quality value={mapTypeToQuantity[typeMajor]} />
         </Premise>
       </Form>
     </>
