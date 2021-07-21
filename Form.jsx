@@ -3,8 +3,8 @@
 
 const { React } = window;
 const Form = () => {
-  const myName = "John from Form.js";
-  return React.createElement("form", null, "My name is ", myName);
+  const myName = "John";
+  return (<form>My name is {myName}</form>);
 };
 
-//export default Form;
+export default Form;

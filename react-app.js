@@ -1,23 +1,41 @@
+/* eslint-disable indent */
+/* eslint-disable no-tabs */
 /* eslint-disable import/extensions */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/jsx-filename-extension */
-import Form from "./Form.js";
+// import Form from "./Form.js";
 
-const { React, ReactDOM } = window;
+const { React, ReactDOM, PropTypes } = window;
 
-// const Form = () => {
-//   const myName = "John";
-//   return (<form>My name is {myName}</form>);
-// };
+const Part = (props) => {
+  const { identity } = props;
+  return (
+    <fieldset className={`part-${identity}`} />
+  );
+};
+
+Part.propTypes = {
+	identity: PropTypes.string.isRequired
+};
+
+const Form = (props) => {
+  const { children } = props;
+  return (<form>{children}</form>);
+};
+
+Form.propTypes = {
+	children: PropTypes.node.isRequired
+};
 
 const App = () => {
   const foo = "bar";
   return (
-    <h1>
+    <>
       Hello, world{foo}!
-      <Form />
-    </h1>
-
+      <Form>
+        <Part identity="majorPremise" />
+      </Form>
+    </>
   );
 };
 ReactDOM.render(<App />, document.getElementById("react_app"));
