@@ -8,21 +8,31 @@
 const { React, ReactDOM, PropTypes } = window;
 
 const Quality = (props) => {
-	const { value } = props;
+	const { value, partType, changeHandler } = props;
+  const isParticular = !!(partType === "I" || partType === "O");
 	return (
   <>
     <label htmlFor="prop_one_quality">Quality</label>
-    <select className="" required value={value} disabled={value === "none"}>
+    <select
+      className=""
+      required
+      value={value}
+      disabled={value === "none"}
+      onChange={changeHandler}
+      data-aspect="quality"
+    >
       <option value="none" disabled hidden>are/are NOT</option>
       <option value="are">are</option>
-      <option value="arenot">are NOT</option>
+      <option value="arenot" disabled={!isParticular}>are NOT</option>
     </select>
   </>
 	);
 };
 
 Quality.propTypes = {
-	value: PropTypes.string.isRequired
+	value: PropTypes.string.isRequired,
+  changeHandler: PropTypes.func.isRequired,
+  partType: PropTypes.string.isRequired
 };
 
 const Quantity = (props) => {
@@ -42,7 +52,7 @@ const Quantity = (props) => {
       <option value="none" disabled hidden>all/some/no</option>
       <option value="all">all</option>
       <option value="some">some</option>
-      <option value="no">no</option>
+      <option value="no" >no</option>
     </select>
   </>
 	);
@@ -69,10 +79,10 @@ Quantity.propTypes = {
 // };
 
 const Premise = (props) => {
-  const { identity, children } = props;
+  const { identity, children, type } = props;
   return (
     <fieldset className={`part-${identity}`}>
-      <legend>{`${identity.toUpperCase().split("P")[0]}`}</legend>
+      <legend>{`${identity.toUpperCase().split("P")[0]}`}: <small>{type}</small></legend>
       <fieldset>
         <legend>Choose options:</legend>
         {children}
@@ -87,7 +97,8 @@ const Premise = (props) => {
 
 Premise.propTypes = {
 	identity: PropTypes.string.isRequired,
-	children: PropTypes.node.isRequired
+	children: PropTypes.node.isRequired,
+  type: PropTypes.string.isRequired
 };
 
 const Form = (props) => {
@@ -99,7 +110,7 @@ Form.propTypes = {
 	children: PropTypes.node.isRequired
 };
 
-const mappingQuantityToType = {
+const mapQuantityToType = {
 	all: "A",
 	no: "E",
 	some: "I"
@@ -109,17 +120,31 @@ const mapTypeToQuantity = {
 	A: "all",
 	E: "no",
 	I: "some",
+  O: "some",
 	none: "none"
+};
+
+const mapQualityToType = {
+  are: "I",
+  arenot: "O"
+};
+
+const mapTypeToQuality = {
+  A: "are",
+  E: "are",y
+  I: "are",
+  O: "arenot",
+  none: "none"
 };
 
 const App = () => {
   const [typeMajor, setTypeMajor] = React.useState("none");
   const changeHandler = ({ target }) => {
     const { dataset: { aspect } } = target;
-    console.log(`target dataset is: ${target.dataset}`, target.dataset);
-    console.log("premise type is now:", mappingQuantityToType[target.value]);
     if (aspect === "quantity") {
-      setTypeMajor(mappingQuantityToType[target.value]);
+      setTypeMajor(mapQuantityToType[target.value]);
+    } else if (aspect === "quality") {
+      setTypeMajor(mapQualityToType[target.value]);
     }
   };
   React.useEffect(() => {
@@ -128,10 +153,9 @@ const App = () => {
   return (
     <>
       <Form>
-        <Premise identity="majorPremise">
-          <div>Value of: {typeMajor}</div>
+        <Premise identity="majorPremise" type={typeMajor}>
           <Quantity value={mapTypeToQuantity[typeMajor]} changeHandler={changeHandler} />
-          <Quality value={mapTypeToQuantity[typeMajor]} />
+          <Quality value={mapTypeToQuality[typeMajor]} partType={typeMajor} changeHandler={changeHandler} />
         </Premise>
       </Form>
     </>
