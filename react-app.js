@@ -118,45 +118,15 @@ Form.propTypes = {
 	children: PropTypes.node.isRequired
 };
 
-const mapQuantityToType = {
-	["all"]: "A",
-	["no"]: "E",
-	["some"]: "I"
-};
-
-const mapTypeToQuantity = {
-	A: "all",
-	E: "no",
-	I: "some",
-  O: "some",
-	none: "none"
-};
-/* programmatic 'change' event does not cause Quantity to be overwritten
-so okay to have limited mapping. Only way you can toggle "are"/"arenot"
-is if you are in the "particular" state
-=> universal values are NOT needed here. */
-const mapQualityToType = {
-  are: "I",
-  arenot: "O"
-};
-
-const mapTypeToQuality = {
-  A: "are",
-  E: "are",
-  I: "are",
-  O: "arenot",
-  none: "none"
-};
-
 const FormController = (props) => {
   const [typeMajor, setTypeMajor] = React.useState("none");
-  const {quantSelectValues} = props;
+  const { quantSelectValues, maps } = props;
   const changeHandler = ({ target }) => {
     const { dataset: { aspect } } = target;
     if (aspect === "quantity") {
-      setTypeMajor(mapQuantityToType[target.value]);
+      setTypeMajor(maps.quantityToType[target.value]);
     } else if (aspect === "quality") {
-      setTypeMajor(mapQualityToType[target.value]);
+      setTypeMajor(maps.qualityToType[target.value]);
     }
   };
   React.useEffect(() => {
@@ -167,12 +137,12 @@ const FormController = (props) => {
       <Form>
         <Premise identity="majorPremise" type={typeMajor}>
           <Quantity
-            value={mapTypeToQuantity[typeMajor]}
+            value={maps.typeToQuantity[typeMajor]}
             selectOptions={quantSelectValues}
             changeHandler={changeHandler}
           />
           <Quality
-            value={mapTypeToQuality[typeMajor]}
+            value={maps.typeToQuality[typeMajor]}
             partType={typeMajor}
             changeHandler={changeHandler}
           />
@@ -187,6 +157,12 @@ FormController.propTypes = {
     PropTypes.string.isRequired,
     PropTypes.string.isRequired,
     PropTypes.string.isRequired
+  ).isRequired,
+  maps: PropTypes.objectOf(
+    PropTypes.object.isRequired,
+    PropTypes.object.isRequired,
+    PropTypes.object.isRequired,
+    PropTypes.object.isRequired
   ).isRequired
 };
 
@@ -195,6 +171,37 @@ const App = () => {
   const uniNeg = "no";
   const partAff = "some";
   const quantSelectValues = { uniAff, uniNeg, partAff };
-  return <FormController quantSelectValues={quantSelectValues} />;
+
+  const quantityToType = {
+    all: "A",
+    no: "E",
+    some: "I"
+  };
+  const typeToQuantity = {
+    A: "all",
+    E: "no",
+    I: "some",
+    O: "some",
+    none: "none"
+  };
+  /* programmatic 'change' event does not cause Quantity to be overwritten
+  so okay to have limited mapping. Only way you can toggle "are"/"arenot"
+  is if you are in the "particular" state
+  => universal values are NOT needed here. */
+  const qualityToType = {
+    are: "I",
+    arenot: "O"
+  };
+
+  const typeToQuality = {
+    A: "are",
+    E: "are",
+    I: "are",
+    O: "arenot",
+    none: "none"
+  };
+
+  const maps = {quantityToType, typeToQuantity, qualityToType, typeToQuality };
+  return <FormController quantSelectValues={quantSelectValues} maps={maps}/>;
 };
 ReactDOM.render(<App />, document.getElementById("react_app"));
