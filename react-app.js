@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable indent */
 /* eslint-disable no-tabs */
@@ -11,7 +12,7 @@ const { React, ReactDOM, PropTypes } = window;
 // would NOT need formatting, and would work fine once centralized
 
 const Quality = (props) => {
-	const { value, partType, changeHandler } = props;
+	const { value, partType, selectOptions, changeHandler } = props;
   const isParticular = !!(partType === "I" || partType === "O");
 	return (
   <>
@@ -25,8 +26,8 @@ const Quality = (props) => {
       data-aspect="quality"
     >
       <option value="none" disabled hidden>are/are NOT</option>
-      <option value="are">are</option>
-      <option value="arenot" disabled={!isParticular}>are NOT</option>
+      <option value={selectOptions.qAff}>{selectOptions.qAff}</option>
+      <option value={selectOptions.qNeg} disabled={!isParticular}>{selectOptions.qNeg}</option>
     </select>
   </>
 	);
@@ -35,7 +36,11 @@ const Quality = (props) => {
 Quality.propTypes = {
 	value: PropTypes.string.isRequired,
   changeHandler: PropTypes.func.isRequired,
-  partType: PropTypes.string.isRequired
+  partType: PropTypes.string.isRequired,
+  selectOptions: PropTypes.objectOf(
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired
+  ).isRequired
 };
 
 const Quantity = (props) => {
@@ -120,7 +125,7 @@ Form.propTypes = {
 
 const FormController = (props) => {
   const [typeMajor, setTypeMajor] = React.useState("none");
-  const { quantSelectValues, maps } = props;
+  const { quantSelectValues, qualitySelectValues, maps } = props;
   const changeHandler = ({ target }) => {
     const { dataset: { aspect } } = target;
     if (aspect === "quantity") {
@@ -144,6 +149,7 @@ const FormController = (props) => {
           <Quality
             value={maps.typeToQuality[typeMajor]}
             partType={typeMajor}
+            selectOptions={qualitySelectValues}
             changeHandler={changeHandler}
           />
         </Premise>
@@ -155,6 +161,10 @@ const FormController = (props) => {
 FormController.propTypes = {
   quantSelectValues: PropTypes.objectOf(
     PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired
+  ).isRequired,
+  qualitySelectValues: PropTypes.objectOf(
     PropTypes.string.isRequired,
     PropTypes.string.isRequired
   ).isRequired,
@@ -172,8 +182,9 @@ const App = () => {
   const partAff = "some";
   const quantSelectValues = { uniAff, uniNeg, partAff };
 
-  // const qAff = "are";
-  // const qNeg = "arenot";
+  const qAff = "are";
+  const qNeg = "are NOT";
+  const qualitySelectValues = {qAff, qNeg};
 
   const quantityToType = {
     [uniAff]: "A",
@@ -181,10 +192,10 @@ const App = () => {
     [partAff]: "I"
   };
   const typeToQuantity = {
-    A: "all",
-    E: "no",
-    I: "some",
-    O: "some",
+    A: uniAff,
+    E: uniNeg,
+    I: partAff,
+    O: partAff,
     none: "none"
   };
   /* programmatic 'change' event does not cause Quantity to be overwritten
@@ -192,19 +203,21 @@ const App = () => {
   is if you are in the "particular" state
   => universal values are NOT needed here. */
   const qualityToType = {
-    are: "I",
-    arenot: "O"
+    [qAff]: "I",
+    [qNeg]: "O"
   };
 
   const typeToQuality = {
-    A: "are",
-    E: "are",
-    I: "are",
-    O: "arenot",
+    A: qAff,
+    E: qAff,
+    I: qAff,
+    O: qNeg,
     none: "none"
   };
 
-  const maps = {quantityToType, typeToQuantity, qualityToType, typeToQuality };
-  return <FormController quantSelectValues={quantSelectValues} maps={maps}/>;
+  const maps = {
+    quantityToType, typeToQuantity, qualityToType, typeToQuality
+  };
+  return <FormController quantSelectValues={quantSelectValues} qualitySelectValues={qualitySelectValues} maps={maps} />;
 };
 ReactDOM.render(<App />, document.getElementById("react_app"));
