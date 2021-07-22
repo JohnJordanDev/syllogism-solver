@@ -6,9 +6,9 @@
 /* eslint-disable react/jsx-filename-extension */
 
 const { React, ReactDOM, PropTypes } = window;
-const quantUniAff = "all";
-const quantUniNeg = "no";
-const quantPartAff = "some";
+
+// TODO: const for qualPartNeg='are NOT'
+// would NOT need formatting, and would work fine once centralized
 
 const Quality = (props) => {
 	const { value, partType, changeHandler } = props;
@@ -39,7 +39,7 @@ Quality.propTypes = {
 };
 
 const Quantity = (props) => {
-	const { value, changeHandler } = props;
+	const { value, selectOptions, changeHandler } = props;
 	return (
   <>
     <label htmlFor="prop_one_quantity">Quantity</label>
@@ -53,9 +53,9 @@ const Quantity = (props) => {
       data-aspect="quantity"
     >
       <option value="none" disabled hidden>all/some/no</option>
-      <option value={quantUniAff}>all</option>
-      <option value={quantUniNeg}>no</option>
-      <option value={quantPartAff}>some</option>
+      <option value={selectOptions.uniAff}>{selectOptions.uniAff}</option>
+      <option value={selectOptions.uniNeg}>{selectOptions.uniNeg}</option>
+      <option value={selectOptions.partAff}>{selectOptions.partAff}</option>
     </select>
   </>
 	);
@@ -63,6 +63,11 @@ const Quantity = (props) => {
 
 Quantity.propTypes = {
 	value: PropTypes.string.isRequired,
+  selectOptions: PropTypes.objectOf(
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired
+  ).isRequired,
 	changeHandler: PropTypes.func.isRequired
 };
 
@@ -114,19 +119,22 @@ Form.propTypes = {
 };
 
 const mapQuantityToType = {
-	[quantUniAff]: "A",
-	[quantUniNeg]: "E",
-	[quantPartAff]: "I"
+	["all"]: "A",
+	["no"]: "E",
+	["some"]: "I"
 };
 
 const mapTypeToQuantity = {
-	A: quantUniAff,
-	E: quantUniNeg,
-	I: quantPartAff,
-  O: quantPartAff,
+	A: "all",
+	E: "no",
+	I: "some",
+  O: "some",
 	none: "none"
 };
-
+/* programmatic 'change' event does not cause Quantity to be overwritten
+so okay to have limited mapping. Only way you can toggle "are"/"arenot"
+is if you are in the "particular" state
+=> universal values are NOT needed here. */
 const mapQualityToType = {
   are: "I",
   arenot: "O"
@@ -140,8 +148,9 @@ const mapTypeToQuality = {
   none: "none"
 };
 
-const App = () => {
+const FormController = (props) => {
   const [typeMajor, setTypeMajor] = React.useState("none");
+  const {quantSelectValues} = props;
   const changeHandler = ({ target }) => {
     const { dataset: { aspect } } = target;
     if (aspect === "quantity") {
@@ -157,11 +166,35 @@ const App = () => {
     <>
       <Form>
         <Premise identity="majorPremise" type={typeMajor}>
-          <Quantity value={mapTypeToQuantity[typeMajor]} changeHandler={changeHandler} />
-          <Quality value={mapTypeToQuality[typeMajor]} partType={typeMajor} changeHandler={changeHandler} />
+          <Quantity
+            value={mapTypeToQuantity[typeMajor]}
+            selectOptions={quantSelectValues}
+            changeHandler={changeHandler}
+          />
+          <Quality
+            value={mapTypeToQuality[typeMajor]}
+            partType={typeMajor}
+            changeHandler={changeHandler}
+          />
         </Premise>
       </Form>
     </>
   );
+};
+
+FormController.propTypes = {
+  quantSelectValues: PropTypes.objectOf(
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired,
+    PropTypes.string.isRequired
+  ).isRequired
+};
+
+const App = () => {
+  const uniAff = "all";
+  const uniNeg = "no";
+  const partAff = "some";
+  const quantSelectValues = { uniAff, uniNeg, partAff };
+  return <FormController quantSelectValues={quantSelectValues} />;
 };
 ReactDOM.render(<App />, document.getElementById("react_app"));
