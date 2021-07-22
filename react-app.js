@@ -6,6 +6,9 @@
 /* eslint-disable react/jsx-filename-extension */
 
 const { React, ReactDOM, PropTypes } = window;
+const quantUniAff = "all";
+const quantUniNeg = "no";
+const quantPartAff = "some";
 
 const Quality = (props) => {
 	const { value, partType, changeHandler } = props;
@@ -50,9 +53,9 @@ const Quantity = (props) => {
       data-aspect="quantity"
     >
       <option value="none" disabled hidden>all/some/no</option>
-      <option value="all">all</option>
-      <option value="some">some</option>
-      <option value="no" >no</option>
+      <option value={quantUniAff}>all</option>
+      <option value={quantUniNeg}>no</option>
+      <option value={quantPartAff}>some</option>
     </select>
   </>
 	);
@@ -111,16 +114,16 @@ Form.propTypes = {
 };
 
 const mapQuantityToType = {
-	all: "A",
-	no: "E",
-	some: "I"
+	[quantUniAff]: "A",
+	[quantUniNeg]: "E",
+	[quantPartAff]: "I"
 };
 
 const mapTypeToQuantity = {
-	A: "all",
-	E: "no",
-	I: "some",
-  O: "some",
+	A: quantUniAff,
+	E: quantUniNeg,
+	I: quantPartAff,
+  O: quantPartAff,
 	none: "none"
 };
 
@@ -131,7 +134,7 @@ const mapQualityToType = {
 
 const mapTypeToQuality = {
   A: "are",
-  E: "are",y
+  E: "are",
   I: "are",
   O: "arenot",
   none: "none"
