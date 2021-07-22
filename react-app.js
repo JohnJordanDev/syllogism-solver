@@ -172,10 +172,13 @@ const App = () => {
   const partAff = "some";
   const quantSelectValues = { uniAff, uniNeg, partAff };
 
+  // const qAff = "are";
+  // const qNeg = "arenot";
+
   const quantityToType = {
-    all: "A",
-    no: "E",
-    some: "I"
+    [uniAff]: "A",
+    [uniNeg]: "E",
+    [partAff]: "I"
   };
   const typeToQuantity = {
     A: "all",
