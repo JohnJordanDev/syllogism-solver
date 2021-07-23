@@ -30,10 +30,6 @@ const EulerPath = (props) => {
   );
 };
 
-EulerPath.propTypes = {
-  partType: PropTypes.string.isRequired
-};
-
 const EulerCircle = (props) => {
   const { term, specificAttrs = {} } = props;
   const defaultAttrs = { xPos: "50%", yPos: "50%", radius: "10%", fill: "none", cssClass: "" };
@@ -52,19 +48,62 @@ const EulerCircle = (props) => {
     </>
   );
 };
-
-EulerCircle.propTypes = {
-  term: PropTypes.string.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  specificAttrs: PropTypes.object
+const ShapeLabel = (props) => {
+  const { labelText, labelTextPos } = props;
+  return (
+    <text
+      textAnchor="middle"
+      x={labelTextPos.x}
+      y={labelTextPos.y}
+      data-identifier="textLabel-middleTerm"
+      className="textLabel"
+    >{labelText}
+    </text>
+  );
+};
+// just handles case of major premise
+// need to refactor off of shape positions, to get label pos.
+// this is temp
+const getShapeLabelPos = (term = "subject", partType = "A") => {
+   const defaults = {
+    x: "149",
+    y: "44.5"
+  };
+  let specificSettings;
+  if (term === "subject") {
+    switch (partType) {
+      case ("I"):
+      specificSettings = {};
+       break;
+      default:
+        break;
+    }
+  } else if (term === "predicate") {
+      switch (partType) {
+        case ("A"):
+           specificSettings = { x: "159", y: "5.9" };
+           break;
+       case ("E"):
+           specificSettings = { x: "239", y: "19.5" };
+           break;
+        case ("I"):
+           specificSettings = { x: "178", y: "5.9" };
+           break;
+        case ("O"):
+           specificSettings = { x: "194", y: "19.5" };
+           break;
+        default:
+          break;
+      }
+  }
+  return { ...defaults, ...specificSettings };
 };
 
-EulerCircle.defaultProps = {
-  specificAttrs: {}
-};
+// Currently, just handles major premise positions
+// need to refactor to handle all
 
 const EulerCircleController = (props) => {
-  const { part, partType } = props;
+  const { part, partType, subjectName, predicateName } = props;
 
   const major = {
     subject: {
@@ -96,15 +135,15 @@ const EulerCircleController = (props) => {
 
   return (
     <>
-      {shapeForSubject}
+      <g>
+        <ShapeLabel labelText={subjectName} labelTextPos={getShapeLabelPos("subject", partType)} />
+        {shapeForSubject}
+      </g>
+      <ShapeLabel labelText={predicateName} labelTextPos={getShapeLabelPos("predicate", partType)} />
       <EulerCircle term="predicate" specificAttrs={svgAttrs[part].predicate[partType]} />
+
     </>
   );
-};
-
-EulerCircleController.propTypes = {
-  part: PropTypes.string.isRequired,
-  partType: PropTypes.string.isRequired
 };
 
 const DiagramMessage = () => (
@@ -124,10 +163,17 @@ const DiagramController = (props) => {
   );
 };
 
-DiagramController.propTypes = {
-  part: PropTypes.string.isRequired,
-  partType: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired
+const TermName = (props) => {
+  const { value, changeHandler, term } = props;
+  return (
+    <input
+      type="text"
+      value={value}
+      onChange={changeHandler}
+      data-term={term}
+      maxLength="12"
+    />
+  );
 };
 
 const Quality = (props) => {
@@ -150,16 +196,6 @@ const Quality = (props) => {
     </select>
   </>
 	);
-};
-
-Quality.propTypes = {
-	value: PropTypes.string.isRequired,
-  changeHandler: PropTypes.func.isRequired,
-  partType: PropTypes.string.isRequired,
-  selectOptions: PropTypes.objectOf(
-    PropTypes.string.isRequired,
-    PropTypes.string.isRequired
-  ).isRequired
 };
 
 const Quantity = (props) => {
@@ -185,16 +221,6 @@ const Quantity = (props) => {
 	);
 };
 
-Quantity.propTypes = {
-	value: PropTypes.string.isRequired,
-  selectOptions: PropTypes.objectOf(
-    PropTypes.string.isRequired,
-    PropTypes.string.isRequired,
-    PropTypes.string.isRequired
-  ).isRequired,
-	changeHandler: PropTypes.func.isRequired
-};
-
 // const UserInput = (props) => {
 // 	// TODO: to pass down
 // 	const { typeOfPremise } = props;
@@ -214,7 +240,7 @@ const Premise = (props) => {
   const { identity, children, type } = props;
   const inputElements = children.filter((child) => {
     const { name } = child.type;
-    return name === "Quantity" || name === "Quality";
+    return name === "Quantity" || name === "Quality" || name === "TermName";
   });
   const eulerDiagram = children.filter((child) => {
     const { name } = child.type;
@@ -225,20 +251,15 @@ const Premise = (props) => {
       <legend>{`${identity.toUpperCase().split("P")[0]}`}: <small>{type}</small></legend>
       <fieldset>
         <legend>Choose options:</legend>
-        {inputElements}
+        <fieldset>{children[0]}{children[1]}</fieldset>
+        <fieldset>{children[2]}{children[3]}</fieldset>
       </fieldset>
       <figure>
         {eulerDiagram}
-        <figcaption>Euler Diagram: {identity}, of type &ldquo;{type}&rdquo;</figcaption>
+        <figcaption>Euler Diagram: {!(type === "none") && `${identity}, of type "${type}";`}</figcaption>
       </figure>
     </fieldset>
   );
-};
-
-Premise.propTypes = {
-	identity: PropTypes.string.isRequired,
-	children: PropTypes.node.isRequired,
-  type: PropTypes.string.isRequired
 };
 
 const Form = (props) => {
@@ -246,12 +267,10 @@ const Form = (props) => {
   return (<form>{children}</form>);
 };
 
-Form.propTypes = {
-	children: PropTypes.node.isRequired
-};
-
 const FormController = (props) => {
   const [typeMajor, setTypeMajor] = React.useState("none");
+  const [majorTermName, setMajorTermName] = React.useState("");
+  const [middleTermName, setMiddleTermName] = React.useState("");
   const { quantSelectValues, qualitySelectValues, maps } = props;
   const changeHandler = ({ target }) => {
     const { dataset: { aspect } } = target;
@@ -261,17 +280,27 @@ const FormController = (props) => {
       setTypeMajor(maps.qualityToType[target.value]);
     }
   };
-  React.useEffect(() => {
-	// console.log(`Use Effect: Major premise is of type: ${typeMajor}`);
-  });
+  const changeNameHandler = ({ target }) => {
+    const { dataset: { term } } = target;
+   if (term === "middle") {
+    setMiddleTermName(target.value);
+   } else if (term === "major") {
+    setMajorTermName(target.value);
+   }
+  };
   return (
     <>
       <Form>
-        <Premise identity="majorPremise" type={typeMajor}>
+        <Premise identity="Major Premise" type={typeMajor}>
           <Quantity
             value={maps.typeToQuantity[typeMajor]}
             selectOptions={quantSelectValues}
             changeHandler={changeHandler}
+          />
+          <TermName
+            value={middleTermName}
+            changeHandler={changeNameHandler}
+            term="middle"
           />
           <Quality
             value={maps.typeToQuality[typeMajor]}
@@ -279,31 +308,27 @@ const FormController = (props) => {
             selectOptions={qualitySelectValues}
             changeHandler={changeHandler}
           />
+          <TermName
+            value={majorTermName}
+            changeHandler={changeNameHandler}
+            term="major"
+          />
           <DiagramController part="major" partType={typeMajor}>
-            {(typeMajor === "none") ? <DiagramMessage /> : <EulerCircleController part="major" partType={typeMajor} />}
+            {(typeMajor === "none")
+            ? <DiagramMessage />
+            : (
+              <EulerCircleController
+                part="major"
+                partType={typeMajor}
+                subjectName={middleTermName}
+                predicateName={majorTermName}
+              />
+            )}
           </DiagramController>
         </Premise>
       </Form>
     </>
   );
-};
-
-FormController.propTypes = {
-  quantSelectValues: PropTypes.objectOf(
-    PropTypes.string.isRequired,
-    PropTypes.string.isRequired,
-    PropTypes.string.isRequired
-  ).isRequired,
-  qualitySelectValues: PropTypes.objectOf(
-    PropTypes.string.isRequired,
-    PropTypes.string.isRequired
-  ).isRequired,
-  maps: PropTypes.objectOf(
-    PropTypes.object.isRequired,
-    PropTypes.object.isRequired,
-    PropTypes.object.isRequired,
-    PropTypes.object.isRequired
-  ).isRequired
 };
 
 const App = () => {
@@ -351,3 +376,87 @@ const App = () => {
   return <FormController quantSelectValues={quantSelectValues} qualitySelectValues={qualitySelectValues} maps={maps} />;
 };
 ReactDOM.render(<App />, document.getElementById("react_app"));
+
+(function checkPropTypes() {
+  EulerPath.propTypes = {
+    partType: PropTypes.string.isRequired
+  };
+
+  EulerCircle.propTypes = {
+    term: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    specificAttrs: PropTypes.object
+  };
+  EulerCircle.defaultProps = {
+    specificAttrs: {}
+  };
+
+  ShapeLabel.propTypes = {
+    labelText: PropTypes.string.isRequired,
+    labelTextPos: PropTypes.objectOf(
+      PropTypes.string.isRequired,
+      PropTypes.string.isRequired
+    ).isRequired
+  };
+
+  EulerCircleController.propTypes = {
+    part: PropTypes.string.isRequired,
+    partType: PropTypes.string.isRequired,
+    subjectName: PropTypes.string.isRequired,
+    predicateName: PropTypes.string.isRequired
+  };
+
+  DiagramController.propTypes = {
+    part: PropTypes.string.isRequired,
+    partType: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired
+  };
+
+  Quality.propTypes = {
+    value: PropTypes.string.isRequired,
+    changeHandler: PropTypes.func.isRequired,
+    partType: PropTypes.string.isRequired,
+    selectOptions: PropTypes.objectOf(
+      PropTypes.string.isRequired,
+      PropTypes.string.isRequired
+    ).isRequired
+  };
+
+  Quantity.propTypes = {
+    value: PropTypes.string.isRequired,
+    selectOptions: PropTypes.objectOf(
+      PropTypes.string.isRequired,
+      PropTypes.string.isRequired,
+      PropTypes.string.isRequired
+    ).isRequired,
+    changeHandler: PropTypes.func.isRequired
+  };
+
+  Premise.propTypes = {
+    identity: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
+    type: PropTypes.string.isRequired
+  };
+
+  Form.propTypes = {
+    children: PropTypes.node.isRequired
+  };
+
+  FormController.propTypes = {
+    quantSelectValues: PropTypes.objectOf(
+      PropTypes.string.isRequired,
+      PropTypes.string.isRequired,
+      PropTypes.string.isRequired
+    ).isRequired,
+    qualitySelectValues: PropTypes.objectOf(
+      PropTypes.string.isRequired,
+      PropTypes.string.isRequired
+    ).isRequired,
+    maps: PropTypes.objectOf(
+      PropTypes.object.isRequired,
+      PropTypes.object.isRequired,
+      PropTypes.object.isRequired,
+      PropTypes.object.isRequired
+    ).isRequired
+  };
+})();
