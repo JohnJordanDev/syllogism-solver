@@ -212,20 +212,24 @@ Quantity.propTypes = {
 
 const Premise = (props) => {
   const { identity, children, type } = props;
-  //const inputElements = children.filter(child => child.type.name ===);
-  debugger;
+  const inputElements = children.filter((child) => {
+    const { name } = child.type;
+    return name === "Quantity" || name === "Quality";
+  });
+  const eulerDiagram = children.filter((child) => {
+    const { name } = child.type;
+    return name === "DiagramController";
+  });
   return (
     <fieldset className={`part-${identity}`}>
       <legend>{`${identity.toUpperCase().split("P")[0]}`}: <small>{type}</small></legend>
       <fieldset>
         <legend>Choose options:</legend>
-        {children[0]}
-        {children[1]}
+        {inputElements}
       </fieldset>
       <figure>
-        <img alt="an empty...for now" />
-        {children[2]}
-        <figcaption>This will be filled...</figcaption>
+        {eulerDiagram}
+        <figcaption>Euler Diagram: {identity}, of type &ldquo;{type}&rdquo;</figcaption>
       </figure>
     </fieldset>
   );
