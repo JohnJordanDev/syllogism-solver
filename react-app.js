@@ -8,8 +8,98 @@
 
 const { React, ReactDOM, PropTypes } = window;
 
-// TODO: const for qualPartNeg='are NOT'
-// would NOT need formatting, and would work fine once centralized
+const EulerCircle = (props) => {
+  const { term, specificAttrs = {} } = props;
+  const defaultAttrs = { xPos: "50%", yPos: "50%", radius: "10%", cssClass: "" };
+  const svgAttrs = { ...defaultAttrs, ...specificAttrs };
+  return (
+    <>
+      <circle
+        data-term={term}
+        cx={svgAttrs.xPos}
+        cy={svgAttrs.yPos}
+        r={svgAttrs.radius}
+        fill="none"
+        stroke="black"
+        className={`shape ${svgAttrs.cssClass}`}
+      />
+    </>
+  );
+};
+
+EulerCircle.propTypes = {
+  term: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  specificAttrs: PropTypes.object
+};
+
+EulerCircle.defaultProps = {
+  specificAttrs: {}
+};
+
+const EulerCircleController = (props) => {
+  const { part, partType } = props;
+
+  const major = {
+    subject: {
+      A: { cssClass: "shape_border-dashed" },
+      E: { cssClass: "shape_border-dashed" },
+      I: { cssClass: "shape_border-dashed" },
+      O: { cssClass: "shape_border-dashed" }
+    },
+    predicate: {
+      A: { xPos: "57%", radius: "20%" },
+      E: { xPos: "80%", radius: "20%" },
+      I: { xPos: "63%", radius: "20%" },
+      O: { xPos: "65%", radius: "20%" }
+    }
+  };
+  const minor = {
+    subject: { },
+    predicate: { }
+  };
+  const conclusion = {
+    subject: { },
+    predicate: { }
+  };
+
+  const svgAttrs = { major, minor, conclusion };
+
+  return (
+    <>
+      <EulerCircle term="subject" specificAttrs={svgAttrs[part].subject[partType]} />
+      <EulerCircle term="predicate" specificAttrs={svgAttrs[part].predicate[partType]} />
+    </>
+  );
+};
+
+EulerCircleController.propTypes = {
+  part: PropTypes.string.isRequired,
+  partType: PropTypes.string.isRequired
+};
+
+const DiagramMessage = () => (
+  <foreignObject x="50" y="50" height="100" width="200" textAnchor="middle">
+    <div xmlns="http://www.w3.org/1999/xhtml" className="svg_textMsg">
+      Euler diagram for the major premise will appear here, once details entered.
+    </div>
+  </foreignObject>
+  );
+
+const DiagramController = (props) => {
+  const { part, partType, children } = props;
+  return (
+    <svg id="svg_majorPremise" data-part={part} data-parttype={partType} width="300" height="150" viewBox="0 0 300 150">
+      {children}
+    </svg>
+  );
+};
+
+DiagramController.propTypes = {
+  part: PropTypes.string.isRequired,
+  partType: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired
+};
 
 const Quality = (props) => {
 	const { value, partType, selectOptions, changeHandler } = props;
@@ -152,6 +242,9 @@ const FormController = (props) => {
             selectOptions={qualitySelectValues}
             changeHandler={changeHandler}
           />
+          <DiagramController part="major" partType={typeMajor}>
+            {(typeMajor === "none") ? <DiagramMessage /> : <EulerCircleController part="major" partType={typeMajor} />}
+          </DiagramController>
         </Premise>
       </Form>
     </>
@@ -184,7 +277,7 @@ const App = () => {
 
   const qAff = "are";
   const qNeg = "are NOT";
-  const qualitySelectValues = {qAff, qNeg};
+  const qualitySelectValues = { qAff, qNeg };
 
   const quantityToType = {
     [uniAff]: "A",
