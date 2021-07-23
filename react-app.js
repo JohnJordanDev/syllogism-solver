@@ -8,6 +8,74 @@
 
 const { React, ReactDOM, PropTypes } = window;
 
+// just handles case of major premise
+// need to refactor off of shape positions, to get label pos.
+// this is temp
+const getShapeLabelPos = (term = "subject", partType = "A") => {
+  const defaults = {
+   x: "149",
+   y: "44.5"
+ };
+ let specificSettings;
+ if (term === "subject") {
+   switch (partType) {
+     case ("I"):
+     specificSettings = {};
+      break;
+     default:
+       break;
+   }
+ } else if (term === "predicate") {
+     switch (partType) {
+       case ("A"):
+          specificSettings = { x: "159", y: "19.5" };
+          break;
+      case ("E"):
+          specificSettings = { x: "239", y: "19.5" };
+          break;
+       case ("I"):
+          specificSettings = { x: "178", y: "19.5" };
+          break;
+       case ("O"):
+          specificSettings = { x: "194", y: "19.5" };
+          break;
+       default:
+         break;
+     }
+ }
+ return { ...defaults, ...specificSettings };
+};
+
+const getShapeSettings = (part = "major", term = "subject", partType = "A") => {
+ const major = {
+   subject: {
+     A: { cssClass: "shape_border-dashed" },
+     E: { cssClass: "shape_border-dashed" },
+     I: { cssClass: "shape_border-dashed" },
+     O: { cssClass: "shape_border-dashed" }
+   },
+   predicate: {
+     A: { xPos: "57%", radius: "20%" },
+     E: { xPos: "80%", radius: "20%" },
+     I: { xPos: "63%", radius: "20%" },
+     O: { xPos: "65%", radius: "20%" }
+   }
+ };
+ const minor = {
+   subject: { },
+   predicate: { }
+ };
+ const conclusion = {
+   subject: { },
+   predicate: { }
+ };
+ const shapeAttrs = { major, minor, conclusion };
+ if (shapeAttrs[part] && shapeAttrs[part][term] && shapeAttrs[part][term][partType]) {
+   return shapeAttrs[part][term][partType];
+ }
+ return {};
+};
+
 const EulerPath = (props) => {
   const { partType } = props;
   const paths = {
@@ -48,55 +116,42 @@ const EulerCircle = (props) => {
     </>
   );
 };
+
+const shiftBackRectPositions = (widthForBackRect=0, currXPos=149, currYPos=44.5) => {
+  const currXPosNum = parseFloat(currXPos);
+  const currYPosNum = parseFloat(currYPos);
+  const magicHeightAdj = 10;
+  const x = currXPosNum - (widthForBackRect/2);
+  const y = currYPosNum - magicHeightAdj;
+  return {x, y};
+};
 const ShapeLabel = (props) => {
   const { labelText, labelTextPos } = props;
-  return (
-    <text
-      textAnchor="middle"
-      x={labelTextPos.x}
-      y={labelTextPos.y}
-      data-identifier="textLabel-middleTerm"
-      className="textLabel"
-    >{labelText}
-    </text>
-  );
-};
-// just handles case of major premise
-// need to refactor off of shape positions, to get label pos.
-// this is temp
-const getShapeLabelPos = (term = "subject", partType = "A") => {
-   const defaults = {
-    x: "149",
-    y: "44.5"
-  };
-  let specificSettings;
-  if (term === "subject") {
-    switch (partType) {
-      case ("I"):
-      specificSettings = {};
-       break;
-      default:
-        break;
-    }
-  } else if (term === "predicate") {
-      switch (partType) {
-        case ("A"):
-           specificSettings = { x: "159", y: "5.9" };
-           break;
-       case ("E"):
-           specificSettings = { x: "239", y: "19.5" };
-           break;
-        case ("I"):
-           specificSettings = { x: "178", y: "5.9" };
-           break;
-        case ("O"):
-           specificSettings = { x: "194", y: "19.5" };
-           break;
-        default:
-          break;
-      }
+  const textRef = React.useRef();
+  React.useEffect(() => {
+    console.log("thing: ", textRef.current, textRef.current.dataset.identifier);
+    console.log();
+  });
+  let widthForBackRect = 0;
+  if (textRef.current) {
+    widthForBackRect = textRef.current.getBoundingClientRect().width;
   }
-  return { ...defaults, ...specificSettings };
+  const backRectPos = shiftBackRectPositions(widthForBackRect, labelTextPos.x, labelTextPos.y);
+  return (
+    <>
+      <rect x={backRectPos.x} y={backRectPos.y} width={widthForBackRect} height="18.087247848510742" data-identifier="rect-textLabel-middleTerm" fill="#DEDEDE" className="textLabel-rect" />
+
+      <text
+        ref={textRef}
+        textAnchor="middle"
+        x={labelTextPos.x}
+        y={labelTextPos.y}
+        data-identifier="textLabel-middleTerm"
+        className="textLabel"
+      >{labelText}
+      </text>
+    </>
+  );
 };
 
 // Currently, just handles major premise positions
@@ -104,34 +159,12 @@ const getShapeLabelPos = (term = "subject", partType = "A") => {
 
 const EulerCircleController = (props) => {
   const { part, partType, subjectName, predicateName } = props;
+  const subjectShapeSettings = getShapeSettings(part, "subject", partType);
+  const predicateShapeSettings = getShapeSettings(part, "predicate", partType);
 
-  const major = {
-    subject: {
-      A: { cssClass: "shape_border-dashed" },
-      E: { cssClass: "shape_border-dashed" },
-      I: { cssClass: "shape_border-dashed" },
-      O: { cssClass: "shape_border-dashed" }
-    },
-    predicate: {
-      A: { xPos: "57%", radius: "20%" },
-      E: { xPos: "80%", radius: "20%" },
-      I: { xPos: "63%", radius: "20%" },
-      O: { xPos: "65%", radius: "20%" }
-    }
-  };
-  const minor = {
-    subject: { },
-    predicate: { }
-  };
-  const conclusion = {
-    subject: { },
-    predicate: { }
-  };
-
-  const svgAttrs = { major, minor, conclusion };
   const shapeForSubject = (partType === "I" || partType === "O")
   ? <EulerPath partType={partType} />
-  : <EulerCircle term="subject" specificAttrs={svgAttrs[part].subject[partType]} />;
+  : <EulerCircle term="subject" specificAttrs={subjectShapeSettings} />;
 
   return (
     <>
@@ -140,8 +173,7 @@ const EulerCircleController = (props) => {
         {shapeForSubject}
       </g>
       <ShapeLabel labelText={predicateName} labelTextPos={getShapeLabelPos("predicate", partType)} />
-      <EulerCircle term="predicate" specificAttrs={svgAttrs[part].predicate[partType]} />
-
+      <EulerCircle term="predicate" specificAttrs={predicateShapeSettings} />
     </>
   );
 };
