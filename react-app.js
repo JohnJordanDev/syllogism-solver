@@ -8,9 +8,35 @@
 
 const { React, ReactDOM, PropTypes } = window;
 
+const EulerPath = (props) => {
+  const { partType } = props;
+  const paths = {
+    I: `M 149 52.150000000000006
+    A22.349999999999998,22.349999999999998 0 0,1 149, 96.85
+   M 149 74.5z`,
+    O: `M 149 52.150000000000006
+    A22.349999999999998,22.349999999999998 0 0,0 149, 96.85
+   M 149 74.5z`
+  };
+  return (
+    <path
+      data-identifier="shape-middleTerm"
+      className="shape shape_border-dashed"
+      fill="none"
+      stroke="black"
+      strokeWidth="1"
+      d={paths[partType]}
+    />
+  );
+};
+
+EulerPath.propTypes = {
+  partType: PropTypes.string.isRequired
+};
+
 const EulerCircle = (props) => {
   const { term, specificAttrs = {} } = props;
-  const defaultAttrs = { xPos: "50%", yPos: "50%", radius: "10%", cssClass: "" };
+  const defaultAttrs = { xPos: "50%", yPos: "50%", radius: "10%", fill: "none", cssClass: "" };
   const svgAttrs = { ...defaultAttrs, ...specificAttrs };
   return (
     <>
@@ -19,7 +45,7 @@ const EulerCircle = (props) => {
         cx={svgAttrs.xPos}
         cy={svgAttrs.yPos}
         r={svgAttrs.radius}
-        fill="none"
+        fill={svgAttrs.fill}
         stroke="black"
         className={`shape ${svgAttrs.cssClass}`}
       />
@@ -64,10 +90,13 @@ const EulerCircleController = (props) => {
   };
 
   const svgAttrs = { major, minor, conclusion };
+  const shapeForSubject = (partType === "I" || partType === "O")
+  ? <EulerPath partType={partType} />
+  : <EulerCircle term="subject" specificAttrs={svgAttrs[part].subject[partType]} />;
 
   return (
     <>
-      <EulerCircle term="subject" specificAttrs={svgAttrs[part].subject[partType]} />
+      {shapeForSubject}
       <EulerCircle term="predicate" specificAttrs={svgAttrs[part].predicate[partType]} />
     </>
   );
@@ -183,15 +212,19 @@ Quantity.propTypes = {
 
 const Premise = (props) => {
   const { identity, children, type } = props;
+  //const inputElements = children.filter(child => child.type.name ===);
+  debugger;
   return (
     <fieldset className={`part-${identity}`}>
       <legend>{`${identity.toUpperCase().split("P")[0]}`}: <small>{type}</small></legend>
       <fieldset>
         <legend>Choose options:</legend>
-        {children}
+        {children[0]}
+        {children[1]}
       </fieldset>
       <figure>
         <img alt="an empty...for now" />
+        {children[2]}
         <figcaption>This will be filled...</figcaption>
       </figure>
     </fieldset>
