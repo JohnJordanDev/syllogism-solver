@@ -298,8 +298,8 @@ const Premise = (props) => {
 
 const Conclusion = (props) => {
   const { maps, type, subject, predicate, children } = props;
-  const subjectName = subject || 'minor term';
-  const predicateName = predicate || 'major term';
+  const subjectName = subject || "minor term";
+  const predicateName = predicate || "major term";
   return (
     <output>
       Conclusion: {type}
@@ -537,6 +537,12 @@ ReactDOM.render(<App />, document.getElementById("react_app"));
     children: PropTypes.node.isRequired
   };
 
+  TermName.propTypes = {
+    value: PropTypes.string.isRequired,
+    changeHandler: PropTypes.func.isRequired,
+    term: PropTypes.string.isRequired
+  };
+
   Quality.propTypes = {
     value: PropTypes.string.isRequired,
     changeHandler: PropTypes.func.isRequired,
@@ -563,6 +569,19 @@ ReactDOM.render(<App />, document.getElementById("react_app"));
     type: PropTypes.string.isRequired
   };
 
+  Conclusion.propTypes = {
+    maps: PropTypes.objectOf(
+      PropTypes.object.isRequired,
+      PropTypes.object.isRequired,
+      PropTypes.object.isRequired,
+      PropTypes.object.isRequired
+    ).isRequired,
+    type: PropTypes.string.isRequired,
+    subject: PropTypes.string.isRequired,
+    predicate: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired
+  };
+
   Form.propTypes = {
     children: PropTypes.node.isRequired
   };
@@ -577,6 +596,7 @@ ReactDOM.render(<App />, document.getElementById("react_app"));
       PropTypes.string.isRequired,
       PropTypes.string.isRequired
     ).isRequired,
+    getConclusion: PropTypes.func.isRequired,
     maps: PropTypes.objectOf(
       PropTypes.object.isRequired,
       PropTypes.object.isRequired,
