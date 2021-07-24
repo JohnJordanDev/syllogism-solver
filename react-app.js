@@ -299,6 +299,22 @@ const Premise = (props) => {
   );
 };
 
+const Conclusion = (props) => {
+  const { maps, type, children } = props;
+  return (
+    <output>
+      Conclusion: {type}
+      <section>
+        {maps.typeToQuantity[type]} thing
+        {maps.typeToQuality[type]} other thing
+      </section>
+      <section>
+        {children}
+      </section>
+    </output>
+);
+};
+
 const Form = (props) => {
   const { children } = props;
   return (<form>{children}</form>);
@@ -311,7 +327,8 @@ const FormController = (props) => {
   const [majorTermName, setMajorTermName] = React.useState("");
   const [middleTermName, setMiddleTermName] = React.useState("");
   const [minorTermName, setMinorTermName] = React.useState("");
-  const { quantSelectValues, qualitySelectValues, maps } = props;
+
+  const { quantSelectValues, qualitySelectValues, getConclusion, maps } = props;
   const changeHandlerMajor = ({ target }) => {
     const { dataset: { aspect } } = target;
     if (aspect === "quantity") {
@@ -338,6 +355,9 @@ const FormController = (props) => {
      setMinorTermName(target.value);
    }
   };
+
+  const typeConclusion = getConclusion(typeMajor, typeMinor);
+  console.log('typConc: ', typeConclusion, typeMajor, typeMinor,' -> ', getConclusion(typeMajor, typeMinor));
   return (
     <>
       <Form>
@@ -412,6 +432,16 @@ const FormController = (props) => {
           </DiagramController>
         </Premise>
       </Form>
+      <Conclusion maps={maps} type={typeConclusion}>
+        <DiagramController part="conclusion" partType={typeConclusion}>
+          <EulerCircleController
+            part="conclusion"
+            partType={typeConclusion}
+            subjectName={minorTermName}
+            predicateName={majorTermName}
+          />
+        </DiagramController>
+      </Conclusion>
     </>
   );
 };
@@ -455,10 +485,22 @@ const App = () => {
     none: "none"
   };
 
+  const getConclusion = (typeMajor = "", typeMinor = "") => {
+    const validConclusions = {
+      AA: "A",
+      EA: "E",
+      AI: "I",
+      EI: "O"
+    };
+    if (typeMajor === "none" || typeMinor === "none") return "none";
+    if (validConclusions[typeMajor + typeMinor]) return validConclusions[typeMajor + typeMinor];
+    return "invalid";
+  };
+
   const maps = {
     quantityToType, typeToQuantity, qualityToType, typeToQuality
   };
-  return <FormController quantSelectValues={quantSelectValues} qualitySelectValues={qualitySelectValues} maps={maps} />;
+  return <FormController getConclusion={getConclusion} quantSelectValues={quantSelectValues} qualitySelectValues={qualitySelectValues} maps={maps} />;
 };
 ReactDOM.render(<App />, document.getElementById("react_app"));
 
