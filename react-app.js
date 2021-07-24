@@ -117,30 +117,35 @@ const EulerCircle = (props) => {
   );
 };
 
-const shiftBackRectPositions = (widthForBackRect=0, currXPos=149, currYPos=44.5) => {
+const shiftBackRectPositions = (widthForBackRect = 0, currXPos = 149, currYPos = 44.5) => {
   const currXPosNum = parseFloat(currXPos);
   const currYPosNum = parseFloat(currYPos);
-  const magicHeightAdj = 10;
-  const x = currXPosNum - (widthForBackRect/2);
+  const magicHeightAdj = 11;
+  const x = currXPosNum - (widthForBackRect / 2);
   const y = currYPosNum - magicHeightAdj;
-  return {x, y};
+  return { x, y };
 };
 const ShapeLabel = (props) => {
   const { labelText, labelTextPos } = props;
   const textRef = React.useRef();
-  React.useEffect(() => {
-    console.log("thing: ", textRef.current, textRef.current.dataset.identifier);
-    console.log();
-  });
   let widthForBackRect = 0;
   if (textRef.current) {
-    widthForBackRect = textRef.current.getBoundingClientRect().width;
+    widthForBackRect = textRef.current.getBoundingClientRect().width + 5;
   }
   const backRectPos = shiftBackRectPositions(widthForBackRect, labelTextPos.x, labelTextPos.y);
   return (
     <>
-      <rect x={backRectPos.x} y={backRectPos.y} width={widthForBackRect} height="18.087247848510742" data-identifier="rect-textLabel-middleTerm" fill="#DEDEDE" className="textLabel-rect" />
-
+      {labelText && (
+      <rect
+        x={backRectPos.x}
+        y={backRectPos.y}
+        width={widthForBackRect}
+        height="16"
+        data-identifier="rect-textLabel-middleTerm"
+        fill="#DEDEDE"
+        className="textLabel-rect"
+      />
+      )}
       <text
         ref={textRef}
         textAnchor="middle"
@@ -283,8 +288,8 @@ const Premise = (props) => {
       <legend>{`${identity.toUpperCase().split("P")[0]}`}: <small>{type}</small></legend>
       <fieldset>
         <legend>Choose options:</legend>
-        <fieldset>{children[0]}{children[1]}</fieldset>
-        <fieldset>{children[2]}{children[3]}</fieldset>
+        <fieldset>{inputElements[0]}{inputElements[1]}</fieldset>
+        <fieldset>{inputElements[2]}{inputElements[3]}</fieldset>
       </fieldset>
       <figure>
         {eulerDiagram}
@@ -301,15 +306,26 @@ const Form = (props) => {
 
 const FormController = (props) => {
   const [typeMajor, setTypeMajor] = React.useState("none");
+  const [typeMinor, setTypeMinor] = React.useState("none");
+
   const [majorTermName, setMajorTermName] = React.useState("");
   const [middleTermName, setMiddleTermName] = React.useState("");
+  const [minorTermName, setMinorTermName] = React.useState("");
   const { quantSelectValues, qualitySelectValues, maps } = props;
-  const changeHandler = ({ target }) => {
+  const changeHandlerMajor = ({ target }) => {
     const { dataset: { aspect } } = target;
     if (aspect === "quantity") {
       setTypeMajor(maps.quantityToType[target.value]);
     } else if (aspect === "quality") {
       setTypeMajor(maps.qualityToType[target.value]);
+    }
+  };
+  const changeHandlerMinor = ({ target }) => {
+    const { dataset: { aspect } } = target;
+    if (aspect === "quantity") {
+      setTypeMinor(maps.quantityToType[target.value]);
+    } else if (aspect === "quality") {
+      setTypeMinor(maps.qualityToType[target.value]);
     }
   };
   const changeNameHandler = ({ target }) => {
@@ -318,6 +334,8 @@ const FormController = (props) => {
     setMiddleTermName(target.value);
    } else if (term === "major") {
     setMajorTermName(target.value);
+   } else if (term === "minor") {
+     setMinorTermName(target.value);
    }
   };
   return (
@@ -327,7 +345,7 @@ const FormController = (props) => {
           <Quantity
             value={maps.typeToQuantity[typeMajor]}
             selectOptions={quantSelectValues}
-            changeHandler={changeHandler}
+            changeHandler={changeHandlerMajor}
           />
           <TermName
             value={middleTermName}
@@ -338,7 +356,7 @@ const FormController = (props) => {
             value={maps.typeToQuality[typeMajor]}
             partType={typeMajor}
             selectOptions={qualitySelectValues}
-            changeHandler={changeHandler}
+            changeHandler={changeHandlerMajor}
           />
           <TermName
             value={majorTermName}
@@ -354,6 +372,41 @@ const FormController = (props) => {
                 partType={typeMajor}
                 subjectName={middleTermName}
                 predicateName={majorTermName}
+              />
+            )}
+          </DiagramController>
+        </Premise>
+        <Premise identity="Minor Premise" type={typeMinor}>
+          <Quantity
+            value={maps.typeToQuantity[typeMinor]}
+            selectOptions={quantSelectValues}
+            changeHandler={changeHandlerMinor}
+          />
+          <TermName
+            value={minorTermName}
+            changeHandler={changeNameHandler}
+            term="minor"
+          />
+          <Quality
+            value={maps.typeToQuality[typeMinor]}
+            partType={typeMinor}
+            selectOptions={qualitySelectValues}
+            changeHandler={changeHandlerMinor}
+          />
+          <TermName
+            value={middleTermName}
+            changeHandler={changeNameHandler}
+            term="middle"
+          />
+          <DiagramController part="minor" partType={typeMinor}>
+            {(typeMinor === "none")
+            ? <DiagramMessage />
+            : (
+              <EulerCircleController
+                part="minor"
+                partType={typeMinor}
+                subjectName={minorTermName}
+                predicateName={middleTermName}
               />
             )}
           </DiagramController>
