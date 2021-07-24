@@ -286,27 +286,26 @@ const Premise = (props) => {
   return (
     <fieldset className={`part-${identity}`}>
       <legend>{`${identity.toUpperCase().split("P")[0]}`}: <small>{type}</small></legend>
-      <fieldset>
-        <legend>Choose options:</legend>
-        <fieldset>{inputElements[0]}{inputElements[1]}</fieldset>
-        <fieldset>{inputElements[2]}{inputElements[3]}</fieldset>
-      </fieldset>
+      <fieldset>{inputElements[0]}{inputElements[1]}</fieldset>
+      <fieldset>{inputElements[2]}{inputElements[3]}</fieldset>
       <figure>
         {eulerDiagram}
-        <figcaption>Euler Diagram: {!(type === "none") && `${identity}, of type "${type}";`}</figcaption>
+        <figcaption>{!(type === "none") && `${identity}, of type "${type}";`}</figcaption>
       </figure>
     </fieldset>
   );
 };
 
 const Conclusion = (props) => {
-  const { maps, type, children } = props;
+  const { maps, type, subject, predicate, children } = props;
+  const subjectName = subject || 'minor term';
+  const predicateName = predicate || 'major term';
   return (
     <output>
       Conclusion: {type}
       <section>
-        {maps.typeToQuantity[type]} thing
-        {maps.typeToQuality[type]} other thing
+        {maps.typeToQuantity[type]} {subjectName} &nbsp;
+        {maps.typeToQuality[type]} {predicateName}
       </section>
       <section>
         {children}
@@ -357,7 +356,6 @@ const FormController = (props) => {
   };
 
   const typeConclusion = getConclusion(typeMajor, typeMinor);
-  console.log('typConc: ', typeConclusion, typeMajor, typeMinor,' -> ', getConclusion(typeMajor, typeMinor));
   return (
     <>
       <Form>
@@ -432,7 +430,7 @@ const FormController = (props) => {
           </DiagramController>
         </Premise>
       </Form>
-      <Conclusion maps={maps} type={typeConclusion}>
+      <Conclusion maps={maps} type={typeConclusion} subject={minorTermName} predicate={majorTermName}>
         <DiagramController part="conclusion" partType={typeConclusion}>
           <EulerCircleController
             part="conclusion"
