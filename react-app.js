@@ -11,69 +11,86 @@ const { React, ReactDOM, PropTypes } = window;
 // just handles case of major premise
 // need to refactor off of shape positions, to get label pos.
 // this is temp
-const getShapeLabelPos = (term = "subject", partType = "A") => {
+const getShapeLabelPos = (part = "major", term = "subject", partType = "A") => {
   const defaults = {
    x: "149",
    y: "44.5"
  };
- let specificSettings;
- if (term === "subject") {
-   switch (partType) {
-     case ("I"):
-     specificSettings = {};
-      break;
-     default:
-       break;
-   }
- } else if (term === "predicate") {
-     switch (partType) {
-       case ("A"):
-          specificSettings = { x: "159", y: "19.5" };
-          break;
-      case ("E"):
-          specificSettings = { x: "239", y: "19.5" };
-          break;
-       case ("I"):
-          specificSettings = { x: "178", y: "19.5" };
-          break;
-       case ("O"):
-          specificSettings = { x: "194", y: "19.5" };
-          break;
-       default:
-         break;
-     }
- }
- return { ...defaults, ...specificSettings };
+	const majorPartLabelPredicate = {
+		A: { x: "159", y: "19.5" },
+		E: { x: "239", y: "19.5" },
+		I: { x: "178", y: "19.5" },
+		O: { x: "194", y: "19.5" }
+	};
+	const minorPartLabelSubject = {
+		A: { x: "141.5", y: "99.5" },
+		E: { x: "89", y: "99.5" },
+		I: { x: "130.25", y: "99.5" },
+		O: { x: "124.625", y: "19.5" }
+	};
+	const major = {
+		predicate: majorPartLabelPredicate
+};
+const minor = {
+		subject: minorPartLabelSubject
+};
+const conclusion = {
+		subject: minorPartLabelSubject,
+		predicate: majorPartLabelPredicate
+};
+	const labelPos = { major, minor, conclusion };
+	if (labelPos[part] && labelPos[part][term] && labelPos[part][term][partType]) {
+		return labelPos[part][term][partType];
+	}
+
+ return defaults;
 };
 
-const getShapeSettings = (part = "major", term = "subject", partType = "A") => {
+const getEulerCircleSettings = (part = "major", term = "subject", partType = "A") => {
+  const minorFill = "#2BA1BD";
+ const minorStroke = "#000000";
+	const majorTerm = {
+		A: { xPos: "57%", radius: "20%" },
+		E: { xPos: "80%", radius: "20%" },
+		I: { xPos: "63%", radius: "20%" },
+		O: { xPos: "65%", radius: "20%" }
+	};
+	const middleTerm = {
+		A: { cssClass: "shape_border-dashed" },
+		E: { cssClass: "shape_border-dashed" },
+		I: { cssClass: "shape_border-dashed" },
+		O: { cssClass: "shape_border-dashed" }
+	};
+	const minorTerm = {
+		A: { xPos: "47%", radius: "5%", fill: minorFill, stroke: minorStroke },
+		E: { xPos: "29%", radius: "5%", fill: minorFill, stroke: minorStroke }
+	};
  const major = {
-   subject: {
-     A: { cssClass: "shape_border-dashed" },
-     E: { cssClass: "shape_border-dashed" },
-     I: { cssClass: "shape_border-dashed" },
-     O: { cssClass: "shape_border-dashed" }
-   },
-   predicate: {
-     A: { xPos: "57%", radius: "20%" },
-     E: { xPos: "80%", radius: "20%" },
-     I: { xPos: "63%", radius: "20%" },
-     O: { xPos: "65%", radius: "20%" }
-   }
+   subject: middleTerm,
+   predicate: majorTerm
  };
  const minor = {
-   subject: { },
-   predicate: { }
+   subject: minorTerm,
+   predicate: middleTerm
  };
  const conclusion = {
-   subject: { },
-   predicate: { }
+   subject: minorTerm,
+   predicate: majorTerm
  };
  const shapeAttrs = { major, minor, conclusion };
  if (shapeAttrs[part] && shapeAttrs[part][term] && shapeAttrs[part][term][partType]) {
    return shapeAttrs[part][term][partType];
  }
  return {};
+};
+
+const shiftBackRectPositions = (widthForBackRect = 0, currXPos = 149, currYPos = 44.5) => {
+  const currXPosNum = parseFloat(currXPos);
+  const currYPosNum = parseFloat(currYPos);
+  const magicHeightAdj = 11;
+  const x = currXPosNum - (widthForBackRect / 2);
+  const y = currYPosNum - magicHeightAdj;
+  return { x, y };
 };
 
 const EulerPath = (props) => {
@@ -117,14 +134,6 @@ const EulerCircle = (props) => {
   );
 };
 
-const shiftBackRectPositions = (widthForBackRect = 0, currXPos = 149, currYPos = 44.5) => {
-  const currXPosNum = parseFloat(currXPos);
-  const currYPosNum = parseFloat(currYPos);
-  const magicHeightAdj = 11;
-  const x = currXPosNum - (widthForBackRect / 2);
-  const y = currYPosNum - magicHeightAdj;
-  return { x, y };
-};
 const ShapeLabel = (props) => {
   const { labelText, labelTextPos } = props;
   const textRef = React.useRef();
@@ -164,21 +173,23 @@ const ShapeLabel = (props) => {
 
 const EulerCircleController = (props) => {
   const { part, partType, subjectName, predicateName } = props;
-  const subjectShapeSettings = getShapeSettings(part, "subject", partType);
-  const predicateShapeSettings = getShapeSettings(part, "predicate", partType);
-
+  const subjectShapeSettings = getEulerCircleSettings(part, "subject", partType);
+  const predicateShapeSettings = getEulerCircleSettings(part, "predicate", partType);
   const shapeForSubject = (partType === "I" || partType === "O")
   ? <EulerPath partType={partType} />
   : <EulerCircle term="subject" specificAttrs={subjectShapeSettings} />;
-
+ // Order reversed, for stacking purposes
   return (
     <>
-      <g>
-        <ShapeLabel labelText={subjectName} labelTextPos={getShapeLabelPos("subject", partType)} />
+      <g className="predicate">
+        <ShapeLabel labelText={predicateName} labelTextPos={getShapeLabelPos(part, "predicate", partType)} />
+        <EulerCircle term="predicate" specificAttrs={predicateShapeSettings} />
+      </g>
+      <g className="subject">
+        <ShapeLabel labelText={subjectName} labelTextPos={getShapeLabelPos(part, "subject", partType)} />
         {shapeForSubject}
       </g>
-      <ShapeLabel labelText={predicateName} labelTextPos={getShapeLabelPos("predicate", partType)} />
-      <EulerCircle term="predicate" specificAttrs={predicateShapeSettings} />
+
     </>
   );
 };
