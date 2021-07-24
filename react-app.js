@@ -26,7 +26,7 @@ const getShapeLabelPos = (part = "major", term = "subject", partType = "A") => {
 		A: { x: "141.5", y: "99.5" },
 		E: { x: "89", y: "99.5" },
 		I: { x: "130.25", y: "99.5" },
-		O: { x: "124.625", y: "19.5" }
+		O: { x: "124.625", y: "99.5" }
 	};
 	const major = {
 		predicate: majorPartLabelPredicate
@@ -49,6 +49,11 @@ const conclusion = {
 const getEulerCircleSettings = (part = "major", term = "subject", partType = "A") => {
   const minorFill = "#2BA1BD";
  const minorStroke = "#000000";
+ // override for styling purposes, for first figure conclusions
+	const concMajorTermPart = {
+		I: { xPos: "57%", radius: "20%" },
+		O: { xPos: "80%", radius: "20%" }
+	};
 	const majorTerm = {
 		A: { xPos: "57%", radius: "20%" },
 		E: { xPos: "80%", radius: "20%" },
@@ -75,7 +80,7 @@ const getEulerCircleSettings = (part = "major", term = "subject", partType = "A"
  };
  const conclusion = {
    subject: minorTerm,
-   predicate: majorTerm
+   predicate: { ...majorTerm, ...concMajorTermPart }
  };
  const shapeAttrs = { major, minor, conclusion };
  if (shapeAttrs[part] && shapeAttrs[part][term] && shapeAttrs[part][term][partType]) {
@@ -94,23 +99,45 @@ const shiftBackRectPositions = (widthForBackRect = 0, currXPos = 149, currYPos =
 };
 
 const EulerPath = (props) => {
-  const { partType } = props;
+  const { part, partType } = props;
+		const defaultPath = {
+			I: `M 130.25 63.325
+			A11.175,11.175 0 0,1 130.25, 85.675
+		M 130.25 74.5z`,
+    O: `M 124.625 63.325
+    A11.175,11.175 0 0,0 124.625, 85.675
+   M 124.625 74.5z`
+		};
   const paths = {
-    I: `M 149 52.150000000000006
-    A22.349999999999998,22.349999999999998 0 0,1 149, 96.85
+   major: {
+				I: `M 149 52.15
+    A22.358,22.358 0 0,1 149, 96.85
    M 149 74.5z`,
-    O: `M 149 52.150000000000006
-    A22.349999999999998,22.349999999999998 0 0,0 149, 96.85
+    O: `M 149 52.15
+    A22.358,22.35 0 0,0 149, 96.85
    M 149 74.5z`
+			},
+			conclusion: {
+				O: `M 130.25 63.325
+				A11.175,11.175 0 0,1 130.25, 85.675
+			M 130.25 74.5z`
+			}
   };
+
+		let path;
+		if (paths[part] && paths[part][partType]) {
+			path = paths[part][partType];
+		} else {
+			path = defaultPath[partType];
+		}
   return (
     <path
       data-identifier="shape-middleTerm"
-      className="shape shape_border-dashed"
-      fill="none"
+      className={`shape ${part === "major" && "shape_border-dashed"}`}
+      fill={part === "major" ? "none" : "#2BA1BD"}
       stroke="black"
       strokeWidth="1"
-      d={paths[partType]}
+      d={path}
     />
   );
 };
@@ -176,7 +203,7 @@ const EulerCircleController = (props) => {
   const subjectShapeSettings = getEulerCircleSettings(part, "subject", partType);
   const predicateShapeSettings = getEulerCircleSettings(part, "predicate", partType);
   const shapeForSubject = (partType === "I" || partType === "O")
-  ? <EulerPath partType={partType} />
+  ? <EulerPath part={part} partType={partType} />
   : <EulerCircle term="subject" specificAttrs={subjectShapeSettings} />;
  // Order reversed, for stacking purposes
   return (
@@ -295,10 +322,12 @@ const Premise = (props) => {
     return name === "DiagramController";
   });
   return (
-    <fieldset className={`part-${identity}`}>
+    <fieldset className={`part-${identity} syllogism_part`}>
       <legend>{`${identity.toUpperCase().split("P")[0]}`}: <small>{type}</small></legend>
-      <fieldset>{inputElements[0]}{inputElements[1]}</fieldset>
-      <fieldset>{inputElements[2]}{inputElements[3]}</fieldset>
+      <fieldset className="premise_input-overall">
+        <fieldset>{inputElements[0]}{inputElements[1]}</fieldset>
+        <fieldset>{inputElements[2]}{inputElements[3]}</fieldset>
+      </fieldset>
       <figure>
         {eulerDiagram}
         <figcaption>{!(type === "none") && `${identity}, of type "${type}";`}</figcaption>
@@ -312,8 +341,9 @@ const Conclusion = (props) => {
   const subjectName = subject || "minor term";
   const predicateName = predicate || "major term";
   return (
-    <output>
+    <output className="syllogism_part syllogism_part-conclusion">
       Conclusion: {type}
+						<span className="conditional">Then</span>
       <section>
         {maps.typeToQuantity[type]} {subjectName} &nbsp;
         {maps.typeToQuality[type]} {predicateName}
