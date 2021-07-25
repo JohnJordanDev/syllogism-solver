@@ -7,7 +7,7 @@
   <title>Syllogistic Inference</title>
   <style>
     html {
-      box-sizing: content-box;
+      box-sizing: border-box;
     }
 
     main {
@@ -25,7 +25,12 @@
     fieldset,
     .conclusion {
       margin: 0;
+      box-sizing: border-box;
       padding: 1rem 0.66rem;
+    }
+
+    figure {
+      margin: 1rem;
     }
 
     figcaption {
@@ -33,7 +38,12 @@
     }
 
     input[type="text"] {
-      max-width: 4rem;
+      max-width: 7rem;
+    }
+
+    select {
+      min-width: 6rem;
+      margin: 0 0 1rem;
     }
 
     /*https://stackoverflow.com/questions/5805059/how-do-i-make-a-placeholder-for-a-select-box */
@@ -116,15 +126,17 @@
       border: solid 1px #999;
     }
 
-    .premise_middlePart {
+    .premise_middleTerm {
       border: dashed 2px #999;
     }
 
     .hidden {
-      display: none !important;
+      opacity: 0;
     }
 
     .overheadInputLabel_wrapper {
+      display: inline-block;
+      margin: 0 0 1rem;
       position: relative;
       border: solid 1px #000;
       padding: 5px;
@@ -135,10 +147,13 @@
       bottom: -15px;
       left: 5px;
       line-height: 1;
+      min-width: 6rem;
 
       padding: 0 0.25rem;
       color: #999;
       background: #fff;
+
+      text-transform: capitalize;
     }
 
     .premise_input-overall {
@@ -155,10 +170,48 @@
       width: 4.75rem;
     }
 
-    .conclusion-text {
+    .conclusion {
+      border: solid 1px #A0A0A0;
+      transition: opacity 800ms ease-in;
+    }
+
+    .conclusion_legend {
+      position: relative;
+      top: -1.5rem;
+      padding: 0 2px;
+      background: #FFF;
+    }
+
+    .conclusion_text {
       display: block;
+      width: 100%;
+      max-width: 15rem;
+      margin: 0 auto;
+
+      box-sizing: border-box;
+      padding: 1rem 1rem 0;
+
       text-align: center;
       background: #ddd;
+    }
+
+    .conclusion_text.invalid {
+      padding: 1rem;
+    }
+
+    .conclusion_label-wrapper {
+      min-width: 6rem;
+    }
+
+    .conclusion_label-label {
+      padding: 0;
+      background: #ddd;
+    }
+
+    .conclusion_term {
+      display: flex;
+      justify-content: space-evenly;
+      margin-bottom: 2rem;
     }
 
     span.changing {
@@ -187,6 +240,10 @@
     .animation_part-hidden {
       transform: translateX(-100vw);
       z-index: 2;
+    }
+
+    .mb-1 {
+      margin-bottom: 1rem;
     }
 
     @media screen and (min-width: 768px) {
@@ -231,7 +288,8 @@
       }
 
       .syllogism_part-conclusion {
-        max-width: 800px;
+        max-width: 100%;
+        justify-content: space-between;
         align-self: flex-end;
       }
 
@@ -250,14 +308,30 @@
         margin-right: 1rem;
       }
 
-      .conclusion-text {
+      .conclusion_text {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+
         margin: 0 auto;
-        min-width: 320px;
+        flex-basis: 560px;
+        max-width: 100%;
         box-sizing: border-box;
       }
 
-      .premise_input-overall {
-        flex-basis: 300px;
+      .premise_input-overall,
+      .conclusion_text {
+        flex-basis: 560px;
+      }
+
+      .conclusion_term {
+        flex-basis: 50%;
+        margin-bottom: 1rem;
+      }
+
+      .conclusion_aspect {
+        position: relative;
+        top: 5px;
       }
     }
   </style>
@@ -277,7 +351,7 @@
           <legend class="syllogism_part-label">Major Premise</legend>
           <span class="conditional">If</span>
           <section class="premise_input-overall">
-            <fieldset class="syllogism_part-term premise_middlePart">
+            <fieldset class="syllogism_part-term premise_middleTerm">
               <select id="prop_one_quantity" class="premise_input-specific" required>
                 <option value="" disabled selected>all/some/no</option>
                 <option value="all">all</option>
@@ -330,7 +404,7 @@
                 <input id="minorTerm_minorPremise" type="text" placeholder="Enter minor term..." maxlength="12" />
               </div>
             </fieldset>
-            <fieldset class="syllogism_part-term premise_middlePart">
+            <fieldset class="syllogism_part-term premise_middleTerm">
               <select id="prop_two_quality" class="premise_input-specific" required>
                 <option value="" disabled selected>are/are not</option>
                 <option value="are">are</option>

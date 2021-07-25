@@ -16,6 +16,9 @@ const getShapeLabelPos = (part = "major", term = "subject", partType = "A") => {
    x: "149",
    y: "44.5"
  };
+	const overrideMinorTermConclusion = {
+		E: { x: "141.5", y: "99.5" }
+	};
 	const majorPartLabelPredicate = {
 		A: { x: "159", y: "19.5" },
 		E: { x: "239", y: "19.5" },
@@ -35,7 +38,7 @@ const minor = {
 		subject: minorPartLabelSubject
 };
 const conclusion = {
-		subject: minorPartLabelSubject,
+		subject: { ...minorPartLabelSubject, ...overrideMinorTermConclusion },
 		predicate: majorPartLabelPredicate
 };
 	const labelPos = { major, minor, conclusion };
@@ -53,6 +56,9 @@ const getEulerCircleSettings = (part = "major", term = "subject", partType = "A"
 	const concMajorTermPart = {
 		I: { xPos: "57%", radius: "20%" },
 		O: { xPos: "80%", radius: "20%" }
+	};
+	const concMinorTermPart = {
+		E: { xPos: "47%", radius: "5%", fill: minorFill, stroke: minorStroke }
 	};
 	const majorTerm = {
 		A: { xPos: "57%", radius: "20%" },
@@ -79,7 +85,8 @@ const getEulerCircleSettings = (part = "major", term = "subject", partType = "A"
    predicate: middleTerm
  };
  const conclusion = {
-   subject: minorTerm,
+   subject: { ...minorTerm, ...concMinorTermPart },
+
    predicate: { ...majorTerm, ...concMajorTermPart }
  };
  const shapeAttrs = { major, minor, conclusion };
@@ -241,13 +248,17 @@ const DiagramController = (props) => {
 const TermName = (props) => {
   const { value, changeHandler, term } = props;
   return (
-    <input
-      type="text"
-      value={value}
-      onChange={changeHandler}
-      data-term={term}
-      maxLength="12"
-    />
+    <div className="overheadInputLabel_wrapper">
+      <label htmlFor={`term-${term}`} className="overheadInputLabel_label">{term} Term</label>
+      <input
+        name={`term-${term}`}
+        type="text"
+        value={value}
+        onChange={changeHandler}
+        data-term={term}
+        maxLength="12"
+      />
+    </div>
   );
 };
 
@@ -256,8 +267,9 @@ const Quality = (props) => {
   const isParticular = !!(partType === "I" || partType === "O");
 	return (
   <>
-    <label htmlFor="prop_one_quality">Quality</label>
+    <label htmlFor="quality" hidden>Quality</label>
     <select
+      name="quality"
       className=""
       required
       value={value}
@@ -277,10 +289,9 @@ const Quantity = (props) => {
 	const { value, selectOptions, changeHandler } = props;
 	return (
   <>
-    <label htmlFor="prop_one_quantity">Quantity</label>
+    <label htmlFor="quantity" hidden>Quantity</label>
     <select
-      id="prop_one_quantity"
-      name="quantity-major-premise"
+      name="quantity"
       className=""
       required
       value={value}
@@ -321,12 +332,17 @@ const Premise = (props) => {
     const { name } = child.type;
     return name === "DiagramController";
   });
+		const firstTermStyling = inputElements[1].props.term === "middle" ? "premise_middleTerm" : "";
+		const secondTermStyling = inputElements[3].props.term === "middle" ? "premise_middleTerm" : "";
+
+		const conditional = identity === "Major" ? "If" : "And";
   return (
     <fieldset className={`part-${identity} syllogism_part`}>
       <legend>{`${identity.toUpperCase().split("P")[0]}`}: <small>{type}</small></legend>
+      <span className="conditional">{conditional}</span>
       <fieldset className="premise_input-overall">
-        <fieldset>{inputElements[0]}{inputElements[1]}</fieldset>
-        <fieldset>{inputElements[2]}{inputElements[3]}</fieldset>
+        <fieldset className={`syllogism_part-term ${firstTermStyling}`}>{inputElements[0]}{inputElements[1]}</fieldset>
+        <fieldset className={`syllogism_part-term ${secondTermStyling}`}>{inputElements[2]}{inputElements[3]}</fieldset>
       </fieldset>
       <figure>
         {eulerDiagram}
@@ -340,18 +356,38 @@ const Conclusion = (props) => {
   const { maps, type, subject, predicate, children } = props;
   const subjectName = subject || "minor term";
   const predicateName = predicate || "major term";
+		const noConclusion = type === "none";
+		const noValidConclusion = type === "invalid";
   return (
-    <output className="syllogism_part syllogism_part-conclusion">
-      Conclusion: {type}
-						<span className="conditional">Then</span>
-      <section>
-        {maps.typeToQuantity[type]} {subjectName} &nbsp;
-        {maps.typeToQuality[type]} {predicateName}
-      </section>
-      <section>
-        {children}
-      </section>
-    </output>
+    <section className={`conclusion ${noConclusion ? "hidden" : ""}`}>
+      <span className="conclusion_legend"> Conclusion: {type}</span>
+      {noValidConclusion
+						? <div className={`conclusion_text ${noValidConclusion ? "invalid" : ""}`}>We cannot draw a conclusion</div>
+						: (
+									<output className="syllogism_part syllogism_part-conclusion">
+											<span className="conditional">Then</span>
+											<section className="conclusion_text">
+													<section className="conclusion_term">
+															<span className="conclusion_aspect">{maps.typeToQuantity[type]}</span>
+															<div className="overheadInputLabel_wrapper conclusion_label-wrapper">
+																	<label htmlFor="term-minor" className="overheadInputLabel_label conclusion_label-label">Minor Term</label>
+																	<span>{subjectName}</span>
+															</div>
+													</section>
+													<section className="conclusion_term mb-1">
+															<span className="conclusion_aspect">{maps.typeToQuality[type]}</span>
+															<div className="overheadInputLabel_wrapper conclusion_label-wrapper">
+																	<label htmlFor="term-major" className="overheadInputLabel_label conclusion_label-label">Major Term</label>
+																	{predicateName}
+															</div>
+													</section>
+											</section>
+											<figure>
+													{children}
+											</figure>
+									</output>
+       )}
+    </section>
 );
 };
 
@@ -400,7 +436,7 @@ const FormController = (props) => {
   return (
     <>
       <Form>
-        <Premise identity="Major Premise" type={typeMajor}>
+        <Premise identity="Major" type={typeMajor}>
           <Quantity
             value={maps.typeToQuantity[typeMajor]}
             selectOptions={quantSelectValues}
@@ -435,7 +471,7 @@ const FormController = (props) => {
             )}
           </DiagramController>
         </Premise>
-        <Premise identity="Minor Premise" type={typeMinor}>
+        <Premise identity="Minor" type={typeMinor}>
           <Quantity
             value={maps.typeToQuantity[typeMinor]}
             selectOptions={quantSelectValues}
