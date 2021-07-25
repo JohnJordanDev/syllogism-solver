@@ -8,7 +8,7 @@
 
 const { React, ReactDOM, PropTypes } = window;
 
-const getDescriptionOfType = (type="A") => {
+const getDescriptionOfType = (type = "A") => {
 	const map = {
 		A: "Universal Affirmative",
 		E: "Universal Negative",
@@ -30,16 +30,16 @@ const getShapeLabelPos = (part = "major", term = "subject", partType = "A") => {
 		E: { x: "141.5", y: "99.5" }
 	};
 	const majorPartLabelPredicate = {
-		A: { x: "159", y: "19.5" },
+		A: { x: "194", y: "19.5" },
 		E: { x: "239", y: "19.5" },
-		I: { x: "178", y: "19.5" },
+		I: { x: "194", y: "19.5" },
 		O: { x: "194", y: "19.5" }
 	};
 	const minorPartLabelSubject = {
-		A: { x: "141.5", y: "99.5" },
-		E: { x: "89", y: "99.5" },
-		I: { x: "130.25", y: "99.5" },
-		O: { x: "124.625", y: "99.5" }
+		A: { x: "141.5", y: "105" },
+		E: { x: "89", y: "105" },
+		I: { x: "130.25", y: "105" },
+		O: { x: "124.625", y: "105" }
 	};
 	const major = {
 		predicate: majorPartLabelPredicate
@@ -212,32 +212,6 @@ const ShapeLabel = (props) => {
   );
 };
 
-// Currently, just handles major premise positions
-// need to refactor to handle all
-
-const EulerCircleController = (props) => {
-  const { part, partType, subjectName, predicateName } = props;
-  const subjectShapeSettings = getEulerCircleSettings(part, "subject", partType);
-  const predicateShapeSettings = getEulerCircleSettings(part, "predicate", partType);
-  const shapeForSubject = (partType === "I" || partType === "O")
-  ? <EulerPath part={part} partType={partType} />
-  : <EulerCircle term="subject" specificAttrs={subjectShapeSettings} />;
- // Order reversed, for stacking purposes
-  return (
-    <>
-      <g className="predicate">
-        <ShapeLabel labelText={predicateName} labelTextPos={getShapeLabelPos(part, "predicate", partType)} />
-        <EulerCircle term="predicate" specificAttrs={predicateShapeSettings} />
-      </g>
-      <g className="subject">
-        <ShapeLabel labelText={subjectName} labelTextPos={getShapeLabelPos(part, "subject", partType)} />
-        {shapeForSubject}
-      </g>
-
-    </>
-  );
-};
-
 const DiagramMessage = () => (
   <foreignObject x="50" y="50" height="100" width="200" textAnchor="middle">
     <div xmlns="http://www.w3.org/1999/xhtml" className="svg_textMsg">
@@ -247,10 +221,28 @@ const DiagramMessage = () => (
   );
 
 const DiagramController = (props) => {
-  const { part, partType, children } = props;
+	const { part, partType, subjectName, predicateName } = props;
+	const subjectShapeSettings = getEulerCircleSettings(part, "subject", partType);
+	const predicateShapeSettings = getEulerCircleSettings(part, "predicate", partType);
+	const shapeForSubject = (partType === "I" || partType === "O")
+	? <EulerPath part={part} partType={partType} />
+	: <EulerCircle term="subject" specificAttrs={subjectShapeSettings} />;
+	const output = (
+ // Order reversed, for stacking purposes
+  <>
+    <g className="predicate">
+      <ShapeLabel labelText={predicateName} labelTextPos={getShapeLabelPos(part, "predicate", partType)} />
+      <EulerCircle term="predicate" specificAttrs={predicateShapeSettings} />
+    </g>
+    <g className="subject">
+      <ShapeLabel labelText={subjectName} labelTextPos={getShapeLabelPos(part, "subject", partType)} />
+      {shapeForSubject}
+    </g>
+  </>
+);
   return (
     <svg id="svg_majorPremise" data-part={part} data-parttype={partType} width="300" height="150" viewBox="0 0 300 150">
-      {children}
+      {partType === "none" ? <DiagramMessage /> : output}
     </svg>
   );
 };
@@ -455,18 +447,12 @@ const FormController = (props) => {
             changeHandler={changeNameHandler}
             term="major"
           />
-          <DiagramController part="major" partType={typeMajor}>
-            {(typeMajor === "none")
-            ? <DiagramMessage />
-            : (
-              <EulerCircleController
-                part="major"
-                partType={typeMajor}
-                subjectName={middleTermName}
-                predicateName={majorTermName}
-              />
-            )}
-          </DiagramController>
+          <DiagramController
+            part="major"
+            partType={typeMajor}
+            subjectName={middleTermName}
+            predicateName={majorTermName}
+          />
         </Premise>
         <Premise identity="Minor" type={typeMinor}>
           <Quantity
@@ -490,29 +476,21 @@ const FormController = (props) => {
             changeHandler={changeNameHandler}
             term="middle"
           />
-          <DiagramController part="minor" partType={typeMinor}>
-            {(typeMinor === "none")
-            ? <DiagramMessage />
-            : (
-              <EulerCircleController
-                part="minor"
-                partType={typeMinor}
-                subjectName={minorTermName}
-                predicateName={middleTermName}
-              />
-            )}
-          </DiagramController>
+          <DiagramController
+            part="minor"
+            partType={typeMinor}
+            subjectName={minorTermName}
+            predicateName={middleTermName}
+          />
         </Premise>
       </Form>
       <Conclusion maps={maps} type={typeConclusion} subject={minorTermName} predicate={majorTermName}>
-        <DiagramController part="conclusion" partType={typeConclusion}>
-          <EulerCircleController
-            part="conclusion"
-            partType={typeConclusion}
-            subjectName={minorTermName}
-            predicateName={majorTermName}
-          />
-        </DiagramController>
+        <DiagramController
+          part="conclusion"
+          partType={typeConclusion}
+          subjectName={minorTermName}
+          predicateName={majorTermName}
+        />
       </Conclusion>
     </>
   );
@@ -598,17 +576,11 @@ ReactDOM.render(<App />, document.getElementById("react_app"));
     ).isRequired
   };
 
-  EulerCircleController.propTypes = {
-    part: PropTypes.string.isRequired,
-    partType: PropTypes.string.isRequired,
-    subjectName: PropTypes.string.isRequired,
-    predicateName: PropTypes.string.isRequired
-  };
-
   DiagramController.propTypes = {
     part: PropTypes.string.isRequired,
     partType: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired
+				subjectName: PropTypes.string.isRequired,
+    predicateName: PropTypes.string.isRequired
   };
 
   TermName.propTypes = {
