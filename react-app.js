@@ -8,6 +8,16 @@
 
 const { React, ReactDOM, PropTypes } = window;
 
+const getDescriptionOfType = (type="A") => {
+	const map = {
+		A: "Universal Affirmative",
+		E: "Universal Negative",
+		I: "Particular Affirmative",
+		O: "Particular Negative"
+	};
+	return map[type];
+};
+
 // just handles case of major premise
 // need to refactor off of shape positions, to get label pos.
 // this is temp
@@ -307,21 +317,6 @@ const Quantity = (props) => {
 	);
 };
 
-// const UserInput = (props) => {
-// 	// TODO: to pass down
-// 	const { typeOfPremise } = props;
-//   return (
-//     <>
-//       <Quantity value="none" />
-//       <Quality value="none" />
-//     </>
-// 	);
-// };
-
-// UserInput.propTypes = {
-// 	typeOfPremise: PropTypes.string.isRequired
-// };
-
 const Premise = (props) => {
   const { identity, children, type } = props;
   const inputElements = children.filter((child) => {
@@ -346,7 +341,7 @@ const Premise = (props) => {
       </fieldset>
       <figure>
         {eulerDiagram}
-        <figcaption>{!(type === "none") && `${identity}, of type "${type}";`}</figcaption>
+        <figcaption>{!(type === "none") && `“${type}”: ${getDescriptionOfType(type)}`}</figcaption>
       </figure>
     </fieldset>
   );
@@ -358,35 +353,37 @@ const Conclusion = (props) => {
   const predicateName = predicate || "major term";
 		const noConclusion = type === "none";
 		const noValidConclusion = type === "invalid";
+		const output = (
+  <output className="syllogism_part syllogism_part-conclusion">
+    <span className="conditional">Then</span>
+    <section className="conclusion_text">
+      <section className="conclusion_term">
+        <span className="conclusion_aspect">{maps.typeToQuantity[type]}</span>
+        <div className="overheadInputLabel_wrapper conclusion_label-wrapper">
+          <label htmlFor="term-minor" className="overheadInputLabel_label conclusion_label-label">Minor Term</label>
+          <span>{subjectName}</span>
+        </div>
+      </section>
+      <section className="conclusion_term mb-1">
+        <span className="conclusion_aspect">{maps.typeToQuality[type]}</span>
+        <div className="overheadInputLabel_wrapper conclusion_label-wrapper">
+          <label htmlFor="term-major" className="overheadInputLabel_label conclusion_label-label">Major Term</label>
+          {predicateName}
+        </div>
+      </section>
+    </section>
+    <figure>
+      {children}
+      <figcaption>{!(type === "valid") && `“${type}”: ${getDescriptionOfType(type)}`}</figcaption>
+    </figure>
+  </output>
+);
   return (
     <section className={`conclusion ${noConclusion ? "hidden" : ""}`}>
       <span className="conclusion_legend"> Conclusion: {type}</span>
       {noValidConclusion
 						? <div className={`conclusion_text ${noValidConclusion ? "invalid" : ""}`}>We cannot draw a conclusion</div>
-						: (
-									<output className="syllogism_part syllogism_part-conclusion">
-											<span className="conditional">Then</span>
-											<section className="conclusion_text">
-													<section className="conclusion_term">
-															<span className="conclusion_aspect">{maps.typeToQuantity[type]}</span>
-															<div className="overheadInputLabel_wrapper conclusion_label-wrapper">
-																	<label htmlFor="term-minor" className="overheadInputLabel_label conclusion_label-label">Minor Term</label>
-																	<span>{subjectName}</span>
-															</div>
-													</section>
-													<section className="conclusion_term mb-1">
-															<span className="conclusion_aspect">{maps.typeToQuality[type]}</span>
-															<div className="overheadInputLabel_wrapper conclusion_label-wrapper">
-																	<label htmlFor="term-major" className="overheadInputLabel_label conclusion_label-label">Major Term</label>
-																	{predicateName}
-															</div>
-													</section>
-											</section>
-											<figure>
-													{children}
-											</figure>
-									</output>
-       )}
+						: output}
     </section>
 );
 };

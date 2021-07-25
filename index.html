@@ -164,6 +164,8 @@
       width: 100%;
       max-width: 300px;
       margin: 0 auto 1rem;
+
+      border: none;
     }
 
     .premise_input-specific {
@@ -185,7 +187,7 @@
     .conclusion_text {
       display: block;
       width: 100%;
-      max-width: 15rem;
+      max-width: 300px;
       margin: 0 auto;
 
       box-sizing: border-box;
@@ -212,6 +214,11 @@
       display: flex;
       justify-content: space-evenly;
       margin-bottom: 2rem;
+    }
+
+    .conclusion_aspect {
+      position: relative;
+      top: 5px;
     }
 
     span.changing {
@@ -327,11 +334,6 @@
       .conclusion_term {
         flex-basis: 50%;
         margin-bottom: 1rem;
-      }
-
-      .conclusion_aspect {
-        position: relative;
-        top: 5px;
       }
     }
   </style>
