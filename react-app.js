@@ -259,6 +259,7 @@ const TermName = (props) => {
         onChange={changeHandler}
         data-term={term}
         maxLength="12"
+        placeholder={`enter ${term} term`}
       />
     </div>
   );
@@ -310,7 +311,7 @@ const Quantity = (props) => {
 };
 
 const Premise = (props) => {
-  const { identity, children, type } = props;
+  const { identity, children, type, isDisabled = false } = props;
   const inputElements = children.filter((child) => {
     const { name } = child.type;
     return name === "Quantity" || name === "Quality" || name === "TermName";
@@ -324,7 +325,7 @@ const Premise = (props) => {
 
 		const conditional = identity === "Major" ? "If" : "And";
   return (
-    <fieldset className={`part-${identity} syllogism_part`}>
+    <fieldset className={`part-${identity} syllogism_part`} disabled={isDisabled}>
       <legend>{`${identity.toUpperCase().split("P")[0]}`}: <small>{type}</small></legend>
       <span className="conditional">{conditional}</span>
       <fieldset className="premise_input-overall">
@@ -346,7 +347,7 @@ const Conclusion = (props) => {
 		const noConclusion = type === "none";
 		const noValidConclusion = type === "invalid";
 		const output = (
-  <output className="syllogism_part syllogism_part-conclusion">
+  <output htmlFor="syllogism" className="syllogism_part syllogism_part-conclusion">
     <span className="conditional">Then</span>
     <section className="conclusion_text">
       <section className="conclusion_term">
@@ -382,7 +383,7 @@ const Conclusion = (props) => {
 
 const Form = (props) => {
   const { children } = props;
-  return (<form>{children}</form>);
+  return (<form id="syllogism">{children}</form>);
 };
 
 const FormController = (props) => {
@@ -454,7 +455,7 @@ const FormController = (props) => {
             predicateName={majorTermName}
           />
         </Premise>
-        <Premise identity="Minor" type={typeMinor}>
+        <Premise identity="Minor" type={typeMinor} isDisabled={typeMajor === "none"}>
           <Quantity
             value={maps.typeToQuantity[typeMinor]}
             selectOptions={quantSelectValues}
@@ -612,7 +613,12 @@ ReactDOM.render(<App />, document.getElementById("react_app"));
   Premise.propTypes = {
     identity: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
-    type: PropTypes.string.isRequired
+    type: PropTypes.string.isRequired,
+    isDisabled: PropTypes.boolean
+  };
+
+  Premise.defaultProps = {
+    isDisabled: false
   };
 
   Conclusion.propTypes = {

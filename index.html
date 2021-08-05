@@ -269,6 +269,10 @@
         display: inline;
       }
 
+      figure {
+        margin-top: 0;
+      }
+
       .form {
         max-width: none;
       }
@@ -276,6 +280,7 @@
       .premise_input-overall {
         flex-direction: row;
         max-width: none;
+        padding-top: 0;
       }
 
       .syllogism_part,
@@ -344,110 +349,6 @@
     <section id="react_app">
       
     </section>
-    <section>
-      <header class="header">
-        <!-- Keep each figure separated as an individual form, toggled between using icon clicks -->
-      </header>
-      <form action="#" onsubmit="return false;" id="first_figure" class="form" style="display: none;">
-        <fieldset class="syllogism_part" id="syllogism_part_major">
-          <legend class="syllogism_part-label">Major Premise</legend>
-          <span class="conditional">If</span>
-          <section class="premise_input-overall">
-            <fieldset class="syllogism_part-term premise_middleTerm">
-              <select id="prop_one_quantity" class="premise_input-specific" required>
-                <option value="" disabled selected>all/some/no</option>
-                <option value="all">all</option>
-                <option value="some">some</option>
-                <option value="no">no</option>
-              </select>
-              <!-- Commented this out, to avoid having to enter when testing -->
-              <!-- <span class="overheadInputLabel_wrapper">
-                                <label class="overheadInputLabel_label" for="middle_term_first">Middle Term</label>
-                                <input type="text" id="middle_term_first" placeholder='e.g. "mammals"' required>
-                            </span> -->
-              <div class="overheadInputLabel_wrapper">
-                <label for="middleTerm_majorPremise" class="overheadInputLabel_label">Middle Term</label>
-                <input id="middleTerm_majorPremise" type="text" placeholder="Enter middle term" maxlength="12" />
-              </div>
-            </fieldset>
-            <fieldset class="syllogism_part-term">
-              <select id="prop_one_quality" class="premise_input-specific" required>
-                <option value="" disabled selected>are/are not</option>
-                <option value="are">are</option>
-                <option value="arenot">are not</option>
-              </select>
-              <div class="overheadInputLabel_wrapper">
-                <label for="majorTerm_majorPremise" class="overheadInputLabel_label">Major Term</label>
-                <input id="majorTerm_majorPremise" type="text" placeholder="Enter major term..." maxlength="12" />
-              </div>
-            </fieldset>
-          </section>
-          <svg id="svg_majorPremise" width="300" height="150" viewBox="0 0 300 150">
-            <foreignObject  x="50" y="50" height="100" width="200" text-anchor="middle">
-            <div xmlns="http://www.w3.org/1999/xhtml" class="svg_textMsg">
-               Euler diagram for the major premise will appear here, once details entered.
-            </div>
-          </foreignObject>
-          </svg>
-        </fieldset>
-        <fieldset class="syllogism_part animation_part-hidden" id="syllogism_part_minor">
-          <legend class="syllogism_part-label">Minor Premise</legend>
-          <span class="conditional">And</span>
-          <section class="premise_input-overall">
-            <fieldset class="syllogism_part-term">
-              <select id="prop_two_quantity" class="premise_input-specific" required>
-                <option value="" disabled selected>all/some/no</option>
-                <option value="all">all</option>
-                <option value="some">some</option>
-                <option value="no">no</option>
-              </select>
-              <div class="overheadInputLabel_wrapper">
-                <label for="minorTerm_minorPremise" class="overheadInputLabel_label">Minor Term</label>
-                <input id="minorTerm_minorPremise" type="text" placeholder="Enter minor term..." maxlength="12" />
-              </div>
-            </fieldset>
-            <fieldset class="syllogism_part-term premise_middleTerm">
-              <select id="prop_two_quality" class="premise_input-specific" required>
-                <option value="" disabled selected>are/are not</option>
-                <option value="are">are</option>
-                <option value="arenot">are not</option>
-              </select>
-              <!-- <span class="overheadInputLabel_wrapper">
-                                <label class="overheadInputLabel_label" for="middle_term_second">Middle Term</label>
-                                <input type="text" id="middle_term_second" readonly>
-                            </span> -->
-              <div class="overheadInputLabel_wrapper">
-                <label for="middleTerm_minorPremise" class="overheadInputLabel_label">Middle Term</label>
-                <input id="middleTerm_minorPremise" type="text" placeholder="Enter middle term" maxlength="12" />
-              </div>
-            </fieldset>
-          </section>
-          <svg id="svg_minorPremise" width="300" height="150" viewBox="0 0 300 150">
-            <foreignObject  x="50" y="50" height="100" width="200" text-anchor="middle">
-              <div xmlns="http://www.w3.org/1999/xhtml" class="svg_textMsg">
-                 Euler diagram for the minor premise will appear here, once details entered.
-              </div>
-            </foreignObject>
-          </svg>
-        </fieldset>
-        <hr />
-        <input type="submit" id="first_figure_submit" class="hidden" />
-        <fieldset class="syllogism_part syllogism_part-conclusion animation_part-hidden" id="syllogism_part_conclusion">
-          <legend class="syllogism_part-label">Conclusion:</legend>
-          <span class="conditional">Then</span>
-          <output id="conclusion" class="conclusion-text"
-            for="prop_one_quantity prop_one_quality prop_two_quantity prop_two_quality" form="first_figure"></output>
-          <svg id="svg_conclusion" width="300" height="150" viewBox="0 0 300 150">
-            <foreignObject  x="50" y="50" height="100" width="200" text-anchor="middle">
-              <div xmlns="http://www.w3.org/1999/xhtml" class="svg_textMsg">
-                 Euler diagram for the conclusion will appear here, once details entered.
-              </div>
-            </foreignObject>
-          </svg>
-        </fieldset>
-      </form>
-    </section>
-    <section></section>
   </main>
       <!-- Babel CDN Link -->
       <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
