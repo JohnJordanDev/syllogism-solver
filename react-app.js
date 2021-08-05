@@ -382,8 +382,13 @@ const Conclusion = (props) => {
 };
 
 const Form = (props) => {
-  const { children } = props;
-  return (<form id="syllogism">{children}</form>);
+  const { children, resetForm } = props;
+  return (
+    <form id="syllogism">
+      {children}
+      <input type="reset" value="reset" onClick={resetForm} />
+    </form>
+);
 };
 
 const FormController = (props) => {
@@ -422,10 +427,15 @@ const FormController = (props) => {
    }
   };
 
+  const resetForm = () => {
+    [setTypeMajor, setTypeMinor].forEach((f) => f("none"));
+    [setMajorTermName, setMiddleTermName, setMinorTermName].forEach((f) => f(""));
+  };
+
   const typeConclusion = getConclusion(typeMajor, typeMinor);
   return (
     <>
-      <Form>
+      <Form resetForm={resetForm}>
         <Premise identity="Major" type={typeMajor}>
           <Quantity
             value={maps.typeToQuantity[typeMajor]}
@@ -635,7 +645,8 @@ ReactDOM.render(<App />, document.getElementById("react_app"));
   };
 
   Form.propTypes = {
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    resetForm: PropTypes.func.isRequired
   };
 
   FormController.propTypes = {
