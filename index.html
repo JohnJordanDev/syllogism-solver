@@ -29,6 +29,11 @@
       border: solid 1px #000;
     }
 
+    fieldset {
+      opacity: 1;
+      transition: opacity 400ms ease-in;
+    }
+
     fieldset,
     .conclusion {
       margin: 0;
@@ -109,7 +114,6 @@
       margin-bottom: 1rem;
       position: relative;
       z-index: 3;
-      transition: transform 800ms ease-in-out;
       background: #FFF;
     }
 
@@ -126,7 +130,7 @@
       flex-direction: row;
       flex-wrap: wrap;
 
-      justify-content: space-evenly;
+      justify-content: space-between;
       align-items: center;
       flex-basis: 50%;
 
@@ -139,6 +143,15 @@
 
     .hidden {
       opacity: 0;
+    }
+
+    .disabled {
+      opacity: 0.25;
+    }
+
+    .syllogism_part-conclusion {
+      box-sizing: border-box;
+      padding: 1rem 0.66rem;
     }
 
     .overheadInputLabel_wrapper {
@@ -180,9 +193,13 @@
     }
 
     .conclusion {
+      box-sizing: border-box;
+      padding: 1rem;
       border: solid 1px #A0A0A0;
       transition: opacity 800ms ease-in;
     }
+
+    
 
     .conclusion_legend {
       position: relative;
@@ -196,15 +213,14 @@
       width: 100%;
       max-width: 300px;
       margin: 0 auto;
-
-      box-sizing: border-box;
-      padding: 1rem 1rem 0;
+      padding: 0;
 
       text-align: center;
       background: #ddd;
     }
 
     .conclusion_text.invalid {
+      margin: 0 auto;
       padding: 1rem;
     }
 
@@ -306,21 +322,17 @@
         margin: 0 2px;
       }
 
-      .syllogism_part-conclusion {
-        max-width: 100%;
-        justify-content: space-between;
-        align-self: flex-end;
-      }
-
       .premise_input-overall {
         justify-content: space-between;
         align-items: flex-start;
+
+        margin: 0;
         white-space: nowrap;
       }
 
       .conditional {
         min-width: 2.25rem;
-        margin-right: 1rem;
+        margin-right: 0;
       }
 
       .premise_input-specific {
@@ -332,15 +344,14 @@
         justify-content: space-evenly;
         align-items: center;
 
-        margin: 0 auto;
-        flex-basis: 560px;
-        max-width: 100%;
+        margin: 0 0.66rem;  /* to match layout */
+        flex-basis: 540px;
+        max-width: 540px;
         box-sizing: border-box;
       }
 
-      .premise_input-overall,
-      .conclusion_text {
-        flex-basis: 540px;
+      .premise_input-overall {
+        flex-basis: 560px;
       }
 
       .conclusion_term {

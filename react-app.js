@@ -215,7 +215,7 @@ const ShapeLabel = (props) => {
 const DiagramMessage = () => (
   <foreignObject x="50" y="50" height="100" width="200" textAnchor="middle">
     <div xmlns="http://www.w3.org/1999/xhtml" className="svg_textMsg">
-      Euler diagram for the major premise will appear here, once details entered.
+      Euler diagram for this premise will appear here, once details entered.
     </div>
   </foreignObject>
   );
@@ -297,7 +297,7 @@ const Quantity = (props) => {
       name="quantity"
       className=""
       required
-      value={value}
+      defaultValue={value}
       onChange={changeHandler}
       data-aspect="quantity"
     >
@@ -324,8 +324,9 @@ const Premise = (props) => {
 		const secondTermStyling = inputElements[3].props.term === "middle" ? "premise_middleTerm" : "";
 
 		const conditional = identity === "Major" ? "If" : "And";
+    const disabledStyling = (isDisabled && "disabled") || ""; 
   return (
-    <fieldset className={`part-${identity} syllogism_part`} disabled={isDisabled}>
+    <fieldset className={`part-${identity} syllogism_part ${disabledStyling}`} disabled={isDisabled}>
       <legend>{`${identity.toUpperCase().split("P")[0]}`}: <small>{type}</small></legend>
       <span className="conditional">{conditional}</span>
       <fieldset className="premise_input-overall">
@@ -624,7 +625,7 @@ ReactDOM.render(<App />, document.getElementById("react_app"));
     identity: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
     type: PropTypes.string.isRequired,
-    isDisabled: PropTypes.boolean
+    isDisabled: PropTypes.bool
   };
 
   Premise.defaultProps = {
