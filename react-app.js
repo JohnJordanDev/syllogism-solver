@@ -271,7 +271,7 @@ const Quality = (props) => {
 	return (
   <>
     <label htmlFor="quality" hidden>Quality</label>
-    <div className="select_wrapper">
+    <div className="select_wrapper" disabled={value === "none"}>
       <select
         name="quality"
         className=""
