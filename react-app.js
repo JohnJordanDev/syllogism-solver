@@ -271,19 +271,21 @@ const Quality = (props) => {
 	return (
   <>
     <label htmlFor="quality" hidden>Quality</label>
-    <select
-      name="quality"
-      className=""
-      required
-      value={value}
-      disabled={value === "none"}
-      onChange={changeHandler}
-      data-aspect="quality"
-    >
-      <option value="none" disabled hidden>are/are NOT</option>
-      <option value={selectOptions.qAff}>{selectOptions.qAff}</option>
-      <option value={selectOptions.qNeg} disabled={!isParticular}>{selectOptions.qNeg}</option>
-    </select>
+    <div className="select_wrapper">
+      <select
+        name="quality"
+        className=""
+        required
+        value={value}
+        disabled={value === "none"}
+        onChange={changeHandler}
+        data-aspect="quality"
+      >
+        <option value="none" disabled hidden>are/are NOT</option>
+        <option value={selectOptions.qAff}>{selectOptions.qAff}</option>
+        <option value={selectOptions.qNeg} disabled={!isParticular}>{selectOptions.qNeg}</option>
+      </select>
+    </div>
   </>
 	);
 };
@@ -293,19 +295,21 @@ const Quantity = (props) => {
 	return (
   <>
     <label htmlFor="quantity" hidden>Quantity</label>
-    <select
-      name="quantity"
-      className=""
-      required
-      defaultValue={value}
-      onChange={changeHandler}
-      data-aspect="quantity"
-    >
-      <option value="none" disabled hidden>all/some/no</option>
-      <option value={selectOptions.uniAff}>{selectOptions.uniAff}</option>
-      <option value={selectOptions.uniNeg}>{selectOptions.uniNeg}</option>
-      <option value={selectOptions.partAff}>{selectOptions.partAff}</option>
-    </select>
+    <div className="select_wrapper">
+      <select
+        name="quantity"
+        className=""
+        required
+        defaultValue={value}
+        onChange={changeHandler}
+        data-aspect="quantity"
+      >
+        <option value="none" disabled hidden>all/some/no</option>
+        <option value={selectOptions.uniAff}>{selectOptions.uniAff}</option>
+        <option value={selectOptions.uniNeg}>{selectOptions.uniNeg}</option>
+        <option value={selectOptions.partAff}>{selectOptions.partAff}</option>
+      </select>
+    </div>
   </>
 	);
 };

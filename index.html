@@ -41,10 +41,6 @@
       padding: 1rem 0.66rem;
     }
 
-    figure {
-      margin: 1rem;
-    }
-
     figcaption {
       text-align: center;
     }
@@ -55,7 +51,19 @@
 
     select {
       min-width: 6rem;
-      margin: 0 0 1rem;
+      margin: 0;
+      position: relative;
+      z-index: 2;
+
+      appearance: none;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+
+      box-sizing: border-box;
+      padding: 2px;
+
+      border-style: ridge;
+      background: transparent;
     }
 
     /*https://stackoverflow.com/questions/5805059/how-do-i-make-a-placeholder-for-a-select-box */
@@ -192,6 +200,27 @@
       width: 4.75rem;
     }
 
+    .select_wrapper {
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .select_wrapper::after {
+      content: "▼";
+      font-size: 10px;
+      line-height: 22px;
+      height: 22px;
+      
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 0; /* to allow clicking 'on' it */
+
+      border: solid 1px #999;
+      color: #666;
+    }
+
     .conclusion {
       box-sizing: border-box;
       padding: 1rem;
@@ -314,6 +343,7 @@
       }
 
       .syllogism_part {
+        justify-content: space-around;
         align-items: flex-start;
       }
 
