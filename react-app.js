@@ -331,7 +331,7 @@ const Premise = (props) => {
     const disabledStyling = (isDisabled && "disabled") || ""; 
   return (
     <fieldset className={`part-${identity} syllogism_part ${disabledStyling}`} disabled={isDisabled}>
-      <legend>{`${identity.toUpperCase().split("P")[0]}`}: <small>{type}</small></legend>
+      <legend>{`${identity.toUpperCase().split("P")[0]}`}</legend>
       <span className="conditional">{conditional}</span>
       <fieldset className="premise_input-overall">
         <fieldset className={`syllogism_part-term ${firstTermStyling}`}>{inputElements[0]}{inputElements[1]}</fieldset>
@@ -339,7 +339,7 @@ const Premise = (props) => {
       </fieldset>
       <figure>
         {eulerDiagram}
-        <figcaption>{!(type === "none") && `“${type}”: ${getDescriptionOfType(type)}`}</figcaption>
+        <figcaption className={`${(type !== "none") ? 'show' : 'invisible'}`}>{`“${type}”: ${getDescriptionOfType(type)}`}</figcaption>
       </figure>
     </fieldset>
   );
@@ -372,7 +372,7 @@ const Conclusion = (props) => {
     </section>
     <figure>
       {children}
-      <figcaption>{!(type === "valid") && `“${type}”: ${getDescriptionOfType(type)}`}</figcaption>
+      <figcaption className={`${(type !== "none") ? 'show' : 'invisible'}`}>{`“${type}”: ${getDescriptionOfType(type)}`}</figcaption>
     </figure>
   </output>
 );

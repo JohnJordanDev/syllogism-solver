@@ -49,23 +49,24 @@
       max-width: 7rem;
     }
 
+    input, select {
+      appearance: none;
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      box-sizing: border-box;
+      padding: 2px;
+
+      border: solid 1px #000;
+      border-radius: 0;
+      background: transparent;
+    }
+
     select {
       min-width: 6rem;
       height: 22px;
       margin: 0;
       position: relative;
       z-index: 2;
-
-      appearance: none;
-      -moz-appearance: none;
-      -webkit-appearance: none;
-
-      box-sizing: border-box;
-      padding: 2px;
-
-      border-style: revert;
-      border-radius: 0;
-      background: transparent;
     }
 
     /*https://stackoverflow.com/questions/5805059/how-do-i-make-a-placeholder-for-a-select-box */
@@ -155,6 +156,10 @@
       opacity: 0;
     }
 
+    .invisible {
+      visibility: hidden;
+    }
+
     .disabled {
       opacity: 0.25;
     }
@@ -168,14 +173,14 @@
       display: inline-block;
       margin: 0 0 1rem;
       position: relative;
-      border: solid 1px #000;
+      border: solid 1px #999;
       padding: 5px;
     }
 
     .overheadInputLabel_label {
       position: absolute;
       bottom: -15px;
-      left: 5px;
+      left: 0.625rem;
       line-height: 1;
       min-width: 6rem;
 
@@ -183,6 +188,7 @@
       color: #999;
       background: #fff;
 
+      text-align: center;
       text-transform: capitalize;
     }
 
@@ -234,9 +240,8 @@
       transition: opacity 800ms ease-in;
     }
 
-    
-
     .conclusion_legend {
+      display: inline-block; /*safari render issue */
       position: relative;
       top: -1.5rem;
       padding: 0 2px;
@@ -260,18 +265,21 @@
     }
 
     .conclusion_label-wrapper {
-      min-width: 6rem;
+      min-width: 7.5rem;
     }
 
     .conclusion_label-label {
       padding: 0;
       background: #ddd;
+      left: 1rem;
     }
 
     .conclusion_term {
       display: flex;
-      justify-content: space-evenly;
+      justify-content: space-between;
       margin-bottom: 2rem;
+      box-sizing: border-box;
+      padding: 1rem;
     }
 
     .conclusion_aspect {
